@@ -62,12 +62,14 @@
             min-height: 60px;
         }
 
-        /* Con trỏ nhấp nháy */
+        /* 💗 CON TRỎ TIM */
         .cursor {
             display: inline-block;
-            margin-left: 2px;
+            margin-left: 4px;
+            color: #7a1f47;
+            font-size: 22px;
             animation: blink 1s infinite;
-            font-weight: 700;
+            vertical-align: baseline;
         }
 
         .btn {
@@ -149,7 +151,7 @@
 
             const cursor = document.createElement("span");
             cursor.className = "cursor";
-            cursor.textContent = "♥|";
+            cursor.textContent = "♥";
             el.appendChild(cursor);
 
             const typing = setInterval(() => {
@@ -191,4 +193,3 @@
 
 </body>
 </html>
-

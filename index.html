@@ -62,14 +62,17 @@
             min-height: 60px;
         }
 
-        /* 💗 CON TRỎ TIM */
+        /* 💓 CON TRỎ TIM ĐẬP THEO NHỊP */
         .cursor {
             display: inline-block;
             margin-left: 4px;
             color: #7a1f47;
             font-size: 22px;
-            animation: blink 1s infinite;
-            vertical-align: baseline;
+            font-weight: bold;
+
+            animation:
+                blink 1.2s infinite,
+                cursorBeat 1.6s infinite;
         }
 
         .btn {
@@ -94,6 +97,14 @@
             0% { opacity: 1; }
             50% { opacity: 0; }
             100% { opacity: 1; }
+        }
+
+        /* 💓 NHỊP TIM CON TRỎ */
+        @keyframes cursorBeat {
+            0%   { transform: scale(1); }
+            30%  { transform: scale(1.18); }
+            55%  { transform: scale(1); }
+            100% { transform: scale(1); }
         }
 
         @keyframes heartbeat {

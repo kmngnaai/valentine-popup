@@ -11,10 +11,10 @@
             min-height: 100vh;
 
             background-image: url("background.png");
-            background-size: contain;              /* HIỂN THỊ FULL ẢNH */
+            background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
-            background-color: #f6d6df;             /* viền nền hồng nhẹ */
+            background-color: #f6d6df;
 
             display: flex;
             justify-content: center;
@@ -23,12 +23,15 @@
             font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
         }
 
-        /* ===== OVERLAY MỜ GIÚP POPUP NỔI ===== */
+        /* ===== OVERLAY (MỨC VỪA – RẤT ĐẸP) ===== */
         body::before {
             content: "";
             position: fixed;
             inset: 0;
-            background: rgba(255, 214, 223, 0.35);
+
+            /* 🔧 ĐỔI opacity ở đây nếu muốn */
+            background: rgba(255, 214, 223, 0.25);
+
             z-index: 0;
         }
 
@@ -40,13 +43,16 @@
             width: 420px;
             height: 260px;
             background: #f6bfdc;
-            border: 4px solid #7a1f47;
-            border-radius: 6px;
 
-            /* shadow đậm – nổi rõ */
+            /* 💗 BO GÓC MỀM HƠN */
+            border-radius: 18px;
+
+            border: 4px solid #7a1f47;
+
+            /* shadow mềm – nổi */
             box-shadow:
-                0 0 0 6px rgba(255, 255, 255, 0.4),
-                0 18px 35px rgba(122, 31, 71, 0.45);
+                0 0 0 6px rgba(255, 255, 255, 0.5),
+                0 22px 40px rgba(122, 31, 71, 0.45);
 
             text-align: center;
             animation: fadeZoomIn 0.45s ease;
@@ -55,7 +61,7 @@
         /* ===== HEART ===== */
         .heart {
             font-size: 52px;
-            margin-top: 32px;
+            margin-top: 30px;
             animation: heartbeat 1.4s infinite;
         }
 
@@ -69,12 +75,13 @@
 
         /* ===== BUTTON ===== */
         .btn {
-            margin-top: 34px;
+            margin-top: 32px;
             padding: 10px 45px;
             font-size: 18px;
             background: #fde3ef;
             border: 2px solid #000;
             cursor: pointer;
+            border-radius: 6px;
         }
 
         .btn:active {

@@ -5,7 +5,6 @@
     <title>Pink Popup</title>
 
     <style>
-        /* ===== BODY + BACKGROUND ===== */
         body {
             margin: 0;
             min-height: 100vh;
@@ -23,19 +22,15 @@
             font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
         }
 
-        /* ===== OVERLAY (MỨC VỪA – RẤT ĐẸP) ===== */
+        /* Overlay mờ */
         body::before {
             content: "";
             position: fixed;
             inset: 0;
-
-            /* 🔧 ĐỔI opacity ở đây nếu muốn */
             background: rgba(255, 214, 223, 0.25);
-
             z-index: 0;
         }
 
-        /* ===== POPUP ===== */
         .pink-box {
             position: relative;
             z-index: 1;
@@ -43,13 +38,9 @@
             width: 420px;
             height: 260px;
             background: #f6bfdc;
-
-            /* 💗 BO GÓC MỀM HƠN */
             border-radius: 18px;
-
             border: 4px solid #7a1f47;
 
-            /* shadow mềm – nổi */
             box-shadow:
                 0 0 0 6px rgba(255, 255, 255, 0.5),
                 0 22px 40px rgba(122, 31, 71, 0.45);
@@ -58,22 +49,19 @@
             animation: fadeZoomIn 0.45s ease;
         }
 
-        /* ===== HEART ===== */
         .heart {
             font-size: 52px;
             margin-top: 30px;
             animation: heartbeat 1.4s infinite;
         }
 
-        /* ===== TEXT ===== */
         .text {
             font-size: 24px;
             font-weight: 600;
             margin-top: 18px;
-            color: #000;
+            min-height: 60px; /* giữ khung khi đang gõ */
         }
 
-        /* ===== BUTTON ===== */
         .btn {
             margin-top: 32px;
             padding: 10px 45px;
@@ -92,69 +80,63 @@
             display: none;
         }
 
-        /* ===== ANIMATIONS ===== */
         @keyframes heartbeat {
-            0%   { transform: scale(1); }
-            25%  { transform: scale(1.12); }
-            50%  { transform: scale(1); }
-            75%  { transform: scale(1.12); }
+            0% { transform: scale(1); }
+            25% { transform: scale(1.12); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.12); }
             100% { transform: scale(1); }
         }
 
         @keyframes fadeZoomIn {
-            from {
-                opacity: 0;
-                transform: scale(0.88);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            from { opacity: 0; transform: scale(0.88); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         @keyframes fadeZoomOut {
-            from {
-                opacity: 1;
-                transform: scale(1);
-            }
-            to {
-                opacity: 0;
-                transform: scale(0.88);
-            }
-        }
-
-        /* ===== MOBILE ===== */
-        @media (max-width: 480px) {
-            .pink-box {
-                width: 90%;
-                height: auto;
-                padding-bottom: 20px;
-            }
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.88); }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- ===== POPUP 1 ===== -->
+    <!-- POPUP 1 -->
     <div id="popup1" class="pink-box">
         <div class="heart">💗</div>
-        <div class="text">
-            Bé Keii ơii, bé Keii có biết hôngg??
-        </div>
+        <div id="text1" class="text"></div>
         <button class="btn" onclick="nextPopup()">ok</button>
     </div>
 
-    <!-- ===== POPUP 2 ===== -->
+    <!-- POPUP 2 -->
     <div id="popup2" class="pink-box hidden">
         <div class="heart">💓</div>
-        <div class="text">
-            Em yêu chị nhiều lắm luôn á!
-        </div>
+        <div id="text2" class="text"></div>
         <button class="btn" onclick="closePopup()">ok</button>
     </div>
 
     <script>
+        const message1 = "Bé Keii ơii, bé Keii có biết hôngg??";
+        const message2 = "Em yêu chị nhiều lắm luôn á!";
+
+        function typeText(elementId, text, speed = 60) {
+            const el = document.getElementById(elementId);
+            el.textContent = "";
+            let i = 0;
+
+            const typing = setInterval(() => {
+                el.textContent += text.charAt(i);
+                i++;
+                if (i >= text.length) clearInterval(typing);
+            }, speed);
+        }
+
+        // Gõ chữ popup 1 khi load
+        window.onload = () => {
+            typeText("text1", message1);
+        };
+
         function nextPopup() {
             const p1 = document.getElementById("popup1");
             const p2 = document.getElementById("popup2");
@@ -165,16 +147,14 @@
                 p1.classList.add("hidden");
                 p2.classList.remove("hidden");
                 p2.style.animation = "fadeZoomIn 0.45s ease";
+                typeText("text2", message2);
             }, 300);
         }
 
         function closePopup() {
             const p2 = document.getElementById("popup2");
             p2.style.animation = "fadeZoomOut 0.3s ease forwards";
-
-            setTimeout(() => {
-                p2.classList.add("hidden");
-            }, 300);
+            setTimeout(() => p2.classList.add("hidden"), 300);
         }
     </script>
 

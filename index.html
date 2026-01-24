@@ -2,19 +2,19 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Pink Popup</title>
+    <title>Valentine Night</title>
 
     <style>
+        /* ===============================
+           🌙 THEME ĐÊM YÊN TĨNH
+        ================================ */
+
         body {
             margin: 0;
             min-height: 100vh;
 
-            background-image: url("background.png");
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: #f6d6df;
-
+            /* NỀN ĐÊM */
+            background: linear-gradient(135deg, #1b0f2e, #3a2b6d, #6b7fd7);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,84 +22,93 @@
             font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
         }
 
-        /* Overlay mờ */
+        /* Overlay tối – riêng tư */
         body::before {
             content: "";
             position: fixed;
             inset: 0;
-            background: rgba(255, 214, 223, 0.25);
+            background: rgba(0, 0, 0, 0.45);
             z-index: 0;
         }
 
+        /* ===============================
+           POPUP
+        ================================ */
         .pink-box {
             position: relative;
             z-index: 1;
 
             width: 420px;
             height: 260px;
-            background: #f6bfdc;
-            border-radius: 18px;
-            border: 4px solid #7a1f47;
+            background: #ffffff;
+            border-radius: 22px;
 
             box-shadow:
-                0 0 0 6px rgba(255, 255, 255, 0.5),
-                0 22px 40px rgba(122, 31, 71, 0.45);
+                0 0 0 6px rgba(255, 255, 255, 0.15),
+                0 25px 60px rgba(0, 0, 0, 0.6);
 
             text-align: center;
-            animation: fadeZoomIn 0.45s ease;
+            animation: fadeZoomIn 0.5s ease;
         }
 
+        /* Tim lớn trên popup */
         .heart {
-            font-size: 52px;
-            margin-top: 30px;
-            animation: heartbeat 1.4s infinite;
+            font-size: 50px;
+            margin-top: 28px;
+            animation: heartbeat 1.8s infinite;
         }
 
+        /* Nội dung */
         .text {
             font-size: 24px;
             font-weight: 600;
             margin-top: 18px;
             min-height: 60px;
+            color: #2b1055;
         }
 
-        /* 💓 CON TRỎ TIM ĐẬP THEO NHỊP */
+        /* 💓 CON TRỎ TIM */
         .cursor {
             display: inline-block;
             margin-left: 4px;
-            color: #7a1f47;
+            color: #d63384;
             font-size: 22px;
             font-weight: bold;
 
             animation:
                 blink 1.2s infinite,
-                cursorBeat 1.6s infinite;
+                cursorBeat 1.8s infinite;
         }
 
+        /* Nút */
         .btn {
-            margin-top: 32px;
+            margin-top: 30px;
             padding: 10px 45px;
             font-size: 18px;
-            background: #fde3ef;
-            border: 2px solid #000;
+            background: #f2b6d8;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
-            border-radius: 6px;
         }
 
         .btn:active {
-            transform: translate(2px, 2px);
+            transform: scale(0.96);
         }
 
         .hidden {
             display: none;
         }
 
+        /* ===============================
+           ANIMATION
+        ================================ */
         @keyframes blink {
             0% { opacity: 1; }
             50% { opacity: 0; }
             100% { opacity: 1; }
         }
 
-        /* 💓 NHỊP TIM CON TRỎ */
+        /* Nhịp tim cho con trỏ */
         @keyframes cursorBeat {
             0%   { transform: scale(1); }
             30%  { transform: scale(1.18); }
@@ -107,11 +116,12 @@
             100% { transform: scale(1); }
         }
 
+        /* Tim lớn */
         @keyframes heartbeat {
-            0% { transform: scale(1); }
-            25% { transform: scale(1.12); }
-            50% { transform: scale(1); }
-            75% { transform: scale(1.12); }
+            0%   { transform: scale(1); }
+            25%  { transform: scale(1.12); }
+            50%  { transform: scale(1); }
+            75%  { transform: scale(1.12); }
             100% { transform: scale(1); }
         }
 
@@ -125,6 +135,7 @@
             to { opacity: 0; transform: scale(0.88); }
         }
 
+        /* Mobile */
         @media (max-width: 480px) {
             .pink-box {
                 width: 90%;
@@ -155,7 +166,7 @@
         const message1 = "Bé Keii ơii, bé Keii có biết hôngg??";
         const message2 = "Em yêu chị nhiều lắm luôn á!";
 
-        function typeText(elementId, text, speed = 65) {
+        function typeText(elementId, text, speed = 70) {
             const el = document.getElementById(elementId);
             el.innerHTML = "";
             let i = 0;

@@ -5,15 +5,16 @@
     <title>Pink Popup</title>
 
     <style>
+        /* ===== BODY + BACKGROUND ===== */
         body {
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
 
-            /* ===== BACKGROUND ===== */
             background-image: url("background.png");
-            background-size: cover;
+            background-size: contain;              /* HIỂN THỊ FULL ẢNH */
             background-position: center;
             background-repeat: no-repeat;
+            background-color: #f6d6df;             /* viền nền hồng nhẹ */
 
             display: flex;
             justify-content: center;
@@ -22,15 +23,32 @@
             font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
         }
 
+        /* ===== OVERLAY MỜ GIÚP POPUP NỔI ===== */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 214, 223, 0.35);
+            z-index: 0;
+        }
+
         /* ===== POPUP ===== */
         .pink-box {
+            position: relative;
+            z-index: 1;
+
             width: 420px;
             height: 260px;
             background: #f6bfdc;
             border: 4px solid #7a1f47;
-            box-shadow: 8px 8px #4d0f2d;
-            text-align: center;
+            border-radius: 6px;
 
+            /* shadow đậm – nổi rõ */
+            box-shadow:
+                0 0 0 6px rgba(255, 255, 255, 0.4),
+                0 18px 35px rgba(122, 31, 71, 0.45);
+
+            text-align: center;
             animation: fadeZoomIn 0.45s ease;
         }
 
@@ -95,6 +113,15 @@
             to {
                 opacity: 0;
                 transform: scale(0.88);
+            }
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 480px) {
+            .pink-box {
+                width: 90%;
+                height: auto;
+                padding-bottom: 20px;
             }
         }
     </style>

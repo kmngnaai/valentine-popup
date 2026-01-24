@@ -59,7 +59,15 @@
             font-size: 24px;
             font-weight: 600;
             margin-top: 18px;
-            min-height: 60px; /* giữ khung khi đang gõ */
+            min-height: 60px;
+        }
+
+        /* Con trỏ nhấp nháy */
+        .cursor {
+            display: inline-block;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+            font-weight: 700;
         }
 
         .btn {
@@ -80,6 +88,12 @@
             display: none;
         }
 
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
         @keyframes heartbeat {
             0% { transform: scale(1); }
             25% { transform: scale(1.12); }
@@ -96,6 +110,14 @@
         @keyframes fadeZoomOut {
             from { opacity: 1; transform: scale(1); }
             to { opacity: 0; transform: scale(0.88); }
+        }
+
+        @media (max-width: 480px) {
+            .pink-box {
+                width: 90%;
+                height: auto;
+                padding-bottom: 20px;
+            }
         }
     </style>
 </head>
@@ -120,19 +142,28 @@
         const message1 = "Bé Keii ơii, bé Keii có biết hôngg??";
         const message2 = "Em yêu chị nhiều lắm luôn á!";
 
-        function typeText(elementId, text, speed = 60) {
+        function typeText(elementId, text, speed = 65) {
             const el = document.getElementById(elementId);
-            el.textContent = "";
+            el.innerHTML = "";
             let i = 0;
 
+            const cursor = document.createElement("span");
+            cursor.className = "cursor";
+            cursor.textContent = "|";
+            el.appendChild(cursor);
+
             const typing = setInterval(() => {
+                cursor.remove();
                 el.textContent += text.charAt(i);
+                el.appendChild(cursor);
                 i++;
-                if (i >= text.length) clearInterval(typing);
+
+                if (i >= text.length) {
+                    clearInterval(typing);
+                }
             }, speed);
         }
 
-        // Gõ chữ popup 1 khi load
         window.onload = () => {
             typeText("text1", message1);
         };

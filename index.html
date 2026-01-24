@@ -2,19 +2,20 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Valentine Night</title>
+    <title>Valentine Night Pink</title>
 
     <style>
-        /* ===============================
-           🌙 THEME ĐÊM YÊN TĨNH
-        ================================ */
-
         body {
             margin: 0;
             min-height: 100vh;
 
-            /* NỀN ĐÊM */
-            background: linear-gradient(135deg, #1b0f2e, #3a2b6d, #6b7fd7);
+            /* 🌸 GIỮ NGUYÊN NỀN HỒNG */
+            background-image: url("background.png");
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #f6d6df;
+
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,73 +23,72 @@
             font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
         }
 
-        /* Overlay tối – riêng tư */
+        /* 🌙 OVERLAY ĐÊM (TỐI NHẸ) */
         body::before {
             content: "";
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.28); /* chỉnh 0.22–0.35 */
             z-index: 0;
         }
 
-        /* ===============================
-           POPUP
-        ================================ */
+        /* ================= POPUP ================= */
         .pink-box {
             position: relative;
             z-index: 1;
 
             width: 420px;
             height: 260px;
-            background: #ffffff;
+            background: #fff7fb;
             border-radius: 22px;
+            border: 3px solid #e5a3c2;
 
             box-shadow:
-                0 0 0 6px rgba(255, 255, 255, 0.15),
-                0 25px 60px rgba(0, 0, 0, 0.6);
+                0 0 0 6px rgba(255, 255, 255, 0.35),
+                0 28px 60px rgba(0, 0, 0, 0.45);
 
             text-align: center;
             animation: fadeZoomIn 0.5s ease;
         }
 
-        /* Tim lớn trên popup */
+        /* 💗 TIM TRÊN POPUP (ĐẬP CHẬM HƠN) */
         .heart {
-            font-size: 50px;
+            font-size: 48px;
             margin-top: 28px;
-            animation: heartbeat 1.8s infinite;
+            animation: heartbeat 2.2s infinite;
         }
 
-        /* Nội dung */
+        /* TEXT */
         .text {
             font-size: 24px;
             font-weight: 600;
             margin-top: 18px;
             min-height: 60px;
-            color: #2b1055;
+            color: #7a1f47;
         }
 
-        /* 💓 CON TRỎ TIM */
+        /* 💓 CON TRỎ TIM ĐẬP THEO NHỊP */
         .cursor {
             display: inline-block;
             margin-left: 4px;
             color: #d63384;
             font-size: 22px;
             font-weight: bold;
-
             animation:
-                blink 1.2s infinite,
-                cursorBeat 1.8s infinite;
+                blink 1.3s infinite,
+                cursorBeat 2.2s infinite;
         }
 
-        /* Nút */
+        /* BUTTON */
         .btn {
             margin-top: 30px;
             padding: 10px 45px;
             font-size: 18px;
             background: #f2b6d8;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
+            color: #4d0f2d;
         }
 
         .btn:active {
@@ -99,29 +99,27 @@
             display: none;
         }
 
-        /* ===============================
-           ANIMATION
-        ================================ */
+        /* ============ ANIMATIONS ============ */
+
         @keyframes blink {
             0% { opacity: 1; }
             50% { opacity: 0; }
             100% { opacity: 1; }
         }
 
-        /* Nhịp tim cho con trỏ */
+        /* Nhịp tim con trỏ – chậm, dịu */
         @keyframes cursorBeat {
             0%   { transform: scale(1); }
-            30%  { transform: scale(1.18); }
+            30%  { transform: scale(1.15); }
             55%  { transform: scale(1); }
             100% { transform: scale(1); }
         }
 
-        /* Tim lớn */
+        /* Tim lớn – chậm */
         @keyframes heartbeat {
             0%   { transform: scale(1); }
-            25%  { transform: scale(1.12); }
-            50%  { transform: scale(1); }
-            75%  { transform: scale(1.12); }
+            30%  { transform: scale(1.1); }
+            60%  { transform: scale(1); }
             100% { transform: scale(1); }
         }
 
@@ -135,7 +133,7 @@
             to { opacity: 0; transform: scale(0.88); }
         }
 
-        /* Mobile */
+        /* MOBILE */
         @media (max-width: 480px) {
             .pink-box {
                 width: 90%;
@@ -182,9 +180,7 @@
                 el.appendChild(cursor);
                 i++;
 
-                if (i >= text.length) {
-                    clearInterval(typing);
-                }
+                if (i >= text.length) clearInterval(typing);
             }, speed);
         }
 

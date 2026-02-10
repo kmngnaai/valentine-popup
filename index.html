@@ -22,7 +22,6 @@
             overflow: hidden;
         }
 
-        /* Overlay đêm */
         body::before {
             content: "";
             position: fixed;
@@ -31,7 +30,7 @@
             z-index: 0;
         }
 
-        /* POPUP */
+        /* ================= POPUP ================= */
         .pink-box {
             position: relative;
             z-index: 2;
@@ -89,6 +88,7 @@
         .btn:active { transform: scale(0.96); }
         .hidden { display: none; }
 
+        /* ================= ANIMATION ================= */
         @keyframes blink {
             0% { opacity: 1; }
             50% { opacity: 0; }
@@ -119,13 +119,12 @@
             to { opacity: 0; transform: scale(0.88); }
         }
 
-        /* 🌸 STICKER */
+        /* ================= STICKER ================= */
         .sticker {
             position: fixed;
             top: -90px;
             pointer-events: none;
             z-index: 1;
-
             opacity: 0.75;
             animation-name: fall, sway;
             animation-timing-function: linear, ease-in-out;
@@ -137,7 +136,7 @@
 
         @keyframes sway {
             0% { margin-left: 0; }
-            50% { margin-left: 35px; }
+            50% { margin-left: 30px; }
             100% { margin-left: 0; }
         }
 
@@ -168,7 +167,7 @@
     </div>
 
     <script>
-        /* TEXT */
+        /* ================= TEXT ================= */
         const message1 = "Bé Keii ơii, bé Keii có biết hôngg??";
         const message2 = "Em yêu chị nhiều lắm luôn á!";
 
@@ -208,57 +207,64 @@
             setTimeout(() => popup2.classList.add("hidden"), 300);
         }
 
-        /* 🌸 STICKER SYSTEM – 12 CÁI / ĐỢT, NÉ POPUP */
+        /* ================= STICKER SYSTEM ================= */
         const STICKER_COUNT = 56;
         const STICKERS_PER_BATCH = 12;
-        const FALL_DURATION = [16, 24];
+        const FALL_DURATION = [18, 26];
         const SIZE_RANGE = [60, 90];
-        const BATCH_INTERVAL = 4500;
+        const BATCH_INTERVAL = 4800;
 
         function rand(min, max) {
             return Math.random() * (max - min) + min;
         }
 
-        function getSafeX(size) {
+        function getSafeZones(size) {
             const popup = document.querySelector(".pink-box");
             const rect = popup.getBoundingClientRect();
 
-            const safeZones = [
-                [0, rect.left - size],
-                [rect.right, window.innerWidth - size]
-            ];
+            const zones = [];
+            if (rect.left > size) zones.push([0, rect.left - size]);
+            if (window.innerWidth - rect.right > size)
+                zones.push([rect.right, window.innerWidth - size]);
 
-            const zone = safeZones[Math.floor(Math.random() * safeZones.length)];
-            return rand(zone[0], zone[1]);
-        }
-
-        function createSticker() {
-            const img = document.createElement("img");
-            const index = Math.floor(rand(1, STICKER_COUNT + 1));
-
-            img.src = `stickers/${String(index).padStart(2, "0")}.png`;
-            img.className = "sticker";
-
-            const size = rand(SIZE_RANGE[0], SIZE_RANGE[1]);
-            img.style.width = size + "px";
-            img.style.left = getSafeX(size) + "px";
-
-            const fallTime = rand(FALL_DURATION[0], FALL_DURATION[1]);
-            img.style.animationDuration = `${fallTime}s, ${fallTime / 2}s`;
-
-            document.body.appendChild(img);
-
-            img.addEventListener("animationend", () => img.remove());
+            return zones;
         }
 
         function spawnBatch() {
-            for (let i = 0; i < STICKERS_PER_BATCH; i++) {
-                setTimeout(createSticker, i * 120);
+            const size = rand(SIZE_RANGE[0], SIZE_RANGE[1]);
+            const zones = getSafeZones(size);
+            if (!zones.length) return;
+
+            const columns = STICKERS_PER_BATCH;
+            const colWidth = window.innerWidth / columns;
+
+            for (let i = 0; i < columns; i++) {
+                setTimeout(() => {
+                    const zone = zones[Math.floor(Math.random() * zones.length)];
+                    let x = rand(i * colWidth, (i + 1) * colWidth - size);
+
+                    if (x < zone[0] || x > zone[1]) {
+                        x = rand(zone[0], zone[1]);
+                    }
+
+                    const img = document.createElement("img");
+                    const index = Math.floor(rand(1, STICKER_COUNT + 1));
+                    img.src = `stickers/${String(index).padStart(2, "0")}.png`;
+                    img.className = "sticker";
+                    img.style.width = size + "px";
+                    img.style.left = x + "px";
+
+                    const fallTime = rand(FALL_DURATION[0], FALL_DURATION[1]);
+                    img.style.animationDuration = `${fallTime}s, ${fallTime / 2}s`;
+
+                    document.body.appendChild(img);
+                    img.addEventListener("animationend", () => img.remove());
+                }, i * 120);
             }
         }
 
+        spawnBatch();
         setInterval(spawnBatch, BATCH_INTERVAL);
-        spawnBatch(); // chạy ngay khi load
     </script>
 
 </body>

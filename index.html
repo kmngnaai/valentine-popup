@@ -10,8 +10,8 @@ body {
     margin: 0;
     min-height: 100vh;
 
-    /* 🌸 DÙNG CHUNG NỀN MOBILE */
-    background-image: url("Valentines-mobile.png");
+    /* 🌸 DÙNG FILE BẠN VỪA UP */
+    background-image: url("valentines-mobile.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -38,7 +38,6 @@ body::before {
     position: fixed;
     z-index: 1;
     pointer-events: none;
-
     opacity: 0;
     animation: breathe 8s ease-in-out infinite;
     will-change: opacity;
@@ -63,7 +62,6 @@ body::before {
     background: #fff7fb;
     border-radius: 26px;
     border: 3px solid #e5a3c2;
-
     padding: 26px 28px 30px;
 
     box-shadow:
@@ -204,8 +202,8 @@ function renderStickers() {
                 img.style.width = rand(48,78) + "px";
                 img.style.left = c*cw + rand(12,cw-78) + "px";
                 img.style.top  = r*ch + rand(12,ch-78) + "px";
-
                 img.style.animationDelay = rand(0,1.4) + "s";
+
                 document.body.appendChild(img);
             };
             i++;

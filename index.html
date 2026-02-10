@@ -9,7 +9,6 @@
             margin: 0;
             min-height: 100vh;
 
-            /* 🌸 GIỮ NGUYÊN NỀN HỒNG */
             background-image: url("background.png");
             background-size: contain;
             background-position: center;
@@ -19,24 +18,23 @@
             display: flex;
             justify-content: center;
             align-items: center;
-
             font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-            overflow: hidden; /* QUAN TRỌNG: tránh scroll do sticker */
+            overflow: hidden;
         }
 
-        /* 🌙 OVERLAY ĐÊM (TỐI NHẸ) */
+        /* Overlay đêm */
         body::before {
             content: "";
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.28); /* chỉnh 0.22–0.35 */
+            background: rgba(0, 0, 0, 0.28);
             z-index: 0;
         }
 
-        /* ================= POPUP ================= */
+        /* POPUP */
         .pink-box {
             position: relative;
-            z-index: 2; /* LUÔN TRÊN STICKER */
+            z-index: 2;
 
             width: 420px;
             height: 260px;
@@ -52,14 +50,12 @@
             animation: fadeZoomIn 0.5s ease;
         }
 
-        /* 💗 TIM TRÊN POPUP */
         .heart {
             font-size: 48px;
             margin-top: 28px;
             animation: heartbeat 2.2s infinite;
         }
 
-        /* TEXT */
         .text {
             font-size: 24px;
             font-weight: 600;
@@ -68,7 +64,6 @@
             color: #7a1f47;
         }
 
-        /* 💓 CON TRỎ TIM */
         .cursor {
             display: inline-block;
             margin-left: 4px;
@@ -80,7 +75,6 @@
                 cursorBeat 2.2s infinite;
         }
 
-        /* BUTTON */
         .btn {
             margin-top: 30px;
             padding: 10px 45px;
@@ -92,15 +86,9 @@
             color: #4d0f2d;
         }
 
-        .btn:active {
-            transform: scale(0.96);
-        }
+        .btn:active { transform: scale(0.96); }
+        .hidden { display: none; }
 
-        .hidden {
-            display: none;
-        }
-
-        /* ============ ANIMATIONS ============ */
         @keyframes blink {
             0% { opacity: 1; }
             50% { opacity: 0; }
@@ -108,16 +96,16 @@
         }
 
         @keyframes cursorBeat {
-            0%   { transform: scale(1); }
-            30%  { transform: scale(1.15); }
-            55%  { transform: scale(1); }
+            0% { transform: scale(1); }
+            30% { transform: scale(1.15); }
+            55% { transform: scale(1); }
             100% { transform: scale(1); }
         }
 
         @keyframes heartbeat {
-            0%   { transform: scale(1); }
-            30%  { transform: scale(1.1); }
-            60%  { transform: scale(1); }
+            0% { transform: scale(1); }
+            30% { transform: scale(1.1); }
+            60% { transform: scale(1); }
             100% { transform: scale(1); }
         }
 
@@ -131,12 +119,12 @@
             to { opacity: 0; transform: scale(0.88); }
         }
 
-        /* ============ 🌸 STICKER FALLING ============ */
+        /* 🌸 STICKER */
         .sticker {
             position: fixed;
-            top: -80px;
+            top: -90px;
             pointer-events: none;
-            z-index: 1; /* DƯỚI POPUP */
+            z-index: 1;
 
             opacity: 0.75;
             animation-name: fall, sway;
@@ -144,18 +132,15 @@
         }
 
         @keyframes fall {
-            to {
-                transform: translateY(110vh);
-            }
+            to { transform: translateY(110vh); }
         }
 
         @keyframes sway {
-            0%   { margin-left: 0; }
-            50%  { margin-left: 40px; }
+            0% { margin-left: 0; }
+            50% { margin-left: 35px; }
             100% { margin-left: 0; }
         }
 
-        /* MOBILE */
         @media (max-width: 480px) {
             .pink-box {
                 width: 90%;
@@ -183,7 +168,7 @@
     </div>
 
     <script>
-        /* ================= TEXT TYPING ================= */
+        /* TEXT */
         const message1 = "Bé Keii ơii, bé Keii có biết hôngg??";
         const message2 = "Em yêu chị nhiều lắm luôn á!";
 
@@ -206,68 +191,74 @@
             }, speed);
         }
 
-        window.onload = () => {
-            typeText("text1", message1);
-        };
+        window.onload = () => typeText("text1", message1);
 
         function nextPopup() {
-            const p1 = document.getElementById("popup1");
-            const p2 = document.getElementById("popup2");
-
-            p1.style.animation = "fadeZoomOut 0.3s ease forwards";
-
+            popup1.style.animation = "fadeZoomOut 0.3s ease forwards";
             setTimeout(() => {
-                p1.classList.add("hidden");
-                p2.classList.remove("hidden");
-                p2.style.animation = "fadeZoomIn 0.45s ease";
+                popup1.classList.add("hidden");
+                popup2.classList.remove("hidden");
+                popup2.style.animation = "fadeZoomIn 0.45s ease";
                 typeText("text2", message2);
             }, 300);
         }
 
         function closePopup() {
-            const p2 = document.getElementById("popup2");
-            p2.style.animation = "fadeZoomOut 0.3s ease forwards";
-            setTimeout(() => p2.classList.add("hidden"), 300);
+            popup2.style.animation = "fadeZoomOut 0.3s ease forwards";
+            setTimeout(() => popup2.classList.add("hidden"), 300);
         }
 
-        /* ================= 🌸 STICKER SYSTEM ================= */
+        /* 🌸 STICKER SYSTEM – 12 CÁI / ĐỢT, NÉ POPUP */
         const STICKER_COUNT = 56;
-        const MAX_ON_SCREEN = 6;
+        const STICKERS_PER_BATCH = 12;
         const FALL_DURATION = [16, 24];
         const SIZE_RANGE = [60, 90];
+        const BATCH_INTERVAL = 4500;
 
-        let currentStickers = 0;
-
-        function random(min, max) {
+        function rand(min, max) {
             return Math.random() * (max - min) + min;
         }
 
-        function createSticker() {
-            if (currentStickers >= MAX_ON_SCREEN) return;
+        function getSafeX(size) {
+            const popup = document.querySelector(".pink-box");
+            const rect = popup.getBoundingClientRect();
 
+            const safeZones = [
+                [0, rect.left - size],
+                [rect.right, window.innerWidth - size]
+            ];
+
+            const zone = safeZones[Math.floor(Math.random() * safeZones.length)];
+            return rand(zone[0], zone[1]);
+        }
+
+        function createSticker() {
             const img = document.createElement("img");
-            const index = Math.floor(random(1, STICKER_COUNT + 1));
+            const index = Math.floor(rand(1, STICKER_COUNT + 1));
 
             img.src = `stickers/${String(index).padStart(2, "0")}.png`;
             img.className = "sticker";
 
-            const size = random(SIZE_RANGE[0], SIZE_RANGE[1]);
-            img.style.width = `${size}px`;
-            img.style.left = `${random(0, window.innerWidth - size)}px`;
+            const size = rand(SIZE_RANGE[0], SIZE_RANGE[1]);
+            img.style.width = size + "px";
+            img.style.left = getSafeX(size) + "px";
 
-            const fallTime = random(FALL_DURATION[0], FALL_DURATION[1]);
+            const fallTime = rand(FALL_DURATION[0], FALL_DURATION[1]);
             img.style.animationDuration = `${fallTime}s, ${fallTime / 2}s`;
 
             document.body.appendChild(img);
-            currentStickers++;
 
-            img.addEventListener("animationend", () => {
-                img.remove();
-                currentStickers--;
-            });
+            img.addEventListener("animationend", () => img.remove());
         }
 
-        setInterval(createSticker, 1200);
+        function spawnBatch() {
+            for (let i = 0; i < STICKERS_PER_BATCH; i++) {
+                setTimeout(createSticker, i * 120);
+            }
+        }
+
+        setInterval(spawnBatch, BATCH_INTERVAL);
+        spawnBatch(); // chạy ngay khi load
     </script>
 
 </body>

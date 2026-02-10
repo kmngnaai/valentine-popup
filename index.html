@@ -37,27 +37,17 @@ body::before {
     pointer-events: none;
 
     opacity: 0;
-    animation:
-        fadeIn 2.2s ease forwards,
-        float 20s ease-in-out infinite,
-        sparkle 5s ease-in-out infinite;
-
-    will-change: transform, opacity;
+    animation: breathe 8s ease-in-out infinite;
+    will-change: opacity;
 }
 
-@keyframes fadeIn {
-    to { opacity: 0.45; }
-}
-
-@keyframes float {
-    0% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-10px) scale(1.03); }
-    100% { transform: translateY(0) scale(1); }
-}
-
-@keyframes sparkle {
-    0%,100% { filter: brightness(1); }
-    50% { filter: brightness(1.25); }
+/* ✨ Xuất hiện → mờ → hiện lại */
+@keyframes breathe {
+    0%   { opacity: 0; }
+    25%  { opacity: 0.45; } /* ~2s */
+    50%  { opacity: 0.15; }
+    75%  { opacity: 0.45; }
+    100% { opacity: 0; }
 }
 
 /* ================= POPUP ================= */
@@ -110,7 +100,7 @@ body::before {
 
 .hidden { display: none; }
 
-/* Anim */
+/* Anim popup */
 @keyframes blink { 50% { opacity: 0; } }
 @keyframes heartbeat { 30% { transform: scale(1.1); } }
 @keyframes fadeZoomIn {
@@ -150,10 +140,7 @@ body::before {
 const message1 = "Bé Keii ơii, bé Keii có biết hôngg??";
 const message2 = "Em yêu chị nhiều lắm luôn á!";
 
-const TYPE_SPEED = 70; // ms / chữ
-const TEXT_DURATION = message1.length * TYPE_SPEED;
-
-function typeText(id, text) {
+function typeText(id, text, speed = 70) {
     const el = document.getElementById(id);
     el.innerHTML = "";
     let i = 0;
@@ -169,56 +156,46 @@ function typeText(id, text) {
         el.appendChild(cursor);
         i++;
         if (i >= text.length) clearInterval(timer);
-    }, TYPE_SPEED);
+    }, speed);
 }
 
 /* ================= STICKER ================= */
-const STICKER_TOTAL = 56;
+const TOTAL = 56;
 const COLS = 8;
 const ROWS = 7;
 
-/* sticker bắt đầu sớm hơn chữ 0.4s */
-const STICKER_START_OFFSET = 400;
-const STICKER_STEP = TEXT_DURATION / ROWS;
-
 function rand(min,max){ return Math.random()*(max-min)+min; }
 
-function loadSticker(i, col, row) {
-    const img = new Image();
-    img.src = `stickers/${String(i).padStart(2,"0")}.png`;
-    img.className = "sticker-bg";
+function renderStickers() {
+    let i = 1;
+    for(let r=0;r<ROWS;r++){
+        for(let c=0;c<COLS;c++){
+            if(i > TOTAL) return;
 
-    img.onload = () => {
-        const cw = innerWidth / COLS;
-        const ch = innerHeight / ROWS;
+            const img = new Image();
+            img.src = `stickers/${String(i).padStart(2,"0")}.png`;
+            img.className = "sticker-bg";
 
-        img.style.width = rand(50,80)+"px";
-        img.style.left = col*cw + rand(10,cw-80)+"px";
-        img.style.top = row*ch + rand(10,ch-80)+"px";
-        img.style.animationDelay = rand(0,0.8)+"s";
+            img.onload = () => {
+                const cw = innerWidth / COLS;
+                const ch = innerHeight / ROWS;
 
-        document.body.appendChild(img);
-    };
-}
+                img.style.width = rand(50,80)+"px";
+                img.style.left = c*cw + rand(10,cw-80)+"px";
+                img.style.top = r*ch + rand(10,ch-80)+"px";
 
-function renderStickersSynced() {
-    let index = 1;
-    let row = 0;
-
-    setTimeout(() => {
-        const timer = setInterval(() => {
-            for(let c=0;c<COLS && index<=STICKER_TOTAL;c++){
-                loadSticker(index++,c,row);
-            }
-            row++;
-            if(index>STICKER_TOTAL) clearInterval(timer);
-        }, STICKER_STEP);
-    }, STICKER_START_OFFSET);
+                /* lệch pha nhẹ cho tự nhiên */
+                img.style.animationDelay = rand(0,1.2)+"s";
+                document.body.appendChild(img);
+            };
+            i++;
+        }
+    }
 }
 
 /* ================= FLOW ================= */
 window.onload = () => {
-    renderStickersSynced();
+    renderStickers();
     typeText("text1", message1);
 };
 

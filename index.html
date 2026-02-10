@@ -37,7 +37,6 @@ body::before {
     pointer-events: none;
     opacity: 0;
     animation: breathe 8s ease-in-out infinite;
-    will-change: opacity;
 }
 
 @keyframes breathe {
@@ -48,7 +47,7 @@ body::before {
     100% { opacity: 0; }
 }
 
-/* ================= POPUP (ĐÃ THOÁNG HƠN) ================= */
+/* ================= POPUP ================= */
 .pink-box {
     position: relative;
     z-index: 2;
@@ -69,14 +68,12 @@ body::before {
     animation: fadeZoomIn 0.5s ease;
 }
 
-/* Tim trên popup */
 .heart {
     font-size: 50px;
     margin-bottom: 16px;
     animation: heartbeat 2.2s infinite;
 }
 
-/* Text thoáng hơn */
 .text {
     font-size: 23px;
     font-weight: 600;
@@ -86,7 +83,6 @@ body::before {
     color: #7a1f47;
 }
 
-/* Con trỏ */
 .cursor {
     margin-left: 4px;
     color: #d63384;
@@ -94,7 +90,6 @@ body::before {
     animation: blink 1.2s infinite;
 }
 
-/* Button */
 .btn {
     padding: 12px 52px;
     font-size: 18px;
@@ -103,10 +98,6 @@ body::before {
     border-radius: 14px;
     cursor: pointer;
     color: #4d0f2d;
-}
-
-.btn:active {
-    transform: scale(0.96);
 }
 
 .hidden { display: none; }
@@ -119,14 +110,30 @@ body::before {
     to { opacity:1; transform:scale(1); }
 }
 
-/* Mobile tối ưu thêm */
+/* ================= MOBILE FIX (QUAN TRỌNG) ================= */
 @media (max-width:480px) {
     .pink-box {
-        padding: 30px 22px 28px;
+        width: 88%;
+        padding: 36px 18px 34px; /* hẹp ngang – rộng dọc */
+        border-radius: 28px;
     }
+
+    .heart {
+        font-size: 46px;
+        margin-bottom: 18px;
+    }
+
     .text {
-        font-size: 21px;
-        min-height: 70px;
+        font-size: 20px;
+        line-height: 1.7;
+        min-height: 78px;
+        margin-bottom: 30px;
+    }
+
+    .btn {
+        padding: 12px 38px;
+        font-size: 17px;
+        border-radius: 16px;
     }
 }
 </style>
@@ -149,7 +156,7 @@ body::before {
 </div>
 
 <script>
-/* ================= TEXT ================= */
+/* TEXT */
 const message1 = "Bé Keii ơii, bé Keii có biết hôngg??";
 const message2 = "Em yêu chị nhiều lắm luôn á!";
 
@@ -157,7 +164,6 @@ function typeText(id, text, speed = 70) {
     const el = document.getElementById(id);
     el.innerHTML = "";
     let i = 0;
-
     const cursor = document.createElement("span");
     cursor.className = "cursor";
     cursor.textContent = "♥";
@@ -172,7 +178,7 @@ function typeText(id, text, speed = 70) {
     }, speed);
 }
 
-/* ================= STICKER ================= */
+/* STICKER */
 const TOTAL = 47;
 const COLS = 8;
 const ROWS = 7;
@@ -184,15 +190,12 @@ function renderStickers() {
     for(let r=0;r<ROWS;r++){
         for(let c=0;c<COLS;c++){
             if(i > TOTAL) return;
-
             const img = new Image();
             img.src = `stickers/${i}.png`;
             img.className = "sticker-bg";
-
             img.onload = () => {
                 const cw = innerWidth / COLS;
                 const ch = innerHeight / ROWS;
-
                 img.style.width = rand(52,78)+"px";
                 img.style.left = c*cw + rand(10,cw-90)+"px";
                 img.style.top = r*ch + rand(10,ch-90)+"px";
@@ -204,7 +207,6 @@ function renderStickers() {
     }
 }
 
-/* ================= FLOW ================= */
 window.onload = () => {
     renderStickers();
     typeText("text1", message1);

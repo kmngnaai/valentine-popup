@@ -5,11 +5,14 @@
 <title>Valentine Night Pink</title>
 
 <style>
+/* ================= BODY ================= */
 body {
     margin: 0;
     min-height: 100vh;
-    background-image: url("background.png");
-    background-size: contain;
+
+    /* 🌸 DÙNG CHUNG NỀN MOBILE */
+    background-image: url("Valentines-mobile.png");
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-color: #f6d6df;
@@ -21,12 +24,12 @@ body {
     overflow: hidden;
 }
 
-/* Overlay đêm */
+/* Overlay đêm nhẹ */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.25);
+    background: rgba(0,0,0,0.22);
     z-index: 0;
 }
 
@@ -35,8 +38,10 @@ body::before {
     position: fixed;
     z-index: 1;
     pointer-events: none;
+
     opacity: 0;
     animation: breathe 8s ease-in-out infinite;
+    will-change: opacity;
 }
 
 @keyframes breathe {
@@ -53,34 +58,35 @@ body::before {
     z-index: 2;
 
     width: 420px;
-    max-width: 90%;
-    padding: 34px 28px 32px;
+    max-width: calc(100vw - 48px);
 
     background: #fff7fb;
     border-radius: 26px;
     border: 3px solid #e5a3c2;
 
+    padding: 26px 28px 30px;
+
     box-shadow:
         0 0 0 6px rgba(255,255,255,0.35),
-        0 30px 70px rgba(0,0,0,0.45);
+        0 28px 60px rgba(0,0,0,0.45);
 
     text-align: center;
     animation: fadeZoomIn 0.5s ease;
 }
 
 .heart {
-    font-size: 50px;
-    margin-bottom: 16px;
+    font-size: 46px;
+    margin-bottom: 10px;
     animation: heartbeat 2.2s infinite;
 }
 
 .text {
     font-size: 23px;
     font-weight: 600;
-    line-height: 1.55;
-    margin: 6px 0 26px;
-    min-height: 64px;
+    line-height: 1.45;
+    min-height: 72px;
     color: #7a1f47;
+    padding: 0 6px;
 }
 
 .cursor {
@@ -91,49 +97,44 @@ body::before {
 }
 
 .btn {
+    margin-top: 26px;
     padding: 12px 52px;
-    font-size: 18px;
-    background: linear-gradient(180deg,#f5bddb,#f0aecd);
+    font-size: 17px;
+    background: #f2b6d8;
     border: none;
-    border-radius: 14px;
+    border-radius: 12px;
     cursor: pointer;
     color: #4d0f2d;
 }
 
+.btn:active {
+    transform: scale(0.96);
+}
+
 .hidden { display: none; }
 
-/* Anim */
+/* ================= ANIM ================= */
 @keyframes blink { 50% { opacity: 0; } }
-@keyframes heartbeat { 30% { transform: scale(1.1); } }
+@keyframes heartbeat { 30% { transform: scale(1.12); } }
 @keyframes fadeZoomIn {
-    from { opacity:0; transform:scale(0.9); }
+    from { opacity:0; transform:scale(0.88); }
     to { opacity:1; transform:scale(1); }
 }
 
-/* ================= MOBILE FIX (QUAN TRỌNG) ================= */
+/* ================= MOBILE ================= */
 @media (max-width:480px) {
     .pink-box {
-        width: 88%;
-        padding: 36px 18px 34px; /* hẹp ngang – rộng dọc */
-        border-radius: 28px;
-    }
-
-    .heart {
-        font-size: 46px;
-        margin-bottom: 18px;
+        width: calc(100vw - 32px);
+        padding: 24px 22px 28px;
     }
 
     .text {
-        font-size: 20px;
-        line-height: 1.7;
+        font-size: 21px;
         min-height: 78px;
-        margin-bottom: 30px;
     }
 
     .btn {
-        padding: 12px 38px;
-        font-size: 17px;
-        border-radius: 16px;
+        padding: 12px 48px;
     }
 }
 </style>
@@ -156,7 +157,7 @@ body::before {
 </div>
 
 <script>
-/* TEXT */
+/* ================= TEXT ================= */
 const message1 = "Bé Keii ơii, bé Keii có biết hôngg??";
 const message2 = "Em yêu chị nhiều lắm luôn á!";
 
@@ -164,6 +165,7 @@ function typeText(id, text, speed = 70) {
     const el = document.getElementById(id);
     el.innerHTML = "";
     let i = 0;
+
     const cursor = document.createElement("span");
     cursor.className = "cursor";
     cursor.textContent = "♥";
@@ -178,7 +180,7 @@ function typeText(id, text, speed = 70) {
     }, speed);
 }
 
-/* STICKER */
+/* ================= STICKER ================= */
 const TOTAL = 47;
 const COLS = 8;
 const ROWS = 7;
@@ -190,16 +192,20 @@ function renderStickers() {
     for(let r=0;r<ROWS;r++){
         for(let c=0;c<COLS;c++){
             if(i > TOTAL) return;
+
             const img = new Image();
-            img.src = `stickers/${i}.png`;
+            img.src = `stickers/${String(i).padStart(2,"0")}.png`;
             img.className = "sticker-bg";
+
             img.onload = () => {
                 const cw = innerWidth / COLS;
                 const ch = innerHeight / ROWS;
-                img.style.width = rand(52,78)+"px";
-                img.style.left = c*cw + rand(10,cw-90)+"px";
-                img.style.top = r*ch + rand(10,ch-90)+"px";
-                img.style.animationDelay = rand(0,1.2)+"s";
+
+                img.style.width = rand(48,78) + "px";
+                img.style.left = c*cw + rand(12,cw-78) + "px";
+                img.style.top  = r*ch + rand(12,ch-78) + "px";
+
+                img.style.animationDelay = rand(0,1.4) + "s";
                 document.body.appendChild(img);
             };
             i++;
@@ -207,6 +213,7 @@ function renderStickers() {
     }
 }
 
+/* ================= FLOW ================= */
 window.onload = () => {
     renderStickers();
     typeText("text1", message1);

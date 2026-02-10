@@ -21,12 +21,12 @@ body {
     overflow: hidden;
 }
 
-/* Overlay đêm */
+/* 🌙 Overlay đêm */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.28);
+    background: rgba(0,0,0,0.25);
     z-index: 0;
 }
 
@@ -34,8 +34,10 @@ body::before {
 .sticker-bg {
     position: fixed;
     z-index: 1;
-    opacity: 0;
     pointer-events: none;
+
+    opacity: 0;
+    filter: brightness(1);
 
     animation:
         fadeIn 3.5s ease forwards,
@@ -52,9 +54,11 @@ body::before {
     background: #fff7fb;
     border-radius: 22px;
     border: 3px solid #e5a3c2;
+
     box-shadow:
         0 0 0 6px rgba(255,255,255,0.35),
         0 28px 60px rgba(0,0,0,0.45);
+
     text-align: center;
     animation: fadeZoomIn 0.5s ease;
 }
@@ -99,14 +103,14 @@ body::before {
 }
 
 @keyframes float {
-    0% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-12px) scale(1.03); }
+    0%   { transform: translateY(0) scale(1); }
+    50%  { transform: translateY(-12px) scale(1.03); }
     100% { transform: translateY(0) scale(1); }
 }
 
 @keyframes sparkle {
     0%,100% { filter: brightness(1); }
-    50% { filter: brightness(1.25); }
+    50%     { filter: brightness(1.25); }
 }
 
 @keyframes blink {
@@ -119,7 +123,7 @@ body::before {
 
 @keyframes fadeZoomIn {
     from { opacity:0; transform:scale(0.88); }
-    to { opacity:1; transform:scale(1); }
+    to   { opacity:1; transform:scale(1); }
 }
 
 /* Mobile */
@@ -150,7 +154,7 @@ body::before {
 </div>
 
 <script>
-/* TEXT */
+/* ================= TEXT ================= */
 const message1 = "Bé Keii ơii, bé Keii có biết hôngg??";
 const message2 = "Em yêu chị nhiều lắm luôn á!";
 
@@ -158,6 +162,7 @@ function typeText(id, text) {
     const el = document.getElementById(id);
     el.innerHTML = "";
     let i = 0;
+
     const cursor = document.createElement("span");
     cursor.className = "cursor";
     cursor.textContent = "♥";
@@ -181,30 +186,41 @@ function nextPopup() {
     popup1.classList.add("hidden");
     popup2.classList.remove("hidden");
     typeText("text2", message2);
+    brightenStickers(); // 🌸 cao trào cảm xúc
 }
 
 function closePopup() {
     popup2.classList.add("hidden");
 }
 
-/* ================= STICKER NỀN RANDOM ================= */
+/* ================= STICKER NỀN ================= */
 const STICKER_TOTAL = 56;
 
-function rand(min,max){ return Math.random()*(max-min)+min; }
+function rand(min, max) {
+    return Math.random() * (max - min) + min;
+}
 
 function renderBackgroundStickers() {
-    for(let i=1;i<=STICKER_TOTAL;i++){
+    for (let i = 1; i <= STICKER_TOTAL; i++) {
         const img = document.createElement("img");
-        img.src = `stickers/${String(i).padStart(2,"0")}.png`;
+        img.src = `stickers/${String(i).padStart(2, "0")}.png`;
         img.className = "sticker-bg";
 
-        img.style.width = rand(50,90)+"px";
-        img.style.left = rand(0,95)+"vw";
-        img.style.top = rand(0,95)+"vh";
-        img.style.animationDelay = rand(0,4)+"s";
+        img.style.width = rand(50, 90) + "px";
+        img.style.left = rand(2, 95) + "vw";
+        img.style.top = rand(2, 95) + "vh";
+        img.style.animationDelay = rand(0, 4) + "s";
 
         document.body.appendChild(img);
     }
+}
+
+/* 🌸 Khi popup 2 hiện → sticker rõ hơn */
+function brightenStickers() {
+    document.querySelectorAll(".sticker-bg").forEach(s => {
+        s.style.opacity = 0.65;
+        s.style.filter = "brightness(1.35)";
+    });
 }
 </script>
 

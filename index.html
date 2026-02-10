@@ -39,6 +39,9 @@ body::before {
     opacity: 0;
     filter: brightness(1);
 
+    backface-visibility: hidden;
+    transform: translateZ(0);
+
     animation:
         fadeIn 3.5s ease forwards,
         float 18s ease-in-out infinite,
@@ -186,36 +189,51 @@ function nextPopup() {
     popup1.classList.add("hidden");
     popup2.classList.remove("hidden");
     typeText("text2", message2);
-    brightenStickers(); // 🌸 cao trào cảm xúc
+    brightenStickers();
 }
 
 function closePopup() {
     popup2.classList.add("hidden");
 }
 
-/* ================= STICKER NỀN ================= */
+/* ================= STICKER NỀN – LOAD AN TOÀN ================= */
 const STICKER_TOTAL = 56;
+const STICKER_BATCH = 6;   // load 6 sticker / lượt
+const LOAD_DELAY = 120;    // ms
 
 function rand(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-function renderBackgroundStickers() {
-    for (let i = 1; i <= STICKER_TOTAL; i++) {
-        const img = document.createElement("img");
-        img.src = `stickers/${String(i).padStart(2, "0")}.png`;
-        img.className = "sticker-bg";
+function loadSticker(index) {
+    const img = new Image();
+    img.src = `stickers/${String(index).padStart(2, "0")}.png`;
+    img.className = "sticker-bg";
 
-        img.style.width = rand(50, 90) + "px";
-        img.style.left = rand(2, 95) + "vw";
-        img.style.top = rand(2, 95) + "vh";
-        img.style.animationDelay = rand(0, 4) + "s";
-
+    img.onload = () => {
+        img.style.width = rand(50, 85) + "px";
+        img.style.left = rand(3, 95) + "vw";
+        img.style.top = rand(3, 95) + "vh";
+        img.style.animationDelay = rand(0, 3) + "s";
         document.body.appendChild(img);
-    }
+    };
+
+    img.onerror = () => {
+        console.warn("Sticker load failed:", img.src);
+    };
 }
 
-/* 🌸 Khi popup 2 hiện → sticker rõ hơn */
+function renderBackgroundStickers() {
+    let index = 1;
+    const timer = setInterval(() => {
+        for (let i = 0; i < STICKER_BATCH && index <= STICKER_TOTAL; i++) {
+            loadSticker(index++);
+        }
+        if (index > STICKER_TOTAL) clearInterval(timer);
+    }, LOAD_DELAY);
+}
+
+/* 🌸 Popup 2 → sticker sáng hơn */
 function brightenStickers() {
     document.querySelectorAll(".sticker-bg").forEach(s => {
         s.style.opacity = 0.65;

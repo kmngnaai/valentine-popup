@@ -43,7 +43,7 @@ body::before {
     transform: translateZ(0);
 
     animation:
-        fadeIn 3.5s ease forwards,
+        fadeIn 2.5s ease forwards,
         float 18s ease-in-out infinite,
         sparkle 4.5s ease-in-out infinite;
 }
@@ -196,41 +196,46 @@ function closePopup() {
     popup2.classList.add("hidden");
 }
 
-/* ================= STICKER NỀN – LOAD AN TOÀN ================= */
+/* ================= STICKER NỀN – RẢI ĐỀU + 3 GIÂY ================= */
 const STICKER_TOTAL = 56;
-const STICKER_BATCH = 6;   // load 6 sticker / lượt
-const LOAD_DELAY = 120;    // ms
+const GRID_COLS = 8;
+const GRID_ROWS = 7;
+const APPEAR_DURATION = 3000; // 3s
+const STEP_DELAY = APPEAR_DURATION / GRID_ROWS;
 
 function rand(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-function loadSticker(index) {
+function loadSticker(index, col, row) {
     const img = new Image();
     img.src = `stickers/${String(index).padStart(2, "0")}.png`;
     img.className = "sticker-bg";
 
     img.onload = () => {
-        img.style.width = rand(50, 85) + "px";
-        img.style.left = rand(3, 95) + "vw";
-        img.style.top = rand(3, 95) + "vh";
-        img.style.animationDelay = rand(0, 3) + "s";
-        document.body.appendChild(img);
-    };
+        const cellW = window.innerWidth / GRID_COLS;
+        const cellH = window.innerHeight / GRID_ROWS;
 
-    img.onerror = () => {
-        console.warn("Sticker load failed:", img.src);
+        img.style.width = rand(50, 80) + "px";
+        img.style.left = (col * cellW + rand(10, cellW - 80)) + "px";
+        img.style.top  = (row * cellH + rand(10, cellH - 80)) + "px";
+        img.style.animationDelay = rand(0, 1) + "s";
+
+        document.body.appendChild(img);
     };
 }
 
 function renderBackgroundStickers() {
     let index = 1;
+    let row = 0;
+
     const timer = setInterval(() => {
-        for (let i = 0; i < STICKER_BATCH && index <= STICKER_TOTAL; i++) {
-            loadSticker(index++);
+        for (let col = 0; col < GRID_COLS && index <= STICKER_TOTAL; col++) {
+            loadSticker(index++, col, row);
         }
+        row++;
         if (index > STICKER_TOTAL) clearInterval(timer);
-    }, LOAD_DELAY);
+    }, STEP_DELAY);
 }
 
 /* 🌸 Popup 2 → sticker sáng hơn */

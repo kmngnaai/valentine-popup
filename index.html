@@ -21,7 +21,7 @@ body {
     overflow: hidden;
 }
 
-/* 🌙 Overlay đêm */
+/* Overlay đêm */
 body::before {
     content: "";
     position: fixed;
@@ -30,22 +30,34 @@ body::before {
     z-index: 0;
 }
 
-/* ================= STICKER NỀN ================= */
+/* ================= STICKER ================= */
 .sticker-bg {
     position: fixed;
     z-index: 1;
     pointer-events: none;
 
     opacity: 0;
-    filter: brightness(1);
-
-    backface-visibility: hidden;
-    transform: translateZ(0);
-
     animation:
-        fadeIn 2.5s ease forwards,
-        float 18s ease-in-out infinite,
-        sparkle 4.5s ease-in-out infinite;
+        fadeIn 2.2s ease forwards,
+        float 20s ease-in-out infinite,
+        sparkle 5s ease-in-out infinite;
+
+    will-change: transform, opacity;
+}
+
+@keyframes fadeIn {
+    to { opacity: 0.45; }
+}
+
+@keyframes float {
+    0% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-10px) scale(1.03); }
+    100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes sparkle {
+    0%,100% { filter: brightness(1); }
+    50% { filter: brightness(1.25); }
 }
 
 /* ================= POPUP ================= */
@@ -57,11 +69,9 @@ body::before {
     background: #fff7fb;
     border-radius: 22px;
     border: 3px solid #e5a3c2;
-
     box-shadow:
         0 0 0 6px rgba(255,255,255,0.35),
         0 28px 60px rgba(0,0,0,0.45);
-
     text-align: center;
     animation: fadeZoomIn 0.5s ease;
 }
@@ -84,7 +94,7 @@ body::before {
     margin-left: 4px;
     color: #d63384;
     font-size: 22px;
-    animation: blink 1.3s infinite;
+    animation: blink 1.2s infinite;
 }
 
 .btn {
@@ -100,33 +110,12 @@ body::before {
 
 .hidden { display: none; }
 
-/* ================= ANIMATION ================= */
-@keyframes fadeIn {
-    to { opacity: 0.45; }
-}
-
-@keyframes float {
-    0%   { transform: translateY(0) scale(1); }
-    50%  { transform: translateY(-12px) scale(1.03); }
-    100% { transform: translateY(0) scale(1); }
-}
-
-@keyframes sparkle {
-    0%,100% { filter: brightness(1); }
-    50%     { filter: brightness(1.25); }
-}
-
-@keyframes blink {
-    50% { opacity: 0; }
-}
-
-@keyframes heartbeat {
-    30% { transform: scale(1.1); }
-}
-
+/* Anim */
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes heartbeat { 30% { transform: scale(1.1); } }
 @keyframes fadeZoomIn {
     from { opacity:0; transform:scale(0.88); }
-    to   { opacity:1; transform:scale(1); }
+    to { opacity:1; transform:scale(1); }
 }
 
 /* Mobile */
@@ -161,6 +150,9 @@ body::before {
 const message1 = "Bé Keii ơii, bé Keii có biết hôngg??";
 const message2 = "Em yêu chị nhiều lắm luôn á!";
 
+const TYPE_SPEED = 70; // ms / chữ
+const TEXT_DURATION = message1.length * TYPE_SPEED;
+
 function typeText(id, text) {
     const el = document.getElementById(id);
     el.innerHTML = "";
@@ -177,73 +169,67 @@ function typeText(id, text) {
         el.appendChild(cursor);
         i++;
         if (i >= text.length) clearInterval(timer);
-    }, 70);
+    }, TYPE_SPEED);
 }
 
-window.onload = () => {
-    typeText("text1", message1);
-    renderBackgroundStickers();
-};
-
-function nextPopup() {
-    popup1.classList.add("hidden");
-    popup2.classList.remove("hidden");
-    typeText("text2", message2);
-    brightenStickers();
-}
-
-function closePopup() {
-    popup2.classList.add("hidden");
-}
-
-/* ================= STICKER NỀN – RẢI ĐỀU + 3 GIÂY ================= */
+/* ================= STICKER ================= */
 const STICKER_TOTAL = 56;
-const GRID_COLS = 8;
-const GRID_ROWS = 7;
-const APPEAR_DURATION = 3000; // 3s
-const STEP_DELAY = APPEAR_DURATION / GRID_ROWS;
+const COLS = 8;
+const ROWS = 7;
 
-function rand(min, max) {
-    return Math.random() * (max - min) + min;
-}
+/* sticker bắt đầu sớm hơn chữ 0.4s */
+const STICKER_START_OFFSET = 400;
+const STICKER_STEP = TEXT_DURATION / ROWS;
 
-function loadSticker(index, col, row) {
+function rand(min,max){ return Math.random()*(max-min)+min; }
+
+function loadSticker(i, col, row) {
     const img = new Image();
-    img.src = `stickers/${String(index).padStart(2, "0")}.png`;
+    img.src = `stickers/${String(i).padStart(2,"0")}.png`;
     img.className = "sticker-bg";
 
     img.onload = () => {
-        const cellW = window.innerWidth / GRID_COLS;
-        const cellH = window.innerHeight / GRID_ROWS;
+        const cw = innerWidth / COLS;
+        const ch = innerHeight / ROWS;
 
-        img.style.width = rand(50, 80) + "px";
-        img.style.left = (col * cellW + rand(10, cellW - 80)) + "px";
-        img.style.top  = (row * cellH + rand(10, cellH - 80)) + "px";
-        img.style.animationDelay = rand(0, 1) + "s";
+        img.style.width = rand(50,80)+"px";
+        img.style.left = col*cw + rand(10,cw-80)+"px";
+        img.style.top = row*ch + rand(10,ch-80)+"px";
+        img.style.animationDelay = rand(0,0.8)+"s";
 
         document.body.appendChild(img);
     };
 }
 
-function renderBackgroundStickers() {
+function renderStickersSynced() {
     let index = 1;
     let row = 0;
 
-    const timer = setInterval(() => {
-        for (let col = 0; col < GRID_COLS && index <= STICKER_TOTAL; col++) {
-            loadSticker(index++, col, row);
-        }
-        row++;
-        if (index > STICKER_TOTAL) clearInterval(timer);
-    }, STEP_DELAY);
+    setTimeout(() => {
+        const timer = setInterval(() => {
+            for(let c=0;c<COLS && index<=STICKER_TOTAL;c++){
+                loadSticker(index++,c,row);
+            }
+            row++;
+            if(index>STICKER_TOTAL) clearInterval(timer);
+        }, STICKER_STEP);
+    }, STICKER_START_OFFSET);
 }
 
-/* 🌸 Popup 2 → sticker sáng hơn */
-function brightenStickers() {
-    document.querySelectorAll(".sticker-bg").forEach(s => {
-        s.style.opacity = 0.65;
-        s.style.filter = "brightness(1.35)";
-    });
+/* ================= FLOW ================= */
+window.onload = () => {
+    renderStickersSynced();
+    typeText("text1", message1);
+};
+
+function nextPopup(){
+    popup1.classList.add("hidden");
+    popup2.classList.remove("hidden");
+    typeText("text2", message2);
+}
+
+function closePopup(){
+    popup2.classList.add("hidden");
 }
 </script>
 

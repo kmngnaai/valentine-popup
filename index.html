@@ -21,6 +21,7 @@
             align-items: center;
 
             font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+            overflow: hidden; /* QUAN TRỌNG: tránh scroll do sticker */
         }
 
         /* 🌙 OVERLAY ĐÊM (TỐI NHẸ) */
@@ -35,7 +36,7 @@
         /* ================= POPUP ================= */
         .pink-box {
             position: relative;
-            z-index: 1;
+            z-index: 2; /* LUÔN TRÊN STICKER */
 
             width: 420px;
             height: 260px;
@@ -51,7 +52,7 @@
             animation: fadeZoomIn 0.5s ease;
         }
 
-        /* 💗 TIM TRÊN POPUP (ĐẬP CHẬM HƠN) */
+        /* 💗 TIM TRÊN POPUP */
         .heart {
             font-size: 48px;
             margin-top: 28px;
@@ -67,7 +68,7 @@
             color: #7a1f47;
         }
 
-        /* 💓 CON TRỎ TIM ĐẬP THEO NHỊP */
+        /* 💓 CON TRỎ TIM */
         .cursor {
             display: inline-block;
             margin-left: 4px;
@@ -100,14 +101,12 @@
         }
 
         /* ============ ANIMATIONS ============ */
-
         @keyframes blink {
             0% { opacity: 1; }
             50% { opacity: 0; }
             100% { opacity: 1; }
         }
 
-        /* Nhịp tim con trỏ – chậm, dịu */
         @keyframes cursorBeat {
             0%   { transform: scale(1); }
             30%  { transform: scale(1.15); }
@@ -115,7 +114,6 @@
             100% { transform: scale(1); }
         }
 
-        /* Tim lớn – chậm */
         @keyframes heartbeat {
             0%   { transform: scale(1); }
             30%  { transform: scale(1.1); }
@@ -131,6 +129,30 @@
         @keyframes fadeZoomOut {
             from { opacity: 1; transform: scale(1); }
             to { opacity: 0; transform: scale(0.88); }
+        }
+
+        /* ============ 🌸 STICKER FALLING ============ */
+        .sticker {
+            position: fixed;
+            top: -80px;
+            pointer-events: none;
+            z-index: 1; /* DƯỚI POPUP */
+
+            opacity: 0.75;
+            animation-name: fall, sway;
+            animation-timing-function: linear, ease-in-out;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh);
+            }
+        }
+
+        @keyframes sway {
+            0%   { margin-left: 0; }
+            50%  { margin-left: 40px; }
+            100% { margin-left: 0; }
         }
 
         /* MOBILE */
@@ -161,6 +183,7 @@
     </div>
 
     <script>
+        /* ================= TEXT TYPING ================= */
         const message1 = "Bé Keii ơii, bé Keii có biết hôngg??";
         const message2 = "Em yêu chị nhiều lắm luôn á!";
 
@@ -179,7 +202,6 @@
                 el.textContent += text.charAt(i);
                 el.appendChild(cursor);
                 i++;
-
                 if (i >= text.length) clearInterval(typing);
             }, speed);
         }
@@ -207,6 +229,45 @@
             p2.style.animation = "fadeZoomOut 0.3s ease forwards";
             setTimeout(() => p2.classList.add("hidden"), 300);
         }
+
+        /* ================= 🌸 STICKER SYSTEM ================= */
+        const STICKER_COUNT = 56;
+        const MAX_ON_SCREEN = 6;
+        const FALL_DURATION = [16, 24];
+        const SIZE_RANGE = [60, 90];
+
+        let currentStickers = 0;
+
+        function random(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function createSticker() {
+            if (currentStickers >= MAX_ON_SCREEN) return;
+
+            const img = document.createElement("img");
+            const index = Math.floor(random(1, STICKER_COUNT + 1));
+
+            img.src = `stickers/${String(index).padStart(2, "0")}.png`;
+            img.className = "sticker";
+
+            const size = random(SIZE_RANGE[0], SIZE_RANGE[1]);
+            img.style.width = `${size}px`;
+            img.style.left = `${random(0, window.innerWidth - size)}px`;
+
+            const fallTime = random(FALL_DURATION[0], FALL_DURATION[1]);
+            img.style.animationDuration = `${fallTime}s, ${fallTime / 2}s`;
+
+            document.body.appendChild(img);
+            currentStickers++;
+
+            img.addEventListener("animationend", () => {
+                img.remove();
+                currentStickers--;
+            });
+        }
+
+        setInterval(createSticker, 1200);
     </script>
 
 </body>

@@ -1,271 +1,212 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>Valentine Night Pink</title>
+<meta charset="UTF-8">
+<title>Valentine Night Pink</title>
 
-    <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-image: url("background.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #f6d6df;
 
-            background-image: url("background.png");
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-color: #f6d6df;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    overflow: hidden;
+}
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-            overflow: hidden;
-        }
+/* Overlay đêm */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.28);
+    z-index: 0;
+}
 
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.28);
-            z-index: 0;
-        }
+/* ================= STICKER NỀN ================= */
+.sticker-bg {
+    position: fixed;
+    z-index: 1;
+    opacity: 0;
+    pointer-events: none;
 
-        /* ================= POPUP ================= */
-        .pink-box {
-            position: relative;
-            z-index: 2;
+    animation:
+        fadeIn 3.5s ease forwards,
+        float 18s ease-in-out infinite,
+        sparkle 4.5s ease-in-out infinite;
+}
 
-            width: 420px;
-            height: 260px;
-            background: #fff7fb;
-            border-radius: 22px;
-            border: 3px solid #e5a3c2;
+/* ================= POPUP ================= */
+.pink-box {
+    position: relative;
+    z-index: 2;
+    width: 420px;
+    height: 260px;
+    background: #fff7fb;
+    border-radius: 22px;
+    border: 3px solid #e5a3c2;
+    box-shadow:
+        0 0 0 6px rgba(255,255,255,0.35),
+        0 28px 60px rgba(0,0,0,0.45);
+    text-align: center;
+    animation: fadeZoomIn 0.5s ease;
+}
 
-            box-shadow:
-                0 0 0 6px rgba(255, 255, 255, 0.35),
-                0 28px 60px rgba(0, 0, 0, 0.45);
+.heart {
+    font-size: 48px;
+    margin-top: 28px;
+    animation: heartbeat 2.2s infinite;
+}
 
-            text-align: center;
-            animation: fadeZoomIn 0.5s ease;
-        }
+.text {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 18px;
+    min-height: 60px;
+    color: #7a1f47;
+}
 
-        .heart {
-            font-size: 48px;
-            margin-top: 28px;
-            animation: heartbeat 2.2s infinite;
-        }
+.cursor {
+    margin-left: 4px;
+    color: #d63384;
+    font-size: 22px;
+    animation: blink 1.3s infinite;
+}
 
-        .text {
-            font-size: 24px;
-            font-weight: 600;
-            margin-top: 18px;
-            min-height: 60px;
-            color: #7a1f47;
-        }
+.btn {
+    margin-top: 30px;
+    padding: 10px 45px;
+    font-size: 18px;
+    background: #f2b6d8;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #4d0f2d;
+}
 
-        .cursor {
-            display: inline-block;
-            margin-left: 4px;
-            color: #d63384;
-            font-size: 22px;
-            font-weight: bold;
-            animation:
-                blink 1.3s infinite,
-                cursorBeat 2.2s infinite;
-        }
+.hidden { display: none; }
 
-        .btn {
-            margin-top: 30px;
-            padding: 10px 45px;
-            font-size: 18px;
-            background: #f2b6d8;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            color: #4d0f2d;
-        }
+/* ================= ANIMATION ================= */
+@keyframes fadeIn {
+    to { opacity: 0.45; }
+}
 
-        .btn:active { transform: scale(0.96); }
-        .hidden { display: none; }
+@keyframes float {
+    0% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-12px) scale(1.03); }
+    100% { transform: translateY(0) scale(1); }
+}
 
-        /* ================= ANIMATION ================= */
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0; }
-            100% { opacity: 1; }
-        }
+@keyframes sparkle {
+    0%,100% { filter: brightness(1); }
+    50% { filter: brightness(1.25); }
+}
 
-        @keyframes cursorBeat {
-            0% { transform: scale(1); }
-            30% { transform: scale(1.15); }
-            55% { transform: scale(1); }
-            100% { transform: scale(1); }
-        }
+@keyframes blink {
+    50% { opacity: 0; }
+}
 
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            30% { transform: scale(1.1); }
-            60% { transform: scale(1); }
-            100% { transform: scale(1); }
-        }
+@keyframes heartbeat {
+    30% { transform: scale(1.1); }
+}
 
-        @keyframes fadeZoomIn {
-            from { opacity: 0; transform: scale(0.88); }
-            to { opacity: 1; transform: scale(1); }
-        }
+@keyframes fadeZoomIn {
+    from { opacity:0; transform:scale(0.88); }
+    to { opacity:1; transform:scale(1); }
+}
 
-        @keyframes fadeZoomOut {
-            from { opacity: 1; transform: scale(1); }
-            to { opacity: 0; transform: scale(0.88); }
-        }
-
-        /* ================= STICKER ================= */
-        .sticker {
-            position: fixed;
-            top: -90px;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.75;
-            animation-name: fall, sway;
-            animation-timing-function: linear, ease-in-out;
-        }
-
-        @keyframes fall {
-            to { transform: translateY(110vh); }
-        }
-
-        @keyframes sway {
-            0% { margin-left: 0; }
-            50% { margin-left: 30px; }
-            100% { margin-left: 0; }
-        }
-
-        @media (max-width: 480px) {
-            .pink-box {
-                width: 90%;
-                height: auto;
-                padding-bottom: 20px;
-            }
-        }
-    </style>
+/* Mobile */
+@media (max-width:480px) {
+    .pink-box {
+        width: 90%;
+        height: auto;
+        padding-bottom: 20px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <!-- POPUP 1 -->
-    <div id="popup1" class="pink-box">
-        <div class="heart">💗</div>
-        <div id="text1" class="text"></div>
-        <button class="btn" onclick="nextPopup()">ok</button>
-    </div>
+<!-- POPUP 1 -->
+<div id="popup1" class="pink-box">
+    <div class="heart">💗</div>
+    <div id="text1" class="text"></div>
+    <button class="btn" onclick="nextPopup()">ok</button>
+</div>
 
-    <!-- POPUP 2 -->
-    <div id="popup2" class="pink-box hidden">
-        <div class="heart">💓</div>
-        <div id="text2" class="text"></div>
-        <button class="btn" onclick="closePopup()">ok</button>
-    </div>
+<!-- POPUP 2 -->
+<div id="popup2" class="pink-box hidden">
+    <div class="heart">💓</div>
+    <div id="text2" class="text"></div>
+    <button class="btn" onclick="closePopup()">ok</button>
+</div>
 
-    <script>
-        /* ================= TEXT ================= */
-        const message1 = "Bé Keii ơii, bé Keii có biết hôngg??";
-        const message2 = "Em yêu chị nhiều lắm luôn á!";
+<script>
+/* TEXT */
+const message1 = "Bé Keii ơii, bé Keii có biết hôngg??";
+const message2 = "Em yêu chị nhiều lắm luôn á!";
 
-        function typeText(elementId, text, speed = 70) {
-            const el = document.getElementById(elementId);
-            el.innerHTML = "";
-            let i = 0;
+function typeText(id, text) {
+    const el = document.getElementById(id);
+    el.innerHTML = "";
+    let i = 0;
+    const cursor = document.createElement("span");
+    cursor.className = "cursor";
+    cursor.textContent = "♥";
+    el.appendChild(cursor);
 
-            const cursor = document.createElement("span");
-            cursor.className = "cursor";
-            cursor.textContent = "♥";
-            el.appendChild(cursor);
+    const timer = setInterval(() => {
+        cursor.remove();
+        el.textContent += text[i];
+        el.appendChild(cursor);
+        i++;
+        if (i >= text.length) clearInterval(timer);
+    }, 70);
+}
 
-            const typing = setInterval(() => {
-                cursor.remove();
-                el.textContent += text.charAt(i);
-                el.appendChild(cursor);
-                i++;
-                if (i >= text.length) clearInterval(typing);
-            }, speed);
-        }
+window.onload = () => {
+    typeText("text1", message1);
+    renderBackgroundStickers();
+};
 
-        window.onload = () => typeText("text1", message1);
+function nextPopup() {
+    popup1.classList.add("hidden");
+    popup2.classList.remove("hidden");
+    typeText("text2", message2);
+}
 
-        function nextPopup() {
-            popup1.style.animation = "fadeZoomOut 0.3s ease forwards";
-            setTimeout(() => {
-                popup1.classList.add("hidden");
-                popup2.classList.remove("hidden");
-                popup2.style.animation = "fadeZoomIn 0.45s ease";
-                typeText("text2", message2);
-            }, 300);
-        }
+function closePopup() {
+    popup2.classList.add("hidden");
+}
 
-        function closePopup() {
-            popup2.style.animation = "fadeZoomOut 0.3s ease forwards";
-            setTimeout(() => popup2.classList.add("hidden"), 300);
-        }
+/* ================= STICKER NỀN RANDOM ================= */
+const STICKER_TOTAL = 56;
 
-        /* ================= STICKER SYSTEM ================= */
-        const STICKER_COUNT = 56;
-        const STICKERS_PER_BATCH = 12;
-        const FALL_DURATION = [18, 26];
-        const SIZE_RANGE = [60, 90];
-        const BATCH_INTERVAL = 4800;
+function rand(min,max){ return Math.random()*(max-min)+min; }
 
-        function rand(min, max) {
-            return Math.random() * (max - min) + min;
-        }
+function renderBackgroundStickers() {
+    for(let i=1;i<=STICKER_TOTAL;i++){
+        const img = document.createElement("img");
+        img.src = `stickers/${String(i).padStart(2,"0")}.png`;
+        img.className = "sticker-bg";
 
-        function getSafeZones(size) {
-            const popup = document.querySelector(".pink-box");
-            const rect = popup.getBoundingClientRect();
+        img.style.width = rand(50,90)+"px";
+        img.style.left = rand(0,95)+"vw";
+        img.style.top = rand(0,95)+"vh";
+        img.style.animationDelay = rand(0,4)+"s";
 
-            const zones = [];
-            if (rect.left > size) zones.push([0, rect.left - size]);
-            if (window.innerWidth - rect.right > size)
-                zones.push([rect.right, window.innerWidth - size]);
-
-            return zones;
-        }
-
-        function spawnBatch() {
-            const size = rand(SIZE_RANGE[0], SIZE_RANGE[1]);
-            const zones = getSafeZones(size);
-            if (!zones.length) return;
-
-            const columns = STICKERS_PER_BATCH;
-            const colWidth = window.innerWidth / columns;
-
-            for (let i = 0; i < columns; i++) {
-                setTimeout(() => {
-                    const zone = zones[Math.floor(Math.random() * zones.length)];
-                    let x = rand(i * colWidth, (i + 1) * colWidth - size);
-
-                    if (x < zone[0] || x > zone[1]) {
-                        x = rand(zone[0], zone[1]);
-                    }
-
-                    const img = document.createElement("img");
-                    const index = Math.floor(rand(1, STICKER_COUNT + 1));
-                    img.src = `stickers/${String(index).padStart(2, "0")}.png`;
-                    img.className = "sticker";
-                    img.style.width = size + "px";
-                    img.style.left = x + "px";
-
-                    const fallTime = rand(FALL_DURATION[0], FALL_DURATION[1]);
-                    img.style.animationDuration = `${fallTime}s, ${fallTime / 2}s`;
-
-                    document.body.appendChild(img);
-                    img.addEventListener("animationend", () => img.remove());
-                }, i * 120);
-            }
-        }
-
-        spawnBatch();
-        setInterval(spawnBatch, BATCH_INTERVAL);
-    </script>
+        document.body.appendChild(img);
+    }
+}
+</script>
 
 </body>
 </html>

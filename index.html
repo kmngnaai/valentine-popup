@@ -35,51 +35,58 @@ body::before {
     position: fixed;
     z-index: 1;
     pointer-events: none;
-
     opacity: 0;
     animation: breathe 8s ease-in-out infinite;
     will-change: opacity;
 }
 
-/* ✨ Xuất hiện → mờ → hiện lại */
 @keyframes breathe {
     0%   { opacity: 0; }
-    25%  { opacity: 0.45; } /* ~2s */
+    25%  { opacity: 0.45; }
     50%  { opacity: 0.15; }
     75%  { opacity: 0.45; }
     100% { opacity: 0; }
 }
 
-/* ================= POPUP ================= */
+/* ================= POPUP (ĐÃ THOÁNG HƠN) ================= */
 .pink-box {
     position: relative;
     z-index: 2;
+
     width: 420px;
-    height: 260px;
+    max-width: 90%;
+    padding: 34px 28px 32px;
+
     background: #fff7fb;
-    border-radius: 22px;
+    border-radius: 26px;
     border: 3px solid #e5a3c2;
+
     box-shadow:
         0 0 0 6px rgba(255,255,255,0.35),
-        0 28px 60px rgba(0,0,0,0.45);
+        0 30px 70px rgba(0,0,0,0.45);
+
     text-align: center;
     animation: fadeZoomIn 0.5s ease;
 }
 
+/* Tim trên popup */
 .heart {
-    font-size: 48px;
-    margin-top: 28px;
+    font-size: 50px;
+    margin-bottom: 16px;
     animation: heartbeat 2.2s infinite;
 }
 
+/* Text thoáng hơn */
 .text {
-    font-size: 24px;
+    font-size: 23px;
     font-weight: 600;
-    margin-top: 18px;
-    min-height: 60px;
+    line-height: 1.55;
+    margin: 6px 0 26px;
+    min-height: 64px;
     color: #7a1f47;
 }
 
+/* Con trỏ */
 .cursor {
     margin-left: 4px;
     color: #d63384;
@@ -87,33 +94,39 @@ body::before {
     animation: blink 1.2s infinite;
 }
 
+/* Button */
 .btn {
-    margin-top: 30px;
-    padding: 10px 45px;
+    padding: 12px 52px;
     font-size: 18px;
-    background: #f2b6d8;
+    background: linear-gradient(180deg,#f5bddb,#f0aecd);
     border: none;
-    border-radius: 10px;
+    border-radius: 14px;
     cursor: pointer;
     color: #4d0f2d;
 }
 
+.btn:active {
+    transform: scale(0.96);
+}
+
 .hidden { display: none; }
 
-/* Anim popup */
+/* Anim */
 @keyframes blink { 50% { opacity: 0; } }
 @keyframes heartbeat { 30% { transform: scale(1.1); } }
 @keyframes fadeZoomIn {
-    from { opacity:0; transform:scale(0.88); }
+    from { opacity:0; transform:scale(0.9); }
     to { opacity:1; transform:scale(1); }
 }
 
-/* Mobile */
+/* Mobile tối ưu thêm */
 @media (max-width:480px) {
     .pink-box {
-        width: 90%;
-        height: auto;
-        padding-bottom: 20px;
+        padding: 30px 22px 28px;
+    }
+    .text {
+        font-size: 21px;
+        min-height: 70px;
     }
 }
 </style>
@@ -173,18 +186,16 @@ function renderStickers() {
             if(i > TOTAL) return;
 
             const img = new Image();
-            img.src = `stickers/${String(i).padStart(2,"0")}.png`;
+            img.src = `stickers/${i}.png`;
             img.className = "sticker-bg";
 
             img.onload = () => {
                 const cw = innerWidth / COLS;
                 const ch = innerHeight / ROWS;
 
-                img.style.width = rand(50,80)+"px";
-                img.style.left = c*cw + rand(10,cw-80)+"px";
-                img.style.top = r*ch + rand(10,ch-80)+"px";
-
-                /* lệch pha nhẹ cho tự nhiên */
+                img.style.width = rand(52,78)+"px";
+                img.style.left = c*cw + rand(10,cw-90)+"px";
+                img.style.top = r*ch + rand(10,ch-90)+"px";
                 img.style.animationDelay = rand(0,1.2)+"s";
                 document.body.appendChild(img);
             };
@@ -212,4 +223,3 @@ function closePopup(){
 
 </body>
 </html>
-

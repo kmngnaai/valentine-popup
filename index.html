@@ -399,21 +399,26 @@ document.addEventListener("click", function(e){
 
     if(e.target && e.target.id === "closeLetterBtn"){
 
+        // Ẩn thư
         letter.style.display = "none";
 
+        // Reset nền
         document.body.classList.remove("letter-open");
         document.body.classList.remove("dark");
 
+        // Xóa nội dung thư
         letterContent.innerHTML = "";
 
+        // RESET popup về trạng thái ban đầu
         popup1.classList.remove("hidden");
-        popup1.style.display = "block";
-        popup1.style.zIndex = "50";
+        popup2.classList.add("hidden");
 
-        envelope.classList.remove("hidden");
+        // Hiện lại phong thư
+        envelope.classList.add("hidden");
     }
 
 });
+
 
 
 

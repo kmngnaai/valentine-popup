@@ -390,21 +390,24 @@ envelope.onclick=()=>{
     });
 };
 
-const closeLetterBtn = document.getElementById("closeLetterBtn");
+document.addEventListener("click", function(e){
 
-closeLetterBtn.onclick = () => {
+    if(e.target && e.target.id === "closeLetterBtn"){
 
-    letter.style.display = "none";
+        letter.style.display = "none";
 
-    document.body.classList.remove("letter-open");
-    document.body.classList.remove("dark");
+        document.body.classList.remove("letter-open");
+        document.body.classList.remove("dark");
 
-    letterContent.innerHTML = "";
+        letterContent.innerHTML = "";
 
-    popup1.classList.remove("hidden");
+        popup1.classList.remove("hidden");
 
-    envelope.classList.remove("hidden"); // Lúc này sẽ hoạt động
-};
+        envelope.classList.remove("hidden");
+    }
+
+});
+
 
 
 </script>

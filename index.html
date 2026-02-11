@@ -9,7 +9,6 @@ body {
     margin: 0;
     min-height: 100vh;
 
-    /* 🌸 DÙNG CHUNG NỀN MOBILE + DESKTOP */
     background-image: url("valentines-mobile.png");
     background-size: cover;
     background-position: center;
@@ -19,123 +18,118 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-family: "Segoe UI","Helvetica Neue",Arial,sans-serif;
     overflow: hidden;
 }
 
 /* Overlay đêm */
 body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.25);
-    z-index: 0;
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.25);
+    z-index:0;
 }
 
-/* ================= STICKER CHUNG ================= */
-.sticker-bg {
-    position: fixed;
-    z-index: 1;
-    pointer-events: none;
-    opacity: 0;
-    animation: breathe 8s ease-in-out infinite;
-    will-change: opacity, transform;
+/* ================= STICKER ================= */
+.sticker-bg{
+    position:fixed;
+    z-index:1;
+    pointer-events:none;
+    opacity:0;
+    animation:breathe 8s ease-in-out infinite;
+    will-change:opacity,transform;
 }
 
-/* Panda nhỏ hơn xíu cho dịu */
-.sticker-panda {
-    width: 42px !important;
-    opacity: 0;
+/* Panda nổi hơn nhưng vẫn dịu */
+.sticker-panda{
+    width:40px!important;
+    opacity:0;
 }
 
-/* ✨ xuất hiện → mờ → hiện lại */
-@keyframes breathe {
-    0%   { opacity: 0; }
-    25%  { opacity: 0.45; }
-    50%  { opacity: 0.15; }
-    75%  { opacity: 0.45; }
-    100% { opacity: 0; }
+@keyframes breathe{
+    0%{opacity:0}
+    25%{opacity:0.45}
+    50%{opacity:0.15}
+    75%{opacity:0.45}
+    100%{opacity:0}
 }
 
 /* ================= POPUP ================= */
-.pink-box {
-    position: relative;
-    z-index: 2;
+.pink-box{
+    position:relative;
+    z-index:2;
 
-    width: min(92vw, 460px);
-    padding: 26px 24px 30px;
+    width:min(92vw,460px);
+    padding:28px 26px 32px;
 
-    background: linear-gradient(180deg,#fff9fc,#fff3f8);
-    border-radius: 26px;
-    border: 2px solid #f0b7d3;
+    background:linear-gradient(180deg,#fff9fc,#fff3f8);
+    border-radius:26px;
+    border:2px solid #f0b7d3;
 
     box-shadow:
-        0 10px 28px rgba(0,0,0,0.25),
-        0 0 0 6px rgba(255,255,255,0.4);
+        0 12px 30px rgba(0,0,0,0.28),
+        0 0 0 6px rgba(255,255,255,0.45);
 
-    text-align: center;
-    animation: fadeZoomIn 0.5s ease;
+    text-align:center;
+    animation:fadeZoomIn .45s ease;
 }
 
-.heart {
-    font-size: 46px;
-    margin-bottom: 10px;
-    animation: heartbeat 2.2s infinite;
+.heart{
+    font-size:46px;
+    margin-bottom:10px;
+    animation:heartbeat 2.2s infinite;
 }
 
-.text {
-    font-size: 22px;
-    font-weight: 600;
-    line-height: 1.45;
-    color: #7a1f47;
-    min-height: 72px;
+.text{
+    font-size:22px;
+    font-weight:600;
+    line-height:1.45;
+    color:#7a1f47;
+    min-height:72px;
 }
 
-.cursor {
-    margin-left: 4px;
-    color: #d63384;
-    font-size: 20px;
-    animation: blink 1.2s infinite;
+.cursor{
+    margin-left:4px;
+    color:#d63384;
+    font-size:20px;
+    animation:blink 1.2s infinite;
 }
 
-.btn {
-    margin-top: 22px;
-    padding: 10px 48px;
-    font-size: 17px;
-    background: linear-gradient(180deg,#f7c4de,#f2aecd);
-    border: none;
-    border-radius: 999px;
-    cursor: pointer;
-    color: #4d0f2d;
+.btn{
+    margin-top:22px;
+    padding:10px 48px;
+    font-size:17px;
+    background:linear-gradient(180deg,#f7c4de,#f2aecd);
+    border:none;
+    border-radius:999px;
+    cursor:pointer;
+    color:#4d0f2d;
 }
 
-.hidden { display: none; }
+.hidden{display:none}
 
-/* Anim */
-@keyframes blink { 50% { opacity: 0; } }
-@keyframes heartbeat { 30% { transform: scale(1.1); } }
-@keyframes fadeZoomIn {
-    from { opacity:0; transform:scale(0.9); }
-    to { opacity:1; transform:scale(1); }
+@keyframes blink{50%{opacity:0}}
+@keyframes heartbeat{30%{transform:scale(1.1)}}
+@keyframes fadeZoomIn{
+    from{opacity:0;transform:scale(.9)}
+    to{opacity:1;transform:scale(1)}
 }
 
-/* Mobile tinh chỉnh */
-@media (max-width:480px) {
-    .text { font-size: 20px; }
+@media(max-width:480px){
+    .text{font-size:20px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- POPUP 1 -->
 <div id="popup1" class="pink-box">
     <div class="heart">💗</div>
     <div id="text1" class="text"></div>
     <button class="btn" onclick="nextPopup()">ok</button>
 </div>
 
-<!-- POPUP 2 -->
 <div id="popup2" class="pink-box hidden">
     <div class="heart">💓</div>
     <div id="text2" class="text"></div>
@@ -144,72 +138,83 @@ body::before {
 
 <script>
 /* ================= TEXT ================= */
-const message1 = "Bé Keii ơii, bé Keii có biết hôngg??";
-const message2 = "Em yêu chị nhiều lắm luôn á!";
+const message1="Bé Keii ơii, bé Keii có biết hôngg??";
+const message2="Em yêu chị nhiều lắm luôn á!";
 
-function typeText(id, text, speed = 65) {
-    const el = document.getElementById(id);
-    el.innerHTML = "";
-    let i = 0;
+function typeText(id,text,speed=65){
+    const el=document.getElementById(id);
+    el.innerHTML="";
+    let i=0;
 
-    const cursor = document.createElement("span");
-    cursor.className = "cursor";
-    cursor.textContent = "♥";
+    const cursor=document.createElement("span");
+    cursor.className="cursor";
+    cursor.textContent="♥";
     el.appendChild(cursor);
 
-    const timer = setInterval(() => {
+    const timer=setInterval(()=>{
         cursor.remove();
-        el.textContent += text[i];
+        el.textContent+=text[i];
         el.appendChild(cursor);
         i++;
-        if (i >= text.length) clearInterval(timer);
-    }, speed);
+        if(i>=text.length) clearInterval(timer);
+    },speed);
 }
 
 /* ================= STICKER ENGINE ================= */
-function rand(min,max){ return Math.random()*(max-min)+min; }
+function rand(min,max){return Math.random()*(max-min)+min;}
 
-function renderStickerSet(folder, total, cols, rows, extraClass="") {
-    let i = 1;
-    for(let r=0;r<rows;r++){
-        for(let c=0;c<cols;c++){
-            if(i > total) return;
+function placeSticker(img,cols,rows,delay){
+    const cw=innerWidth/cols;
+    const ch=innerHeight/rows;
 
-            const img = new Image();
-            img.src = `${folder}/${String(i).padStart(2,"0")}.png`;
-            img.className = `sticker-bg ${extraClass}`;
+    img.style.left=rand(0,innerWidth-60)+"px";
+    img.style.top=rand(0,innerHeight-60)+"px";
+    img.style.animationDelay=delay+"s";
+    document.body.appendChild(img);
+}
 
-            img.onload = () => {
-                const cw = innerWidth / cols;
-                const ch = innerHeight / rows;
+/* Sticker thường – thưa */
+function renderNormalStickers(){
+    for(let i=1;i<=47;i++){
+        const img=new Image();
+        img.src=`stickers/${String(i).padStart(2,"0")}.png`;
+        img.className="sticker-bg";
 
-                img.style.width = rand(46,78)+"px";
-                img.style.left = c*cw + rand(12,cw-90)+"px";
-                img.style.top = r*ch + rand(12,ch-90)+"px";
-                img.style.animationDelay = rand(0,1.4)+"s";
+        img.onload=()=>{
+            img.style.width=rand(50,78)+"px";
+            placeSticker(img,8,7,rand(0,1.2));
+        };
+    }
+}
 
-                document.body.appendChild(img);
+/* Panda – NHIỀU HƠN */
+function renderPandaStickers(){
+    const COPIES = 3; // 👈 mỗi panda lặp 3 lần
+    for(let c=0;c<COPIES;c++){
+        for(let i=1;i<=24;i++){
+            const img=new Image();
+            img.src=`stickers panda/${String(i).padStart(2,"0")}.png`;
+            img.className="sticker-bg sticker-panda";
+
+            img.onload=()=>{
+                img.style.width=rand(36,46)+"px";
+                placeSticker(img,6,4,rand(0,1.6));
             };
-            i++;
         }
     }
 }
 
 /* ================= FLOW ================= */
-window.onload = () => {
-    /* Sticker gốc */
-    renderStickerSet("stickers", 47, 8, 7);
-
-    /* Sticker panda – ít hơn, nhẹ hơn */
-    renderStickerSet("stickers panda", 24, 6, 4, "sticker-panda");
-
-    typeText("text1", message1);
+window.onload=()=>{
+    renderNormalStickers();
+    renderPandaStickers();
+    typeText("text1",message1);
 };
 
 function nextPopup(){
     popup1.classList.add("hidden");
     popup2.classList.remove("hidden");
-    typeText("text2", message2);
+    typeText("text2",message2);
 }
 
 function closePopup(){

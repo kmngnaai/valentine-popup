@@ -27,16 +27,24 @@ body::before{
 /* ================= STICKER ================= */
 .sticker{
     position:fixed;
-    pointer-events:auto;
     z-index:1;
     opacity:0;
     animation:life 6s ease-in-out forwards;
+    cursor:pointer;
+    transition:transform .15s ease;
+}
+
+/* tăng vùng chạm */
+.sticker::after{
+    content:"";
+    position:absolute;
+    inset:-12px;
 }
 
 @keyframes life{
     0%{opacity:0; transform:scale(.9)}
-    20%{opacity:.45; transform:scale(1)}
-    70%{opacity:.45}
+    20%{opacity:.55; transform:scale(1)}
+    70%{opacity:.55}
     100%{opacity:0; transform:scale(.95)}
 }
 
@@ -49,13 +57,12 @@ body::before{
 
 @keyframes pandaGlow{
     from{filter:drop-shadow(0 0 4px rgba(255,255,255,0.6));}
-    to{filter:drop-shadow(0 0 12px rgba(255,192,203,0.9));}
+    to{filter:drop-shadow(0 0 14px rgba(255,192,203,1));}
 }
 
 /* 🐼 Panda rụt lại */
 .panda:active{
-    transform:scale(0.75);
-    transition:transform .15s ease;
+    transform:scale(0.8);
 }
 
 /* ================= POPUP ================= */
@@ -118,12 +125,9 @@ body::before{
     pointer-events:none;
     z-index:4;
     animation:loveFloat 1.4s ease-out forwards;
-
     text-shadow:
         0 4px 8px rgba(0,0,0,0.45),
         0 0 12px rgba(255,105,180,0.6);
-
-    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35));
 }
 
 @keyframes loveFloat{
@@ -132,7 +136,6 @@ body::before{
     100%{opacity:0; transform:translateY(-90px) scale(1.15);}
 }
 
-/* ================= HEART ================= */
 .flying-heart{
     position:fixed;
     pointer-events:none;
@@ -145,6 +148,7 @@ body::before{
     100%{opacity:0; transform:translate(var(--x),var(--y)) scale(1.6);}
 }
 
+/* 📱 Mobile tăng size */
 @media(max-width:480px){
     .love-text{font-size:18px;}
 }
@@ -186,25 +190,8 @@ function typeText(id,text,speed=65){
     },speed);
 }
 
-/* ================= LOVE TEXT LIST ================= */
-const loveLines=[
-"Em yêu Kiều","Em yêu chị quó ò","Em nhớ Kiều","Em nhớ chị quó ò",
-"em yêu bé Keii","bé Keii của Rùa","yêu Keii",
-"Kiều ơi, moa moaaa","cục cưng ơi, muốn ôm ôm","ôm ôm",
-"yêu Kiều","yêu chị","nhớ Kiều","nhớ chị",
-"Umoaa umoazz","chụt chụttt","hun hun hun","hun chục cáii",
-"hít hítt","cục cưng ngoan ngoan","em thươnggg Kiềuu",
-"em muốn ôm ôm","cục cưng ơi, muốn hun hunn",
-"cục cưng ơi, muốn chị","cục cưng cục cưng em yêu chị",
-"cục cưng ơi, muốn ăn gì dạ","cục cưng có nhớ em hông dạ",
-"cục cưng có yêu em hông dạ","em yêu chị nhiều lắm luôn á",
-"dợ ơii, em yêu chị"
-];
-
-const candyColors=[
-"#ff2e8a","#ff3f95","#ff4d9e",
-"#ff5ca8","#ff2f6d","#ff477e"
-];
+/* ================= LOVE TEXT ================= */
+const loveLines=["Em yêu Kiều","Em nhớ Kiều","yêu chị","hun hun hun","Umoaa umoazz"];
 
 function rand(min,max){return Math.random()*(max-min)+min;}
 function randInt(min,max){return Math.floor(rand(min,max));}
@@ -213,25 +200,21 @@ function showLove(x,y){
     const div=document.createElement("div");
     div.className="love-text";
     div.textContent=loveLines[randInt(0,loveLines.length)];
-    div.style.color=candyColors[randInt(0,candyColors.length)];
+    div.style.color=["#ff2e8a","#ff3f95","#ff4d9e","#ff2f6d"][randInt(0,4)];
     div.style.left=x+"px";
     div.style.top=y+"px";
     document.body.appendChild(div);
     setTimeout(()=>div.remove(),1400);
 
-    spawnHearts(x,y);
-}
-
-function spawnHearts(x,y){
     for(let i=0;i<randInt(2,4);i++){
         const h=document.createElement("div");
         h.className="flying-heart";
         h.textContent="💗";
-        h.style.fontSize=rand(18,34)+"px";
+        h.style.fontSize=rand(22,38)+"px";
         h.style.left=x+"px";
         h.style.top=y+"px";
-        h.style.setProperty("--x",rand(-80,80)+"px");
-        h.style.setProperty("--y",rand(-120,-60)+"px");
+        h.style.setProperty("--x",rand(-100,100)+"px");
+        h.style.setProperty("--y",rand(-140,-60)+"px");
         document.body.appendChild(h);
         setTimeout(()=>h.remove(),1600);
     }
@@ -245,12 +228,18 @@ function spawnSticker(src,isPanda){
     if(isPanda) img.classList.add("panda");
 
     img.onload=()=>{
-        img.style.width=isPanda?rand(48,60)+"px":rand(46,62)+"px";
+        const isMobile=window.innerWidth<480;
+
+        if(isPanda){
+            img.style.width=isMobile?rand(70,90)+"px":rand(55,70)+"px";
+        }else{
+            img.style.width=isMobile?rand(60,80)+"px":rand(50,65)+"px";
+        }
 
         let x,y;
         do{
-            x=rand(0,innerWidth-60);
-            y=rand(0,innerHeight-60);
+            x=rand(0,innerWidth-80);
+            y=rand(0,innerHeight-80);
         }while(
             x>innerWidth/2-160 &&
             x<innerWidth/2+160 &&
@@ -271,10 +260,10 @@ function spawnSticker(src,isPanda){
 }
 
 function spawnWave(){
-    for(let i=0;i<randInt(6,9);i++){
+    for(let i=0;i<randInt(5,8);i++){
         spawnSticker(`stickers/${String(randInt(1,48)).padStart(2,"0")}.png`,false);
     }
-    for(let i=0;i<randInt(14,19);i++){
+    for(let i=0;i<randInt(10,14);i++){
         spawnSticker(`stickers panda/${String(randInt(1,25)).padStart(2,"0")}.png`,true);
     }
 }

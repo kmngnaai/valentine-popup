@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Valentine's For Keiii</title>
 
 <style>
@@ -26,7 +26,6 @@ body::before{
     inset:0;
     background:rgba(0,0,0,.22);
     z-index:0;
-    transition:.6s;
 }
 
 .dark::before{
@@ -40,7 +39,6 @@ body::before{
     z-index:1;
     opacity:0;
     animation:life 3.5s ease-in-out forwards;
-    transition:opacity .6s;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
 }
@@ -50,10 +48,10 @@ body::before{
 }
 
 @keyframes life{
-    0%{opacity:0; transform:scale(.85);}
-    21%{opacity:.95; transform:scale(1);}
-    78%{opacity:.95;}
-    100%{opacity:0; transform:scale(.9);}
+    0%{opacity:0; transform:scale(.9);}
+    20%{opacity:.95; transform:scale(1);}
+    80%{opacity:.95;}
+    100%{opacity:0; transform:scale(.95);}
 }
 
 .panda{
@@ -63,12 +61,12 @@ body::before{
 }
 
 @keyframes pandaGlow{
-    from{filter:drop-shadow(0 0 10px rgba(255,255,255,0.8));}
-    to{filter:drop-shadow(0 0 24px rgba(255,192,203,1));}
+    from{filter:drop-shadow(0 0 6px rgba(255,255,255,0.7));}
+    to{filter:drop-shadow(0 0 16px rgba(255,192,203,1));}
 }
 
 .panda:active{
-    transform:scale(0.8);
+    transform:scale(0.85);
     transition:transform .15s ease;
 }
 
@@ -115,7 +113,7 @@ body::before{
 /* ================= LOVE TEXT ================= */
 .love-text{
     position:fixed;
-    font-size:28px;
+    font-size:26px;
     font-weight:900;
     pointer-events:none;
     z-index:4;
@@ -123,9 +121,9 @@ body::before{
 }
 
 @keyframes loveFloat{
-    0%{opacity:0; transform:translateY(0) scale(.8);}
+    0%{opacity:0; transform:translateY(0) scale(.9);}
     25%{opacity:1;}
-    100%{opacity:0; transform:translateY(-110px) scale(1.2);}
+    100%{opacity:0; transform:translateY(-100px) scale(1.2);}
 }
 
 .flying-heart{
@@ -143,7 +141,7 @@ body::before{
 /* ================= PHONG THƯ ================= */
 .envelope{
     position:fixed;
-    font-size:80px;
+    font-size:75px;
     z-index:10;
     top:-120px;
     left:50%;
@@ -228,7 +226,7 @@ body::before{
 
 <script>
 
-const loveMessages = [
+const loveMessages=[
 "Em yêu Kiều","Em yêu chị quó ò","Em nhớ Kiều","Em nhớ chị quó ò",
 "em yêu bé Keii","bé Keii của Rùa","yêu Keii","Kiều ơi, moa moaaa",
 "cục cưng ơi, muốn ôm ôm","ôm ôm","yêu Kiều","yêu chị","nhớ Kiều",
@@ -252,15 +250,10 @@ function getRandomMessage(){
 }
 
 function generateCuteColor(){
-    const pastelHues=[
-        300,310,320,330,340,350,
-        10,20,30,
-        260,270,280,290,
-        40,50
-    ];
+    const pastelHues=[300,310,320,330,340,350,10,20,30,260,270,280,290,40,50];
     const hue=pastelHues[Math.floor(Math.random()*pastelHues.length)];
-    const saturation=70+Math.random()*10;
-    const lightness=65+Math.random()*5;
+    const saturation=70+Math.random()*8;
+    const lightness=66+Math.random()*4;
     return `hsl(${hue},${saturation}%,${lightness}%)`;
 }
 
@@ -275,8 +268,8 @@ function showLove(x,y){
     const color=generateCuteColor();
     div.style.color=color;
     div.style.textShadow=`
-        0 3px 6px rgba(0,0,0,0.35),
-        0 0 10px rgba(255,255,255,0.9),
+        0 2px 6px rgba(0,0,0,0.3),
+        0 0 10px rgba(255,255,255,0.8),
         0 0 18px ${color}
     `;
 
@@ -286,15 +279,15 @@ function showLove(x,y){
     document.body.appendChild(div);
     setTimeout(()=>div.remove(),1400);
 
-    for(let i=0;i<5;i++){
+    for(let i=0;i<4;i++){
         const h=document.createElement("div");
         h.className="flying-heart";
         h.textContent="💗";
-        h.style.fontSize=rand(28,55)+"px";
+        h.style.fontSize=rand(24,48)+"px";
         h.style.left=x+"px";
         h.style.top=y+"px";
-        h.style.setProperty("--x",rand(-160,160)+"px");
-        h.style.setProperty("--y",rand(-200,-90)+"px");
+        h.style.setProperty("--x",rand(-140,140)+"px");
+        h.style.setProperty("--y",rand(-180,-90)+"px");
         document.body.appendChild(h);
         setTimeout(()=>h.remove(),1600);
     }
@@ -307,12 +300,11 @@ function spawnSticker(src,isPanda){
     if(isPanda) img.classList.add("panda");
 
     img.onload=()=>{
-        img.style.width=isPanda?rand(120,160)+"px":rand(95,120)+"px";
-        img.style.left=rand(0,innerWidth-150)+"px";
-        img.style.top=rand(0,innerHeight-150)+"px";
+        img.style.width=isPanda?rand(90,110)+"px":rand(70,85)+"px";
+        img.style.left=rand(0,innerWidth-120)+"px";
+        img.style.top=rand(0,innerHeight-120)+"px";
 
         img.addEventListener("click",(e)=>{
-            e.preventDefault();
             showLove(e.clientX,e.clientY);
         });
 
@@ -322,10 +314,10 @@ function spawnSticker(src,isPanda){
 }
 
 function spawnWave(){
-    for(let i=0;i<5;i++){
+    for(let i=0;i<8;i++){
         spawnSticker(`stickers/${String(randInt(1,48)).padStart(2,"0")}.png`,false);
     }
-    for(let i=0;i<30;i++){
+    for(let i=0;i<18;i++){
         spawnSticker(`stickers panda/${String(randInt(1,25)).padStart(2,"0")}.png`,true);
     }
 }

@@ -67,20 +67,24 @@ body::before{
     to{opacity:0; transform:translate(var(--dx),var(--dy)) scale(1.4)}
 }
 
-/* 💬 Text bay */
+/* 💬 TEXT BAY – NÂNG CẤP NỔ TRÊN NỀN */
 .love-text{
     position:fixed;
-    font-size:15px;
-    font-weight:600;
+    font-size:16px;
+    font-weight:700;
     white-space:nowrap;
     pointer-events:none;
-    z-index:3;
+    z-index:4;
     animation:loveFloat 1.4s ease-out forwards;
+    text-shadow:
+        0 0 4px rgba(255,255,255,0.8),
+        0 0 8px rgba(255,255,255,0.6),
+        0 2px 6px rgba(255,105,180,0.35);
 }
 
 @keyframes loveFloat{
     from{opacity:1; transform:translate(0,0) scale(1)}
-    to{opacity:0; transform:translate(var(--dx),-60px) scale(1.1)}
+    to{opacity:0; transform:translate(var(--dx),-65px) scale(1.15)}
 }
 
 /* ================= POPUP ================= */
@@ -194,25 +198,21 @@ function typeText(id,text,speed=65){
 function rand(min,max){return Math.random()*(max-min)+min;}
 function randInt(min,max){return Math.floor(rand(min,max));}
 
-/* 💗 Tim bay random size */
+/* 💗 Tim random size */
 function spawnHeart(x,y){
     const h=document.createElement("div");
     h.className="heart-fly";
     h.textContent="💗";
     h.style.left=x+"px";
     h.style.top=y+"px";
-
-    const size=rand(16,26);
-    h.style.fontSize=size+"px";
-
+    h.style.fontSize=rand(18,28)+"px";
     h.style.setProperty("--dx",rand(-40,40)+"px");
     h.style.setProperty("--dy",rand(-60,-30)+"px");
-
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),1100);
 }
 
-/* 💬 Text pastel random */
+/* 💬 Text pastel + nổi */
 function spawnLoveText(x,y){
     const t=document.createElement("div");
     t.className="love-text";
@@ -220,10 +220,13 @@ function spawnLoveText(x,y){
     t.style.left=x+"px";
     t.style.top=y+"px";
 
-    const hue=randInt(320,360); // tông hồng
-    t.style.color=`hsl(${hue},80%,70%)`;
+    const pastelHues=[330,350,15,280,300,160,40];
+    const hue=pastelHues[randInt(0,pastelHues.length)];
+    const sat=rand(65,75);
+    const light=rand(78,88);
 
-    t.style.setProperty("--dx",rand(-20,20)+"px");
+    t.style.color=`hsl(${hue},${sat}%,${light}%)`;
+    t.style.setProperty("--dx",rand(-25,25)+"px");
 
     document.body.appendChild(t);
     setTimeout(()=>t.remove(),1400);

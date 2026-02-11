@@ -176,10 +176,8 @@ function spawnHeart(x,y){
     h.textContent="💗";
     h.style.left=x+"px";
     h.style.top=y+"px";
-
     h.style.setProperty("--dx", rand(-40,40)+"px");
     h.style.setProperty("--dy", rand(-60,-30)+"px");
-
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),1100);
 }
@@ -190,15 +188,15 @@ function spawnSticker(src,isPanda){
     img.className="sticker"+(isPanda?" panda":"");
 
     img.onload=()=>{
-        /* 🐼 Panda to hơn ~20% */
+        /* 🐼 PANDA TO HƠN */
         img.style.width=isPanda
-            ? rand(44,54)+"px"
+            ? rand(56,70)+"px"
             : rand(46,62)+"px";
 
         let x,y;
         do{
-            x=rand(0,innerWidth-70);
-            y=rand(0,innerHeight-70);
+            x=rand(0,innerWidth-80);
+            y=rand(0,innerHeight-80);
         }while(
             x>innerWidth/2-160 &&
             x<innerWidth/2+160 &&
@@ -213,12 +211,9 @@ function spawnSticker(src,isPanda){
             const react=e=>{
                 const p=e.touches?e.touches[0]:e;
                 spawnHeart(p.clientX,p.clientY);
-
-                /* 🐼 Rụt lại */
                 img.style.transform="scale(0.82)";
                 setTimeout(()=>img.style.transform="scale(1)",160);
             };
-
             img.addEventListener("click",react);
             img.addEventListener("touchstart",react,{passive:true});
         }

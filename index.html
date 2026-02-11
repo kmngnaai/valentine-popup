@@ -27,10 +27,24 @@ body::before{
 /* ================= STICKER ================= */
 .sticker{
     position:fixed;
-    pointer-events:none;
+    pointer-events:auto;
     z-index:1;
     opacity:0;
     animation:life 6s ease-in-out forwards;
+}
+
+/* ✨ Panda riêng */
+.panda{
+    animation:
+        life 6s ease-in-out forwards,
+        pandaBling 2.8s ease-in-out infinite;
+    filter: drop-shadow(0 0 4px rgba(255,190,210,.6));
+}
+
+@keyframes pandaBling{
+    0%{filter:drop-shadow(0 0 3px rgba(255,190,210,.4))}
+    50%{filter:drop-shadow(0 0 7px rgba(255,140,180,.8))}
+    100%{filter:drop-shadow(0 0 3px rgba(255,190,210,.4))}
 }
 
 @keyframes life{
@@ -38,6 +52,21 @@ body::before{
     20%{opacity:.45; transform:scale(1)}
     70%{opacity:.45}
     100%{opacity:0; transform:scale(.95)}
+}
+
+/* 💗 Tim bay */
+.heart-fly{
+    position:fixed;
+    font-size:18px;
+    color:#ff4d8d;
+    pointer-events:none;
+    animation:heartFly 1s ease-out forwards;
+    z-index:3;
+}
+
+@keyframes heartFly{
+    0%{opacity:1; transform:translateY(0) scale(1)}
+    100%{opacity:0; transform:translateY(-40px) scale(1.4)}
 }
 
 /* ================= POPUP ================= */
@@ -138,15 +167,24 @@ function typeText(id,text,speed=65){
 function rand(min,max){return Math.random()*(max-min)+min;}
 function randInt(min,max){return Math.floor(rand(min,max));}
 
+function spawnHeart(x,y){
+    const h=document.createElement("div");
+    h.className="heart-fly";
+    h.textContent="💗";
+    h.style.left=x+"px";
+    h.style.top=y+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),1000);
+}
+
 function spawnSticker(src,isPanda){
     const img=new Image();
     img.src=src;
-    img.className="sticker";
+    img.className="sticker"+(isPanda?" panda":"");
 
     img.onload=()=>{
         img.style.width=isPanda?rand(36,44)+"px":rand(46,62)+"px";
 
-        // né popup trung tâm
         let x,y;
         do{
             x=rand(0,innerWidth-60);
@@ -160,24 +198,30 @@ function spawnSticker(src,isPanda){
 
         img.style.left=x+"px";
         img.style.top=y+"px";
-        document.body.appendChild(img);
 
+        if(isPanda){
+            img.addEventListener("click",e=>{
+                spawnHeart(e.clientX,e.clientY);
+            });
+            img.addEventListener("touchstart",e=>{
+                const t=e.touches[0];
+                spawnHeart(t.clientX,t.clientY);
+            });
+        }
+
+        document.body.appendChild(img);
         setTimeout(()=>img.remove(),6000);
     };
 }
 
-/* MỖI ĐỢT */
+/* ================= WAVE ================= */
 function spawnWave(){
-    // ít sticker thường
     for(let i=0;i<randInt(6,9);i++){
-        const id=randInt(1,48);
-        spawnSticker(`stickers/${String(id).padStart(2,"0")}.png`,false);
+        spawnSticker(`stickers/${String(randInt(1,48)).padStart(2,"0")}.png`,false);
     }
 
-    // panda nhiều hơn
     for(let i=0;i<randInt(14,19);i++){
-        const id=randInt(1,25);
-        spawnSticker(`stickers panda/${String(id).padStart(2,"0")}.png`,true);
+        spawnSticker(`stickers panda/${String(randInt(1,25)).padStart(2,"0")}.png`,true);
     }
 }
 
@@ -185,7 +229,7 @@ function spawnWave(){
 window.onload=()=>{
     typeText("text1",message1);
     spawnWave();
-    setInterval(spawnWave,7000); // 👈 từng đợt, không ngộp
+    setInterval(spawnWave,7000);
 };
 
 function nextPopup(){

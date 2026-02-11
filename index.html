@@ -5,12 +5,11 @@
 <title>Valentine Night Pink</title>
 
 <style>
-/* ================= BODY ================= */
 body {
     margin: 0;
     min-height: 100vh;
 
-    /* 🌸 DÙNG FILE BẠN VỪA UP */
+    /* 🌸 DÙNG CHUNG NỀN MOBILE + DESKTOP */
     background-image: url("valentines-mobile.png");
     background-size: cover;
     background-position: center;
@@ -24,25 +23,32 @@ body {
     overflow: hidden;
 }
 
-/* Overlay đêm nhẹ */
+/* Overlay đêm */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.22);
+    background: rgba(0,0,0,0.25);
     z-index: 0;
 }
 
-/* ================= STICKER ================= */
+/* ================= STICKER CHUNG ================= */
 .sticker-bg {
     position: fixed;
     z-index: 1;
     pointer-events: none;
     opacity: 0;
     animation: breathe 8s ease-in-out infinite;
-    will-change: opacity;
+    will-change: opacity, transform;
 }
 
+/* Panda nhỏ hơn xíu cho dịu */
+.sticker-panda {
+    width: 42px !important;
+    opacity: 0;
+}
+
+/* ✨ xuất hiện → mờ → hiện lại */
 @keyframes breathe {
     0%   { opacity: 0; }
     25%  { opacity: 0.45; }
@@ -56,17 +62,16 @@ body::before {
     position: relative;
     z-index: 2;
 
-    width: 420px;
-    max-width: calc(100vw - 48px);
+    width: min(92vw, 460px);
+    padding: 26px 24px 30px;
 
-    background: #fff7fb;
+    background: linear-gradient(180deg,#fff9fc,#fff3f8);
     border-radius: 26px;
-    border: 3px solid #e5a3c2;
-    padding: 26px 28px 30px;
+    border: 2px solid #f0b7d3;
 
     box-shadow:
-        0 0 0 6px rgba(255,255,255,0.35),
-        0 28px 60px rgba(0,0,0,0.45);
+        0 10px 28px rgba(0,0,0,0.25),
+        0 0 0 6px rgba(255,255,255,0.4);
 
     text-align: center;
     animation: fadeZoomIn 0.5s ease;
@@ -79,61 +84,44 @@ body::before {
 }
 
 .text {
-    font-size: 23px;
+    font-size: 22px;
     font-weight: 600;
     line-height: 1.45;
-    min-height: 72px;
     color: #7a1f47;
-    padding: 0 6px;
+    min-height: 72px;
 }
 
 .cursor {
     margin-left: 4px;
     color: #d63384;
-    font-size: 22px;
+    font-size: 20px;
     animation: blink 1.2s infinite;
 }
 
 .btn {
-    margin-top: 26px;
-    padding: 12px 52px;
+    margin-top: 22px;
+    padding: 10px 48px;
     font-size: 17px;
-    background: #f2b6d8;
+    background: linear-gradient(180deg,#f7c4de,#f2aecd);
     border: none;
-    border-radius: 12px;
+    border-radius: 999px;
     cursor: pointer;
     color: #4d0f2d;
 }
 
-.btn:active {
-    transform: scale(0.96);
-}
-
 .hidden { display: none; }
 
-/* ================= ANIM ================= */
+/* Anim */
 @keyframes blink { 50% { opacity: 0; } }
-@keyframes heartbeat { 30% { transform: scale(1.12); } }
+@keyframes heartbeat { 30% { transform: scale(1.1); } }
 @keyframes fadeZoomIn {
-    from { opacity:0; transform:scale(0.88); }
+    from { opacity:0; transform:scale(0.9); }
     to { opacity:1; transform:scale(1); }
 }
 
-/* ================= MOBILE ================= */
+/* Mobile tinh chỉnh */
 @media (max-width:480px) {
-    .pink-box {
-        width: calc(100vw - 32px);
-        padding: 24px 22px 28px;
-    }
-
-    .text {
-        font-size: 21px;
-        min-height: 78px;
-    }
-
-    .btn {
-        padding: 12px 48px;
-    }
+    .text { font-size: 20px; }
 }
 </style>
 </head>
@@ -159,7 +147,7 @@ body::before {
 const message1 = "Bé Keii ơii, bé Keii có biết hôngg??";
 const message2 = "Em yêu chị nhiều lắm luôn á!";
 
-function typeText(id, text, speed = 70) {
+function typeText(id, text, speed = 65) {
     const el = document.getElementById(id);
     el.innerHTML = "";
     let i = 0;
@@ -178,31 +166,27 @@ function typeText(id, text, speed = 70) {
     }, speed);
 }
 
-/* ================= STICKER ================= */
-const TOTAL = 47;
-const COLS = 8;
-const ROWS = 7;
-
+/* ================= STICKER ENGINE ================= */
 function rand(min,max){ return Math.random()*(max-min)+min; }
 
-function renderStickers() {
+function renderStickerSet(folder, total, cols, rows, extraClass="") {
     let i = 1;
-    for(let r=0;r<ROWS;r++){
-        for(let c=0;c<COLS;c++){
-            if(i > TOTAL) return;
+    for(let r=0;r<rows;r++){
+        for(let c=0;c<cols;c++){
+            if(i > total) return;
 
             const img = new Image();
-            img.src = `stickers/${String(i).padStart(2,"0")}.png`;
-            img.className = "sticker-bg";
+            img.src = `${folder}/${String(i).padStart(2,"0")}.png`;
+            img.className = `sticker-bg ${extraClass}`;
 
             img.onload = () => {
-                const cw = innerWidth / COLS;
-                const ch = innerHeight / ROWS;
+                const cw = innerWidth / cols;
+                const ch = innerHeight / rows;
 
-                img.style.width = rand(48,78) + "px";
-                img.style.left = c*cw + rand(12,cw-78) + "px";
-                img.style.top  = r*ch + rand(12,ch-78) + "px";
-                img.style.animationDelay = rand(0,1.4) + "s";
+                img.style.width = rand(46,78)+"px";
+                img.style.left = c*cw + rand(12,cw-90)+"px";
+                img.style.top = r*ch + rand(12,ch-90)+"px";
+                img.style.animationDelay = rand(0,1.4)+"s";
 
                 document.body.appendChild(img);
             };
@@ -213,7 +197,12 @@ function renderStickers() {
 
 /* ================= FLOW ================= */
 window.onload = () => {
-    renderStickers();
+    /* Sticker gốc */
+    renderStickerSet("stickers", 47, 8, 7);
+
+    /* Sticker panda – ít hơn, nhẹ hơn */
+    renderStickerSet("stickers panda", 24, 6, 4, "sticker-panda");
+
     typeText("text1", message1);
 };
 

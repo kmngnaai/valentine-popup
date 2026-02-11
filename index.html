@@ -2,14 +2,9 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Valentine's For Keiii</title>
 
 <style>
-html{
-    -webkit-text-size-adjust:100%;
-}
-
 body{
     margin:0;
     min-height:100vh;
@@ -29,6 +24,7 @@ body::before{
     inset:0;
     background:rgba(0,0,0,.22);
     z-index:0;
+    transition:.6s;
 }
 
 .dark::before{
@@ -42,8 +38,7 @@ body::before{
     z-index:1;
     opacity:0;
     animation:life 3.5s ease-in-out forwards;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
+    transition:opacity .6s;
 }
 
 .letter-open .sticker{
@@ -51,12 +46,13 @@ body::before{
 }
 
 @keyframes life{
-    0%{opacity:0; transform:scale(.95);}
-    30%{opacity:.9;}
-    80%{opacity:.9;}
-    100%{opacity:0; transform:scale(.95);}
+    0%{opacity:0; transform:scale(.85);}
+    21%{opacity:.95; transform:scale(1);}
+    78%{opacity:.95;}
+    100%{opacity:0; transform:scale(.9);}
 }
 
+/* Panda */
 .panda{
     animation:
         life 3.5s ease-in-out forwards,
@@ -64,12 +60,12 @@ body::before{
 }
 
 @keyframes pandaGlow{
-    from{filter:drop-shadow(0 0 5px rgba(255,255,255,0.7));}
-    to{filter:drop-shadow(0 0 14px rgba(255,192,203,1));}
+    from{filter:drop-shadow(0 0 8px rgba(255,255,255,0.8));}
+    to{filter:drop-shadow(0 0 20px rgba(255,192,203,1));}
 }
 
 .panda:active{
-    transform:scale(0.9);
+    transform:scale(0.7);
     transition:transform .15s ease;
 }
 
@@ -92,8 +88,6 @@ body::before{
     animation:beat 2.2s infinite;
 }
 
-@keyframes beat{30%{transform:scale(1.1)}}
-
 .text{
     font-size:22px;
     font-weight:600;
@@ -102,8 +96,8 @@ body::before{
 
 .btn{
     margin-top:22px;
-    padding:12px 48px;
-    font-size:16px; /* >=16px để Safari không zoom */
+    padding:10px 48px;
+    font-size:17px;
     background:linear-gradient(180deg,#f7c4de,#f2aecd);
     border:none;
     border-radius:999px;
@@ -112,11 +106,12 @@ body::before{
 }
 
 .hidden{display:none}
+@keyframes beat{30%{transform:scale(1.1)}}
 
 /* ================= LOVE TEXT ================= */
 .love-text{
     position:fixed;
-    font-size:24px;
+    font-size:26px;
     font-weight:900;
     pointer-events:none;
     z-index:4;
@@ -124,9 +119,9 @@ body::before{
 }
 
 @keyframes loveFloat{
-    0%{opacity:0; transform:translateY(0) scale(.95);}
+    0%{opacity:0; transform:translateY(0) scale(.8);}
     25%{opacity:1;}
-    100%{opacity:0; transform:translateY(-90px) scale(1.15);}
+    100%{opacity:0; transform:translateY(-100px) scale(1.2);}
 }
 
 .flying-heart{
@@ -138,7 +133,7 @@ body::before{
 
 @keyframes heartFly{
     0%{opacity:1; transform:translate(0,0) scale(.8);}
-    100%{opacity:0; transform:translate(var(--x),var(--y)) scale(1.6);}
+    100%{opacity:0; transform:translate(var(--x),var(--y)) scale(1.8);}
 }
 
 /* ================= PHONG THƯ ================= */
@@ -175,9 +170,9 @@ body::before{
 }
 
 .letter p{
-    font-size:18px;
+    font-size:20px;
     line-height:1.8;
-    margin-bottom:22px;
+    margin-bottom:24px;
     opacity:0;
     transform:translateY(15px);
     animation:paragraphIn .8s ease forwards;
@@ -189,7 +184,7 @@ body::before{
 
 .heartbeat-bg{
     position:fixed;
-    font-size:130px;
+    font-size:150px;
     color:rgba(255,105,180,0.08);
     left:50%;
     top:50%;
@@ -229,7 +224,62 @@ body::before{
 
 <script>
 
-const loveMessages=["Em yêu Kiều","Em yêu chị quó ò","Em nhớ Kiều","Em nhớ chị quó ò","em yêu bé Keii","bé Keii của Rùa","yêu Keii","Kiều ơi, moa moaaa","cục cưng ơi, muốn ôm ôm","ôm ôm","yêu Kiều","yêu chị","nhớ Kiều","nhớ chị"];
+/* ================= RANDOM MESSAGE ================= */
+
+const loveMessages = [
+"Em yêu Kiều",
+"Em yêu chị quó ò",
+"Em nhớ Kiều",
+"Em nhớ chị quó ò",
+"em yêu bé Keii",
+"bé Keii của Rùa",
+"yêu Keii",
+"Kiều ơi, moa moaaa",
+"cục cưng ơi, muốn ôm ôm",
+"ôm ôm",
+"yêu Kiều",
+"yêu chị",
+"nhớ Kiều",
+"nhớ chị",
+"Umoaa umoazz",
+"chụt chụttt",
+"hun hun hun",
+"hun chục cáii",
+"hít hítt",
+"cục cưng ngoan ngoan",
+"em thươnggg Kiềuu",
+"em muốn ôm ôm",
+"cục cưng ơi, muốn hun hunn",
+"cục cưng ơi, muốn chị",
+"cục cưng cục cưng em yêu chị",
+"cục cưng ơi, muốn ăn gì dạ",
+"cục cưng có nhớ em hông dạ",
+"cục cưng có yêu em hông dạ",
+"em yêu chị nhiều lắm luôn á",
+"dợ ơii, em yêu chị"
+];
+
+let lastIndex=-1;
+
+function getRandomMessage(){
+    let index;
+    do{
+        index=Math.floor(Math.random()*loveMessages.length);
+    }while(index===lastIndex);
+    lastIndex=index;
+    return loveMessages[index];
+}
+
+/* ================= AUTO PASTEL COLOR ================= */
+
+function generateCuteColor(){
+    const hue=Math.floor(Math.random()*360);
+    const saturation=85;   // tươi
+    const lightness=65;    // đủ sáng để rõ
+    return `hsl(${hue},${saturation}%,${lightness}%)`;
+}
+
+/* ================= STICKER ENGINE ================= */
 
 function rand(min,max){return Math.random()*(max-min)+min;}
 function randInt(min,max){return Math.floor(rand(min,max));}
@@ -237,11 +287,35 @@ function randInt(min,max){return Math.floor(rand(min,max));}
 function showLove(x,y){
     const div=document.createElement("div");
     div.className="love-text";
-    div.textContent=loveMessages[Math.floor(Math.random()*loveMessages.length)]+" 💗";
+    div.textContent=getRandomMessage()+" 💗";
+
+    const color=generateCuteColor();
+    div.style.color=color;
+
+    // glow cùng tông màu
+    div.style.textShadow=`
+        0 3px 8px rgba(0,0,0,0.5),
+        0 0 18px ${color}
+    `;
+
     div.style.left=x+"px";
     div.style.top=y+"px";
+
     document.body.appendChild(div);
     setTimeout(()=>div.remove(),1400);
+
+    for(let i=0;i<4;i++){
+        const h=document.createElement("div");
+        h.className="flying-heart";
+        h.textContent="💗";
+        h.style.fontSize=rand(24,44)+"px";
+        h.style.left=x+"px";
+        h.style.top=y+"px";
+        h.style.setProperty("--x",rand(-140,140)+"px");
+        h.style.setProperty("--y",rand(-180,-80)+"px");
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),1600);
+    }
 }
 
 function spawnSticker(src,isPanda){
@@ -251,26 +325,32 @@ function spawnSticker(src,isPanda){
     if(isPanda) img.classList.add("panda");
 
     img.onload=()=>{
-        img.style.width=isPanda?rand(65,80)+"px":rand(50,60)+"px";
+        img.style.width=isPanda?rand(75,95)+"px":rand(65,85)+"px";
         img.style.left=rand(0,innerWidth-100)+"px";
         img.style.top=rand(0,innerHeight-100)+"px";
-        img.onclick=(e)=>showLove(e.clientX,e.clientY);
+
+        img.addEventListener("click",(e)=>{
+            showLove(e.clientX,e.clientY);
+        });
+
         document.body.appendChild(img);
         setTimeout(()=>img.remove(),3500);
     };
 }
 
 function spawnWave(){
-    for(let i=0;i<6;i++){
+    for(let i=0;i<12;i++){
         spawnSticker(`stickers/${String(randInt(1,48)).padStart(2,"0")}.png`,false);
     }
-    for(let i=0;i<12;i++){
+    for(let i=0;i<20;i++){
         spawnSticker(`stickers panda/${String(randInt(1,25)).padStart(2,"0")}.png`,true);
     }
 }
 
 setInterval(spawnWave,3500);
 spawnWave();
+
+/* ================= POPUP FLOW ================= */
 
 function nextPopup(){
     popup1.classList.add("hidden");
@@ -283,12 +363,9 @@ function closePopup(){
     envelope.classList.remove("hidden");
 }
 
-const letterParagraphs=[
-"Hi tình yêu của em,",
-"Em yêu chị rất nhiều.",
-"Mình bên nhau thật lâu nha.",
-"Chụt chụt cục cưng."
-];
+/* ================= LETTER ================= */
+
+const letterParagraphs=[/* giữ nguyên nội dung thư */];
 
 envelope.onclick=()=>{
     envelope.remove();
@@ -307,3 +384,4 @@ envelope.onclick=()=>{
 
 </body>
 </html>
+

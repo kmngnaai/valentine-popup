@@ -156,27 +156,30 @@ body::before{
 .letter{
     position:fixed;
     inset:0;
-    background:linear-gradient(180deg,#fff8fb,#fff1f6);
+    background:url("ThuNen.png") center/cover no-repeat;
     z-index:20;
     padding:80px 30px;
     overflow-y:auto;
     display:none;
 }
 
-.letter h2{
-    text-align:center;
-    color:#b11b5c;
-    margin-bottom:40px;
+/* Overlay làm dịu nền */
+.letter::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(255,255,255,0.75); /* chỉnh độ mờ ở đây */
+    z-index:0;
 }
 
-.letter p{
-    font-size:20px;
-    line-height:1.8;
-    margin-bottom:24px;
-    opacity:0;
-    transform:translateY(15px);
-    animation:paragraphIn .8s ease forwards;
+/* Đảm bảo chữ nằm trên overlay */
+.letter h2,
+.letter p,
+.heartbeat-bg{
+    position:relative;
+    z-index:1;
 }
+
 
 @keyframes paragraphIn{
     to{ opacity:1; transform:translateY(0); }
@@ -220,7 +223,12 @@ body::before{
     <div class="heartbeat-bg">💗</div>
     <h2>14.02.2026</h2>
     <div id="letterContent"></div>
+
+    <button id="closeLetterBtn" class="btn" style="margin-top:40px;">
+        Đóng thư 💗
+    </button>
 </div>
+
 
 <script>
 
@@ -368,9 +376,11 @@ function closePopup(){
 const letterParagraphs=[/* giữ nguyên nội dung thư */];
 
 envelope.onclick=()=>{
-    envelope.remove();
+    envelope.classList.add("hidden"); // Ẩn chứ không remove
+
     document.body.classList.add("letter-open");
     letter.style.display="block";
+
     letterParagraphs.forEach((text,i)=>{
         setTimeout(()=>{
             const p=document.createElement("p");
@@ -379,6 +389,23 @@ envelope.onclick=()=>{
         },i*1200);
     });
 };
+
+const closeLetterBtn = document.getElementById("closeLetterBtn");
+
+closeLetterBtn.onclick = () => {
+
+    letter.style.display = "none";
+
+    document.body.classList.remove("letter-open");
+    document.body.classList.remove("dark");
+
+    letterContent.innerHTML = "";
+
+    popup1.classList.remove("hidden");
+
+    envelope.classList.remove("hidden"); // Lúc này sẽ hoạt động
+};
+
 
 </script>
 

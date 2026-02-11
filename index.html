@@ -36,9 +36,9 @@ body::before{
 /* 0.75 in – 2s giữ – 0.75 out */
 @keyframes life{
     0%{opacity:0; transform:scale(.85);}
-    21%{opacity:.95; transform:scale(1);}   /* 0.75s */
-    78%{opacity:.95;}                      /* giữ 2s */
-    100%{opacity:0; transform:scale(.9);}  /* 0.75s */
+    21%{opacity:.95; transform:scale(1);}
+    78%{opacity:.95;}
+    100%{opacity:0; transform:scale(.9);}
 }
 
 /* ✨ Panda lấp lánh */
@@ -49,13 +49,13 @@ body::before{
 }
 
 @keyframes pandaGlow{
-    from{filter:drop-shadow(0 0 6px rgba(255,255,255,0.7));}
-    to{filter:drop-shadow(0 0 16px rgba(255,192,203,1));}
+    from{filter:drop-shadow(0 0 8px rgba(255,255,255,0.8));}
+    to{filter:drop-shadow(0 0 20px rgba(255,192,203,1));}
 }
 
 /* 🐼 Panda rụt lại */
 .panda:active{
-    transform:scale(0.75);
+    transform:scale(0.7);
     transition:transform .15s ease;
 }
 
@@ -106,33 +106,30 @@ body::before{
 }
 
 .hidden{display:none}
-
 @keyframes blink{50%{opacity:0}}
 @keyframes beat{30%{transform:scale(1.1)}}
 
 /* ================= LOVE TEXT ================= */
 .love-text{
     position:fixed;
-    font-size:22px;
+    font-size:24px;
     font-weight:900;
     white-space:nowrap;
     pointer-events:none;
     z-index:4;
     animation:loveFloat 1.4s ease-out forwards;
-
     text-shadow:
-        0 4px 8px rgba(0,0,0,0.45),
-        0 0 12px rgba(255,105,180,0.6);
-
-    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35));
+        0 4px 10px rgba(0,0,0,0.5),
+        0 0 18px rgba(255,105,180,0.9);
 }
 
 @keyframes loveFloat{
     0%{opacity:0; transform:translateY(0) scale(.8);}
     25%{opacity:1;}
-    100%{opacity:0; transform:translateY(-90px) scale(1.15);}
+    100%{opacity:0; transform:translateY(-100px) scale(1.2);}
 }
 
+/* ================= HEART ================= */
 .flying-heart{
     position:fixed;
     pointer-events:none;
@@ -142,11 +139,11 @@ body::before{
 
 @keyframes heartFly{
     0%{opacity:1; transform:translate(0,0) scale(.8);}
-    100%{opacity:0; transform:translate(var(--x),var(--y)) scale(1.6);}
+    100%{opacity:0; transform:translate(var(--x),var(--y)) scale(1.8);}
 }
 
 @media(max-width:480px){
-    .love-text{font-size:18px;}
+    .love-text{font-size:20px;}
 }
 </style>
 </head>
@@ -187,7 +184,17 @@ function typeText(id,text,speed=65){
 }
 
 /* ================= LOVE ================= */
-const loveLines=["Em yêu Kiều","Em nhớ Kiều","hun hun hun","Umoaa umoazz"];
+
+const loveLines=[
+"Em yêu Kiều","Em nhớ Kiều","hun hun hun",
+"Umoaa umoazz","cục cưng ơi","ôm ôm","yêu chị"
+];
+
+const pastelColors=[
+"#ff4fa3","#ff6fb5","#ff85c1",
+"#ff5c9c","#ff3d8f","#ff79b0"
+];
+
 function rand(min,max){return Math.random()*(max-min)+min;}
 function randInt(min,max){return Math.floor(rand(min,max));}
 
@@ -195,21 +202,21 @@ function showLove(x,y){
     const div=document.createElement("div");
     div.className="love-text";
     div.textContent=loveLines[randInt(0,loveLines.length)];
-    div.style.color="#ff3f95";
+    div.style.color=pastelColors[randInt(0,pastelColors.length)];
     div.style.left=x+"px";
     div.style.top=y+"px";
     document.body.appendChild(div);
     setTimeout(()=>div.remove(),1400);
 
-    for(let i=0;i<3;i++){
+    for(let i=0;i<randInt(3,6);i++){
         const h=document.createElement("div");
         h.className="flying-heart";
         h.textContent="💗";
-        h.style.fontSize=rand(22,38)+"px";
+        h.style.fontSize=rand(24,44)+"px";
         h.style.left=x+"px";
         h.style.top=y+"px";
-        h.style.setProperty("--x",rand(-100,100)+"px");
-        h.style.setProperty("--y",rand(-140,-70)+"px");
+        h.style.setProperty("--x",rand(-140,140)+"px");
+        h.style.setProperty("--y",rand(-180,-80)+"px");
         document.body.appendChild(h);
         setTimeout(()=>h.remove(),1600);
     }
@@ -223,13 +230,12 @@ function spawnSticker(src,isPanda){
     if(isPanda) img.classList.add("panda");
 
     img.onload=()=>{
-        /* 🔥 tăng size thêm */
         img.style.width=isPanda
-            ? rand(60,75)+"px"
-            : rand(58,72)+"px";
+            ? rand(75,95)+"px"      /* panda to rõ */
+            : rand(65,85)+"px";     /* sticker lớn hơn */
 
-        let x=rand(0,innerWidth-80);
-        let y=rand(0,innerHeight-80);
+        let x=rand(0,innerWidth-100);
+        let y=rand(0,innerHeight-100);
 
         img.style.left=x+"px";
         img.style.top=y+"px";
@@ -244,10 +250,10 @@ function spawnSticker(src,isPanda){
 }
 
 function spawnWave(){
-    for(let i=0;i<randInt(6,9);i++){
+    for(let i=0;i<randInt(10,14);i++){
         spawnSticker(`stickers/${String(randInt(1,48)).padStart(2,"0")}.png`,false);
     }
-    for(let i=0;i<randInt(14,19);i++){
+    for(let i=0;i<randInt(18,24);i++){
         spawnSticker(`stickers panda/${String(randInt(1,25)).padStart(2,"0")}.png`,true);
     }
 }

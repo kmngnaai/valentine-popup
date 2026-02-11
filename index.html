@@ -17,12 +17,6 @@ body{
     transition:.6s;
 }
 
-/* ================= NỀN KHI MỞ THƯ ================= */
-.letter-open{
-    background:
-        url("ThuNen.png") center/cover no-repeat fixed !important;
-}
-
 /* Overlay */
 body::before{
     content:"";
@@ -234,8 +228,7 @@ body::before{
 
 <script>
 
-/* JS giữ nguyên hoàn toàn */
-
+/* ================= STICKER ENGINE ================= */
 function rand(min,max){return Math.random()*(max-min)+min;}
 function randInt(min,max){return Math.floor(rand(min,max));}
 
@@ -295,6 +288,8 @@ function spawnWave(){
 setInterval(spawnWave,3500);
 spawnWave();
 
+/* ================= FLOW POPUP ================= */
+
 function nextPopup(){
     popup1.classList.add("hidden");
     popup2.classList.remove("hidden");
@@ -306,7 +301,20 @@ function closePopup(){
     envelope.classList.remove("hidden");
 }
 
-const letterParagraphs=[ ... ];
+/* ================= THƯ ================= */
+
+const letterParagraphs=[
+"Hi tình yêu của em,",
+"Tình yêu của em xứng đáng có được điều tốt đẹp nhất thế gian này. Ahiihi đó là em.",
+"Hello cục cưnggg, em ở đây để yêu thương chị.",
+"Chụt chụt chụt thưởng cho cục cưng một nghìn nụ hôn bởi vì người yêu của em đã đến.",
+"Làm cho em cảm nhận được tình yêu của chị.",
+"Cảm nhận sự yêu thương cưng chiều của chị.",
+"Cảm nhận được ánh mắt chị nói lên là chị yêu em. Ahihiii ra là ánh mắt cũng nói được tình yêuuu ha.",
+"Cảm nhận được sự hạnh phúc mà người yêu mang đến cho em.",
+"Bởi vì lời nói có mang nhiệt độ... nhưng mà cục cưng ò, con tim cũng mang nhiệt độ nà.",
+"Muốn nói với người yêu là: em yêu chị, mình bên nhau thật lâu cục cưng nha."
+];
 
 envelope.onclick=()=>{
     envelope.remove();

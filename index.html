@@ -5,80 +5,60 @@
 <title>Valentine Night Pink</title>
 
 <style>
-body {
-    margin: 0;
-    min-height: 100vh;
-
-    background-image: url("valentines-mobile.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: #f6d6df;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: "Segoe UI","Helvetica Neue",Arial,sans-serif;
-    overflow: hidden;
+body{
+    margin:0;
+    min-height:100vh;
+    background:url("valentines-mobile.png") center/cover no-repeat #f6d6df;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    overflow:hidden;
 }
 
-/* Overlay đêm */
-body::before {
+body::before{
     content:"";
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.25);
+    background:rgba(0,0,0,.22);
     z-index:0;
 }
 
 /* ================= STICKER ================= */
-.sticker-bg{
+.sticker{
     position:fixed;
-    z-index:1;
     pointer-events:none;
+    z-index:1;
     opacity:0;
-    animation:breathe 8s ease-in-out infinite;
-    will-change:opacity,transform;
+    animation:life 6s ease-in-out forwards;
 }
 
-/* Panda nổi hơn nhưng vẫn dịu */
-.sticker-panda{
-    width:40px!important;
-    opacity:0;
-}
-
-@keyframes breathe{
-    0%{opacity:0}
-    25%{opacity:0.45}
-    50%{opacity:0.15}
-    75%{opacity:0.45}
-    100%{opacity:0}
+@keyframes life{
+    0%{opacity:0; transform:scale(.9)}
+    20%{opacity:.45; transform:scale(1)}
+    70%{opacity:.45}
+    100%{opacity:0; transform:scale(.95)}
 }
 
 /* ================= POPUP ================= */
 .pink-box{
     position:relative;
     z-index:2;
-
     width:min(92vw,460px);
-    padding:28px 26px 32px;
-
-    background:linear-gradient(180deg,#fff9fc,#fff3f8);
+    padding:30px 26px 34px;
+    background:linear-gradient(180deg,#fff9fc,#fff2f7);
     border-radius:26px;
     border:2px solid #f0b7d3;
-
     box-shadow:
-        0 12px 30px rgba(0,0,0,0.28),
-        0 0 0 6px rgba(255,255,255,0.45);
-
+        0 14px 36px rgba(0,0,0,.28),
+        0 0 0 6px rgba(255,255,255,.45);
     text-align:center;
-    animation:fadeZoomIn .45s ease;
 }
 
 .heart{
     font-size:46px;
     margin-bottom:10px;
-    animation:heartbeat 2.2s infinite;
+    animation:beat 2.2s infinite;
 }
 
 .text{
@@ -92,7 +72,6 @@ body::before {
 .cursor{
     margin-left:4px;
     color:#d63384;
-    font-size:20px;
     animation:blink 1.2s infinite;
 }
 
@@ -110,11 +89,7 @@ body::before {
 .hidden{display:none}
 
 @keyframes blink{50%{opacity:0}}
-@keyframes heartbeat{30%{transform:scale(1.1)}}
-@keyframes fadeZoomIn{
-    from{opacity:0;transform:scale(.9)}
-    to{opacity:1;transform:scale(1)}
-}
+@keyframes beat{30%{transform:scale(1.1)}}
 
 @media(max-width:480px){
     .text{font-size:20px}
@@ -145,70 +120,72 @@ function typeText(id,text,speed=65){
     const el=document.getElementById(id);
     el.innerHTML="";
     let i=0;
-
     const cursor=document.createElement("span");
     cursor.className="cursor";
     cursor.textContent="♥";
     el.appendChild(cursor);
 
-    const timer=setInterval(()=>{
+    const t=setInterval(()=>{
         cursor.remove();
         el.textContent+=text[i];
         el.appendChild(cursor);
         i++;
-        if(i>=text.length) clearInterval(timer);
+        if(i>=text.length) clearInterval(t);
     },speed);
 }
 
 /* ================= STICKER ENGINE ================= */
 function rand(min,max){return Math.random()*(max-min)+min;}
+function randInt(min,max){return Math.floor(rand(min,max));}
 
-function placeSticker(img,cols,rows,delay){
-    const cw=innerWidth/cols;
-    const ch=innerHeight/rows;
+function spawnSticker(src,isPanda){
+    const img=new Image();
+    img.src=src;
+    img.className="sticker";
 
-    img.style.left=rand(0,innerWidth-60)+"px";
-    img.style.top=rand(0,innerHeight-60)+"px";
-    img.style.animationDelay=delay+"s";
-    document.body.appendChild(img);
+    img.onload=()=>{
+        img.style.width=isPanda?rand(36,44)+"px":rand(46,62)+"px";
+
+        // né popup trung tâm
+        let x,y;
+        do{
+            x=rand(0,innerWidth-60);
+            y=rand(0,innerHeight-60);
+        }while(
+            x>innerWidth/2-160 &&
+            x<innerWidth/2+160 &&
+            y>innerHeight/2-160 &&
+            y<innerHeight/2+160
+        );
+
+        img.style.left=x+"px";
+        img.style.top=y+"px";
+        document.body.appendChild(img);
+
+        setTimeout(()=>img.remove(),6000);
+    };
 }
 
-/* Sticker thường – thưa */
-function renderNormalStickers(){
-    for(let i=1;i<=47;i++){
-        const img=new Image();
-        img.src=`stickers/${String(i).padStart(2,"0")}.png`;
-        img.className="sticker-bg";
-
-        img.onload=()=>{
-            img.style.width=rand(50,78)+"px";
-            placeSticker(img,8,7,rand(0,1.2));
-        };
+/* MỖI ĐỢT */
+function spawnWave(){
+    // ít sticker thường
+    for(let i=0;i<randInt(6,9);i++){
+        const id=randInt(1,48);
+        spawnSticker(`stickers/${String(id).padStart(2,"0")}.png`,false);
     }
-}
 
-/* Panda – NHIỀU HƠN */
-function renderPandaStickers(){
-    const COPIES = 3; // 👈 mỗi panda lặp 3 lần
-    for(let c=0;c<COPIES;c++){
-        for(let i=1;i<=24;i++){
-            const img=new Image();
-            img.src=`stickers panda/${String(i).padStart(2,"0")}.png`;
-            img.className="sticker-bg sticker-panda";
-
-            img.onload=()=>{
-                img.style.width=rand(36,46)+"px";
-                placeSticker(img,6,4,rand(0,1.6));
-            };
-        }
+    // panda nhiều hơn
+    for(let i=0;i<randInt(14,19);i++){
+        const id=randInt(1,25);
+        spawnSticker(`stickers panda/${String(id).padStart(2,"0")}.png`,true);
     }
 }
 
 /* ================= FLOW ================= */
 window.onload=()=>{
-    renderNormalStickers();
-    renderPandaStickers();
     typeText("text1",message1);
+    spawnWave();
+    setInterval(spawnWave,7000); // 👈 từng đợt, không ngộp
 };
 
 function nextPopup(){

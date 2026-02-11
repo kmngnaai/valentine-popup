@@ -27,80 +27,35 @@ body::before{
 /* ================= STICKER ================= */
 .sticker{
     position:fixed;
+    pointer-events:auto;
     z-index:1;
     opacity:0;
     animation:life 6s ease-in-out forwards;
-    cursor:pointer;
 }
 
 @keyframes life{
     0%{opacity:0; transform:scale(.9)}
-    20%{opacity:.5; transform:scale(1)}
-    70%{opacity:.5}
+    20%{opacity:.45; transform:scale(1)}
+    70%{opacity:.45}
     100%{opacity:0; transform:scale(.95)}
 }
 
-/* ✨ Panda bling */
+/* ✨ Panda lấp lánh */
 .panda{
-    animation:life 6s ease-in-out forwards, sparkle 2.5s infinite;
+    animation:
+        life 6s ease-in-out forwards,
+        pandaGlow 2.2s ease-in-out infinite alternate;
 }
 
-@keyframes sparkle{
-    0%,100%{filter:brightness(1)}
-    50%{filter:brightness(1.25)}
+@keyframes pandaGlow{
+    from{filter:drop-shadow(0 0 4px rgba(255,255,255,0.6));}
+    to{filter:drop-shadow(0 0 12px rgba(255,192,203,0.9));}
 }
 
-/* 🐼 Panda rụt lại khi chạm */
-.shrink{
-    animation:shrink .25s ease;
-}
-@keyframes shrink{
-    50%{transform:scale(.7)}
-}
-
-/* ================= HEART BAY ================= */
-.love-heart{
-    position:fixed;
-    pointer-events:none;
-    animation:heartFly 1.5s ease-out forwards;
-    z-index:3;
-}
-
-@keyframes heartFly{
-    0%{opacity:1; transform:translate(0,0) scale(.7)}
-    100%{
-        opacity:0;
-        transform:
-            translate(var(--x), var(--y))
-            scale(1.4);
-    }
-}
-
-/* ================= BUBBLE TEXT ================= */
-.love-text{
-    position:fixed;
-    font-size:20px;
-    font-weight:800;
-    white-space:nowrap;
-    pointer-events:none;
-    z-index:4;
-
-    animation:loveFloat 1.4s ease-out forwards;
-
-    -webkit-text-stroke:2px white;
-
-    text-shadow:
-        0 3px 0 rgba(255,255,255,0.9),
-        0 6px 12px rgba(0,0,0,0.35),
-        0 0 12px rgba(255,255,255,0.6);
-
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.25));
-}
-
-@keyframes loveFloat{
-    0%{opacity:0; transform:translateY(0) scale(.8)}
-    30%{opacity:1; transform:translateY(-15px) scale(1)}
-    100%{opacity:0; transform:translateY(-70px) scale(1.1)}
+/* 🐼 Panda rụt lại */
+.panda:active{
+    transform:scale(0.75);
+    transition:transform .15s ease;
 }
 
 /* ================= POPUP ================= */
@@ -154,12 +109,44 @@ body::before{
 @keyframes blink{50%{opacity:0}}
 @keyframes beat{30%{transform:scale(1.1)}}
 
+/* ================= LOVE TEXT ================= */
+.love-text{
+    position:fixed;
+    font-size:22px;
+    font-weight:900;
+    white-space:nowrap;
+    pointer-events:none;
+    z-index:4;
+    animation:loveFloat 1.4s ease-out forwards;
+
+    text-shadow:
+        0 4px 8px rgba(0,0,0,0.45),
+        0 0 12px rgba(255,105,180,0.6);
+
+    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35));
+}
+
+@keyframes loveFloat{
+    0%{opacity:0; transform:translateY(0) scale(.8);}
+    25%{opacity:1;}
+    100%{opacity:0; transform:translateY(-90px) scale(1.15);}
+}
+
+/* ================= HEART ================= */
+.flying-heart{
+    position:fixed;
+    pointer-events:none;
+    z-index:3;
+    animation:heartFly 1.6s ease-out forwards;
+}
+
+@keyframes heartFly{
+    0%{opacity:1; transform:translate(0,0) scale(.8);}
+    100%{opacity:0; transform:translate(var(--x),var(--y)) scale(1.6);}
+}
+
 @media(max-width:480px){
-    .text{font-size:20px}
-    .love-text{
-        font-size:16px;
-        -webkit-text-stroke:1.5px white;
-    }
+    .love-text{font-size:18px;}
 }
 </style>
 </head>
@@ -179,7 +166,6 @@ body::before{
 </div>
 
 <script>
-/* ================= TEXT ================= */
 const message1="Bé Keii ơii, bé Keii có biết hôngg??";
 const message2="Em yêu chị nhiều lắm luôn á!";
 
@@ -191,7 +177,6 @@ function typeText(id,text,speed=65){
     cursor.className="cursor";
     cursor.textContent="♥";
     el.appendChild(cursor);
-
     const t=setInterval(()=>{
         cursor.remove();
         el.textContent+=text[i];
@@ -202,70 +187,65 @@ function typeText(id,text,speed=65){
 }
 
 /* ================= LOVE TEXT LIST ================= */
-const loveTexts=[
+const loveLines=[
 "Em yêu Kiều","Em yêu chị quó ò","Em nhớ Kiều","Em nhớ chị quó ò",
-"em yêu bé Keii","bé Keii của Rùa","yêu Keii","Kiều ơi, moa moaaa",
-"cục cưng ơi, muốn ôm ôm","ôm ôm","yêu Kiều","yêu chị",
-"nhớ Kiều","nhớ chị","Umoaa umoazz","chụt chụttt",
-"hun hun hun","hun chục cáii","hít hítt","cục cưng ngoan ngoan",
-"em thươnggg Kiềuu","em muốn ôm ôm","cục cưng ơi, muốn hun hunn",
+"em yêu bé Keii","bé Keii của Rùa","yêu Keii",
+"Kiều ơi, moa moaaa","cục cưng ơi, muốn ôm ôm","ôm ôm",
+"yêu Kiều","yêu chị","nhớ Kiều","nhớ chị",
+"Umoaa umoazz","chụt chụttt","hun hun hun","hun chục cáii",
+"hít hítt","cục cưng ngoan ngoan","em thươnggg Kiềuu",
+"em muốn ôm ôm","cục cưng ơi, muốn hun hunn",
 "cục cưng ơi, muốn chị","cục cưng cục cưng em yêu chị",
 "cục cưng ơi, muốn ăn gì dạ","cục cưng có nhớ em hông dạ",
 "cục cưng có yêu em hông dạ","em yêu chị nhiều lắm luôn á",
 "dợ ơii, em yêu chị"
 ];
 
+const candyColors=[
+"#ff2e8a","#ff3f95","#ff4d9e",
+"#ff5ca8","#ff2f6d","#ff477e"
+];
+
 function rand(min,max){return Math.random()*(max-min)+min;}
 function randInt(min,max){return Math.floor(rand(min,max));}
 
-/* 💬 Spawn Bubble Text */
-function spawnLoveText(x,y){
-    const t=document.createElement("div");
-    t.className="love-text";
-    t.textContent=loveTexts[randInt(0,loveTexts.length)];
+function showLove(x,y){
+    const div=document.createElement("div");
+    div.className="love-text";
+    div.textContent=loveLines[randInt(0,loveLines.length)];
+    div.style.color=candyColors[randInt(0,candyColors.length)];
+    div.style.left=x+"px";
+    div.style.top=y+"px";
+    document.body.appendChild(div);
+    setTimeout(()=>div.remove(),1400);
 
-    const candyColors=[
-        "#ff4fa3","#ff6b9d","#ff7eb3",
-        "#ff5c8a","#ff8fb1","#ff4d6d"
-    ];
-    t.style.color=candyColors[randInt(0,candyColors.length)];
-
-    t.style.left=x+"px";
-    t.style.top=y+"px";
-
-    document.body.appendChild(t);
-    setTimeout(()=>t.remove(),1400);
+    spawnHearts(x,y);
 }
 
-/* 💗 Spawn Heart */
-function spawnHeart(x,y){
-    const h=document.createElement("div");
-    h.className="love-heart";
-    h.textContent="💗";
-
-    const size=randInt(16,32);
-    h.style.fontSize=size+"px";
-
-    h.style.setProperty("--x",rand(-80,80)+"px");
-    h.style.setProperty("--y",rand(-120,-60)+"px");
-
-    h.style.left=x+"px";
-    h.style.top=y+"px";
-
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),1500);
+function spawnHearts(x,y){
+    for(let i=0;i<randInt(2,4);i++){
+        const h=document.createElement("div");
+        h.className="flying-heart";
+        h.textContent="💗";
+        h.style.fontSize=rand(18,34)+"px";
+        h.style.left=x+"px";
+        h.style.top=y+"px";
+        h.style.setProperty("--x",rand(-80,80)+"px");
+        h.style.setProperty("--y",rand(-120,-60)+"px");
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),1600);
+    }
 }
 
-/* ================= STICKER ENGINE ================= */
+/* ================= STICKER ================= */
 function spawnSticker(src,isPanda){
     const img=new Image();
     img.src=src;
     img.className="sticker";
-
     if(isPanda) img.classList.add("panda");
 
     img.onload=()=>{
-        img.style.width=isPanda?rand(50,60)+"px":rand(46,62)+"px";
+        img.style.width=isPanda?rand(48,60)+"px":rand(46,62)+"px";
 
         let x,y;
         do{
@@ -281,15 +261,9 @@ function spawnSticker(src,isPanda){
         img.style.left=x+"px";
         img.style.top=y+"px";
 
-        img.onclick=(e)=>{
-            if(isPanda){
-                img.classList.add("shrink");
-                setTimeout(()=>img.classList.remove("shrink"),250);
-            }
-
-            spawnHeart(x,y);
-            spawnLoveText(x,y);
-        };
+        img.addEventListener("click",(e)=>{
+            showLove(e.clientX,e.clientY);
+        });
 
         document.body.appendChild(img);
         setTimeout(()=>img.remove(),6000);
@@ -298,17 +272,13 @@ function spawnSticker(src,isPanda){
 
 function spawnWave(){
     for(let i=0;i<randInt(6,9);i++){
-        const id=randInt(1,48);
-        spawnSticker(`stickers/${String(id).padStart(2,"0")}.png`,false);
+        spawnSticker(`stickers/${String(randInt(1,48)).padStart(2,"0")}.png`,false);
     }
-
     for(let i=0;i<randInt(14,19);i++){
-        const id=randInt(1,25);
-        spawnSticker(`stickers panda/${String(id).padStart(2,"0")}.png`,true);
+        spawnSticker(`stickers panda/${String(randInt(1,25)).padStart(2,"0")}.png`,true);
     }
 }
 
-/* ================= FLOW ================= */
 window.onload=()=>{
     typeText("text1",message1);
     spawnWave();

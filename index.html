@@ -33,7 +33,7 @@ body::before{
     animation:life 6s ease-in-out forwards;
 }
 
-/* 🐼 Panda riêng */
+/* 🐼 Panda */
 .panda{
     animation:
         life 6s ease-in-out forwards,
@@ -42,7 +42,6 @@ body::before{
     transition: transform .18s ease;
 }
 
-/* ✨ Lấp lánh rất nhẹ */
 @keyframes pandaBling{
     0%{filter:drop-shadow(0 0 2px rgba(255,180,200,.35))}
     50%{filter:drop-shadow(0 0 6px rgba(255,140,180,.65))}
@@ -56,7 +55,7 @@ body::before{
     100%{opacity:0; transform:scale(.96)}
 }
 
-/* 💗 Tim bay ngẫu nhiên */
+/* 💗 Tim bay */
 .heart-fly{
     position:fixed;
     font-size:18px;
@@ -69,6 +68,23 @@ body::before{
 @keyframes heartFly{
     from{opacity:1; transform:translate(0,0) scale(1)}
     to{opacity:0; transform:translate(var(--dx),var(--dy)) scale(1.4)}
+}
+
+/* 💬 Text bay */
+.love-text{
+    position:fixed;
+    font-size:15px;
+    font-weight:600;
+    color:#ff3f86;
+    white-space:nowrap;
+    pointer-events:none;
+    z-index:3;
+    animation:loveFloat 1.4s ease-out forwards;
+}
+
+@keyframes loveFloat{
+    from{opacity:1; transform:translate(0,0) scale(1)}
+    to{opacity:0; transform:translate(var(--dx),-60px) scale(1.1)}
 }
 
 /* ================= POPUP ================= */
@@ -147,6 +163,16 @@ body::before{
 const message1="Bé Keii ơii, bé Keii có biết hôngg??";
 const message2="Em yêu chị nhiều lắm luôn á!";
 
+const loveTexts=[
+ "Em yêu Kiều","Em yêu chị quó ò","Em nhớ Kiều","Em nhớ chị quó ò",
+ "em yêu bé Keii","bé Keii của Rùa","yêu Keii","Kiều ơi, moa moaaa",
+ "cục cưng ơi, muốn ôm ôm","ôm ôm","yêu Kiều","yêu chị",
+ "nhớ Kiều","nhớ chị","Umoaa umoazz","chụt chụttt","hun hun hun",
+ "hun chục cáii","cục cưng ngoan ngoan","thươnggg Kiềuu",
+ "dạ em muốn ôm ôm","cục cưng ơi, muốn hun hunn",
+ "cục cưng ơi, muốn chị","cục cưng cục cưng em yêu chị"
+];
+
 function typeText(id,text,speed=65){
     const el=document.getElementById(id);
     el.innerHTML="";
@@ -155,7 +181,6 @@ function typeText(id,text,speed=65){
     cursor.className="cursor";
     cursor.textContent="♥";
     el.appendChild(cursor);
-
     const t=setInterval(()=>{
         cursor.remove();
         el.textContent+=text[i];
@@ -165,21 +190,30 @@ function typeText(id,text,speed=65){
     },speed);
 }
 
-/* ================= STICKER ENGINE ================= */
 function rand(min,max){return Math.random()*(max-min)+min;}
 function randInt(min,max){return Math.floor(rand(min,max));}
 
-/* 💗 Tim bay hướng ngẫu nhiên */
 function spawnHeart(x,y){
     const h=document.createElement("div");
     h.className="heart-fly";
     h.textContent="💗";
     h.style.left=x+"px";
     h.style.top=y+"px";
-    h.style.setProperty("--dx", rand(-40,40)+"px");
-    h.style.setProperty("--dy", rand(-60,-30)+"px");
+    h.style.setProperty("--dx",rand(-40,40)+"px");
+    h.style.setProperty("--dy",rand(-60,-30)+"px");
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),1100);
+}
+
+function spawnLoveText(x,y){
+    const t=document.createElement("div");
+    t.className="love-text";
+    t.textContent=loveTexts[randInt(0,loveTexts.length)];
+    t.style.left=x+"px";
+    t.style.top=y+"px";
+    t.style.setProperty("--dx",rand(-20,20)+"px");
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(),1400);
 }
 
 function spawnSticker(src,isPanda){
@@ -188,53 +222,47 @@ function spawnSticker(src,isPanda){
     img.className="sticker"+(isPanda?" panda":"");
 
     img.onload=()=>{
-        /* 🐼 PANDA TO HƠN */
-        img.style.width=isPanda
-            ? rand(56,70)+"px"
-            : rand(46,62)+"px";
+        img.style.width=isPanda?rand(56,70)+"px":rand(46,62)+"px";
 
         let x,y;
         do{
             x=rand(0,innerWidth-80);
             y=rand(0,innerHeight-80);
         }while(
-            x>innerWidth/2-160 &&
-            x<innerWidth/2+160 &&
-            y>innerHeight/2-160 &&
-            y<innerHeight/2+160
+            x>innerWidth/2-160 && x<innerWidth/2+160 &&
+            y>innerHeight/2-160 && y<innerHeight/2+160
         );
 
         img.style.left=x+"px";
         img.style.top=y+"px";
 
-        if(isPanda){
-            const react=e=>{
-                const p=e.touches?e.touches[0]:e;
-                spawnHeart(p.clientX,p.clientY);
+        const react=e=>{
+            const p=e.touches?e.touches[0]:e;
+            spawnHeart(p.clientX,p.clientY);
+            spawnLoveText(p.clientX,p.clientY);
+            if(isPanda){
                 img.style.transform="scale(0.82)";
                 setTimeout(()=>img.style.transform="scale(1)",160);
-            };
-            img.addEventListener("click",react);
-            img.addEventListener("touchstart",react,{passive:true});
-        }
+            }
+        };
+
+        img.addEventListener("click",react);
+        img.addEventListener("touchstart",react,{passive:true});
 
         document.body.appendChild(img);
         setTimeout(()=>img.remove(),6000);
     };
 }
 
-/* ================= WAVE ================= */
 function spawnWave(){
     for(let i=0;i<randInt(6,9);i++){
         spawnSticker(`stickers/${String(randInt(1,48)).padStart(2,"0")}.png`,false);
     }
-
     for(let i=0;i<randInt(14,19);i++){
         spawnSticker(`stickers panda/${String(randInt(1,25)).padStart(2,"0")}.png`,true);
     }
 }
 
-/* ================= FLOW ================= */
 window.onload=()=>{
     typeText("text1",message1);
     spawnWave();

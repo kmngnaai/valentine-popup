@@ -186,7 +186,7 @@ body::before{
 }
 
 .heartbeat-bg{
-    position:fixed;
+    position:absolute;
     font-size:150px;
     color:rgba(255,105,180,0.08);
     left:50%;
@@ -200,6 +200,11 @@ body::before{
 @keyframes slowBeat{
     30%{transform:translate(-50%,-50%) scale(1.1);}
 }
+#closeLetterBtn{
+    position:relative;
+    z-index:5;
+}
+
 </style>
 </head>
 
@@ -402,11 +407,14 @@ document.addEventListener("click", function(e){
         letterContent.innerHTML = "";
 
         popup1.classList.remove("hidden");
+        popup1.style.display = "block";
+        popup1.style.zIndex = "50";
 
         envelope.classList.remove("hidden");
     }
 
 });
+
 
 
 

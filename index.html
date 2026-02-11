@@ -227,36 +227,15 @@ body::before{
 /* ================= RANDOM MESSAGE ================= */
 
 const loveMessages = [
-"Em yêu Kiều",
-"Em yêu chị quó ò",
-"Em nhớ Kiều",
-"Em nhớ chị quó ò",
-"em yêu bé Keii",
-"bé Keii của Rùa",
-"yêu Keii",
-"Kiều ơi, moa moaaa",
-"cục cưng ơi, muốn ôm ôm",
-"ôm ôm",
-"yêu Kiều",
-"yêu chị",
-"nhớ Kiều",
-"nhớ chị",
-"Umoaa umoazz",
-"chụt chụttt",
-"hun hun hun",
-"hun chục cáii",
-"hít hítt",
-"cục cưng ngoan ngoan",
-"em thươnggg Kiềuu",
-"em muốn ôm ôm",
-"cục cưng ơi, muốn hun hunn",
-"cục cưng ơi, muốn chị",
-"cục cưng cục cưng em yêu chị",
-"cục cưng ơi, muốn ăn gì dạ",
-"cục cưng có nhớ em hông dạ",
-"cục cưng có yêu em hông dạ",
-"em yêu chị nhiều lắm luôn á",
-"dợ ơii, em yêu chị"
+"Em yêu Kiều","Em yêu chị quó ò","Em nhớ Kiều","Em nhớ chị quó ò",
+"em yêu bé Keii","bé Keii của Rùa","yêu Keii","Kiều ơi, moa moaaa",
+"cục cưng ơi, muốn ôm ôm","ôm ôm","yêu Kiều","yêu chị","nhớ Kiều",
+"nhớ chị","Umoaa umoazz","chụt chụttt","hun hun hun","hun chục cáii",
+"hít hítt","cục cưng ngoan ngoan","em thươnggg Kiềuu","em muốn ôm ôm",
+"cục cưng ơi, muốn hun hunn","cục cưng ơi, muốn chị",
+"cục cưng cục cưng em yêu chị","cục cưng ơi, muốn ăn gì dạ",
+"cục cưng có nhớ em hông dạ","cục cưng có yêu em hông dạ",
+"em yêu chị nhiều lắm luôn á","dợ ơii, em yêu chị"
 ];
 
 let lastIndex=-1;
@@ -270,13 +249,12 @@ function getRandomMessage(){
     return loveMessages[index];
 }
 
-/* ================= AUTO PASTEL COLOR ================= */
+/* ================= PASTEL COLOR MATCH NỀN ================= */
 
 function generateCuteColor(){
-    const hue=Math.floor(Math.random()*360);
-    const saturation=85;   // tươi
-    const lightness=65;    // đủ sáng để rõ
-    return `hsl(${hue},${saturation}%,${lightness}%)`;
+    const pastelHues=[320,330,340,350,10,20,280,300];
+    const hue=pastelHues[Math.floor(Math.random()*pastelHues.length)];
+    return `hsl(${hue},75%,68%)`;
 }
 
 /* ================= STICKER ENGINE ================= */
@@ -292,9 +270,9 @@ function showLove(x,y){
     const color=generateCuteColor();
     div.style.color=color;
 
-    // glow cùng tông màu
     div.style.textShadow=`
-        0 3px 8px rgba(0,0,0,0.5),
+        0 3px 6px rgba(0,0,0,0.35),
+        0 0 8px rgba(255,255,255,0.8),
         0 0 18px ${color}
     `;
 
@@ -365,7 +343,18 @@ function closePopup(){
 
 /* ================= LETTER ================= */
 
-const letterParagraphs=[/* giữ nguyên nội dung thư */];
+const letterParagraphs=[
+"Hi tình yêu của em,",
+"Tình yêu của em xứng đáng có được điều tốt đẹp nhất thế gian này. Ahiihi đó là em.",
+"Hello cục cưnggg, em ở đây để yêu thương chị.",
+"Chụt chụt chụt thưởng cho cục cưng một nghìn nụ hôn bởi vì người yêu của em đã đến.",
+"Làm cho em cảm nhận được tình yêu của chị.",
+"Cảm nhận sự yêu thương cưng chiều của chị.",
+"Cảm nhận được ánh mắt chị nói lên là chị yêu em.",
+"Cảm nhận được sự hạnh phúc mà người yêu mang đến cho em.",
+"Bởi vì lời nói có mang nhiệt độ...",
+"Muốn nói với người yêu là: em yêu chị, mình bên nhau thật lâu cục cưng nha."
+];
 
 envelope.onclick=()=>{
     envelope.remove();

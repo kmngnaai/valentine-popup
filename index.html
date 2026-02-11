@@ -37,7 +37,7 @@ body::before{
     pointer-events:auto;
     z-index:1;
     opacity:0;
-    animation:life 3.5s ease-in-out forwards;
+    animation:life 4.4s ease-in-out forwards;
     transition:opacity .6s;
 }
 
@@ -46,10 +46,10 @@ body::before{
 }
 
 @keyframes life{
-    0%{opacity:0; transform:scale(.85);}
-    21%{opacity:.95; transform:scale(1);}
-    78%{opacity:.95;}
-    100%{opacity:0; transform:scale(.9);}
+    0%   {opacity:0; transform:scale(.85);}
+    27%  {opacity:.95; transform:scale(1);}     /* ~1.2s */
+    73%  {opacity:.95;}                         /* giữ 2s */
+    100% {opacity:0; transform:scale(.9);}      /* ~1.2s */
 }
 
 /* Panda */
@@ -334,7 +334,7 @@ function spawnSticker(src,isPanda){
         });
 
         document.body.appendChild(img);
-        setTimeout(()=>img.remove(),3500);
+        setTimeout(()=>img.remove(),4400);
     };
 }
 
@@ -384,3 +384,4 @@ envelope.onclick=()=>{
 
 </body>
 </html>
+

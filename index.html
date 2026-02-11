@@ -2,10 +2,14 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Valentine's For Keiii</title>
 
 <style>
+html{
+    -webkit-text-size-adjust:100%;
+}
+
 body{
     margin:0;
     min-height:100vh;
@@ -16,7 +20,6 @@ body{
     font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;
     overflow:hidden;
     transition:.6s;
-    touch-action: manipulation;
 }
 
 /* Overlay */
@@ -48,9 +51,9 @@ body::before{
 }
 
 @keyframes life{
-    0%{opacity:0; transform:scale(.9);}
-    20%{opacity:.95; transform:scale(1);}
-    80%{opacity:.95;}
+    0%{opacity:0; transform:scale(.95);}
+    30%{opacity:.9;}
+    80%{opacity:.9;}
     100%{opacity:0; transform:scale(.95);}
 }
 
@@ -61,12 +64,12 @@ body::before{
 }
 
 @keyframes pandaGlow{
-    from{filter:drop-shadow(0 0 6px rgba(255,255,255,0.7));}
-    to{filter:drop-shadow(0 0 16px rgba(255,192,203,1));}
+    from{filter:drop-shadow(0 0 5px rgba(255,255,255,0.7));}
+    to{filter:drop-shadow(0 0 14px rgba(255,192,203,1));}
 }
 
 .panda:active{
-    transform:scale(0.85);
+    transform:scale(0.9);
     transition:transform .15s ease;
 }
 
@@ -99,8 +102,8 @@ body::before{
 
 .btn{
     margin-top:22px;
-    padding:10px 48px;
-    font-size:17px;
+    padding:12px 48px;
+    font-size:16px; /* >=16px để Safari không zoom */
     background:linear-gradient(180deg,#f7c4de,#f2aecd);
     border:none;
     border-radius:999px;
@@ -113,7 +116,7 @@ body::before{
 /* ================= LOVE TEXT ================= */
 .love-text{
     position:fixed;
-    font-size:26px;
+    font-size:24px;
     font-weight:900;
     pointer-events:none;
     z-index:4;
@@ -121,9 +124,9 @@ body::before{
 }
 
 @keyframes loveFloat{
-    0%{opacity:0; transform:translateY(0) scale(.9);}
+    0%{opacity:0; transform:translateY(0) scale(.95);}
     25%{opacity:1;}
-    100%{opacity:0; transform:translateY(-100px) scale(1.2);}
+    100%{opacity:0; transform:translateY(-90px) scale(1.15);}
 }
 
 .flying-heart{
@@ -135,13 +138,13 @@ body::before{
 
 @keyframes heartFly{
     0%{opacity:1; transform:translate(0,0) scale(.8);}
-    100%{opacity:0; transform:translate(var(--x),var(--y)) scale(1.8);}
+    100%{opacity:0; transform:translate(var(--x),var(--y)) scale(1.6);}
 }
 
 /* ================= PHONG THƯ ================= */
 .envelope{
     position:fixed;
-    font-size:75px;
+    font-size:70px;
     z-index:10;
     top:-120px;
     left:50%;
@@ -172,9 +175,9 @@ body::before{
 }
 
 .letter p{
-    font-size:20px;
+    font-size:18px;
     line-height:1.8;
-    margin-bottom:24px;
+    margin-bottom:22px;
     opacity:0;
     transform:translateY(15px);
     animation:paragraphIn .8s ease forwards;
@@ -186,7 +189,7 @@ body::before{
 
 .heartbeat-bg{
     position:fixed;
-    font-size:150px;
+    font-size:130px;
     color:rgba(255,105,180,0.08);
     left:50%;
     top:50%;
@@ -226,36 +229,7 @@ body::before{
 
 <script>
 
-const loveMessages=[
-"Em yêu Kiều","Em yêu chị quó ò","Em nhớ Kiều","Em nhớ chị quó ò",
-"em yêu bé Keii","bé Keii của Rùa","yêu Keii","Kiều ơi, moa moaaa",
-"cục cưng ơi, muốn ôm ôm","ôm ôm","yêu Kiều","yêu chị","nhớ Kiều",
-"nhớ chị","Umoaa umoazz","chụt chụttt","hun hun hun","hun chục cáii",
-"hít hítt","cục cưng ngoan ngoan","em thươnggg Kiềuu","em muốn ôm ôm",
-"cục cưng ơi, muốn hun hunn","cục cưng ơi, muốn chị",
-"cục cưng cục cưng em yêu chị","cục cưng ơi, muốn ăn gì dạ",
-"cục cưng có nhớ em hông dạ","cục cưng có yêu em hông dạ",
-"em yêu chị nhiều lắm luôn á","dợ ơii, em yêu chị"
-];
-
-let lastIndex=-1;
-
-function getRandomMessage(){
-    let index;
-    do{
-        index=Math.floor(Math.random()*loveMessages.length);
-    }while(index===lastIndex);
-    lastIndex=index;
-    return loveMessages[index];
-}
-
-function generateCuteColor(){
-    const pastelHues=[300,310,320,330,340,350,10,20,30,260,270,280,290,40,50];
-    const hue=pastelHues[Math.floor(Math.random()*pastelHues.length)];
-    const saturation=70+Math.random()*8;
-    const lightness=66+Math.random()*4;
-    return `hsl(${hue},${saturation}%,${lightness}%)`;
-}
+const loveMessages=["Em yêu Kiều","Em yêu chị quó ò","Em nhớ Kiều","Em nhớ chị quó ò","em yêu bé Keii","bé Keii của Rùa","yêu Keii","Kiều ơi, moa moaaa","cục cưng ơi, muốn ôm ôm","ôm ôm","yêu Kiều","yêu chị","nhớ Kiều","nhớ chị"];
 
 function rand(min,max){return Math.random()*(max-min)+min;}
 function randInt(min,max){return Math.floor(rand(min,max));}
@@ -263,34 +237,11 @@ function randInt(min,max){return Math.floor(rand(min,max));}
 function showLove(x,y){
     const div=document.createElement("div");
     div.className="love-text";
-    div.textContent=getRandomMessage()+" 💗";
-
-    const color=generateCuteColor();
-    div.style.color=color;
-    div.style.textShadow=`
-        0 2px 6px rgba(0,0,0,0.3),
-        0 0 10px rgba(255,255,255,0.8),
-        0 0 18px ${color}
-    `;
-
+    div.textContent=loveMessages[Math.floor(Math.random()*loveMessages.length)]+" 💗";
     div.style.left=x+"px";
     div.style.top=y+"px";
-
     document.body.appendChild(div);
     setTimeout(()=>div.remove(),1400);
-
-    for(let i=0;i<4;i++){
-        const h=document.createElement("div");
-        h.className="flying-heart";
-        h.textContent="💗";
-        h.style.fontSize=rand(24,48)+"px";
-        h.style.left=x+"px";
-        h.style.top=y+"px";
-        h.style.setProperty("--x",rand(-140,140)+"px");
-        h.style.setProperty("--y",rand(-180,-90)+"px");
-        document.body.appendChild(h);
-        setTimeout(()=>h.remove(),1600);
-    }
 }
 
 function spawnSticker(src,isPanda){
@@ -300,24 +251,20 @@ function spawnSticker(src,isPanda){
     if(isPanda) img.classList.add("panda");
 
     img.onload=()=>{
-        img.style.width=isPanda?rand(90,110)+"px":rand(70,85)+"px";
-        img.style.left=rand(0,innerWidth-120)+"px";
-        img.style.top=rand(0,innerHeight-120)+"px";
-
-        img.addEventListener("click",(e)=>{
-            showLove(e.clientX,e.clientY);
-        });
-
+        img.style.width=isPanda?rand(65,80)+"px":rand(50,60)+"px";
+        img.style.left=rand(0,innerWidth-100)+"px";
+        img.style.top=rand(0,innerHeight-100)+"px";
+        img.onclick=(e)=>showLove(e.clientX,e.clientY);
         document.body.appendChild(img);
         setTimeout(()=>img.remove(),3500);
     };
 }
 
 function spawnWave(){
-    for(let i=0;i<8;i++){
+    for(let i=0;i<6;i++){
         spawnSticker(`stickers/${String(randInt(1,48)).padStart(2,"0")}.png`,false);
     }
-    for(let i=0;i<18;i++){
+    for(let i=0;i<12;i++){
         spawnSticker(`stickers panda/${String(randInt(1,25)).padStart(2,"0")}.png`,true);
     }
 }
@@ -338,13 +285,9 @@ function closePopup(){
 
 const letterParagraphs=[
 "Hi tình yêu của em,",
-"Tình yêu của em xứng đáng có được điều tốt đẹp nhất thế gian này.",
-"Hello cục cưnggg, em ở đây để yêu thương chị.",
-"Chụt chụt chụt thưởng cho cục cưng một nghìn nụ hôn.",
-"Làm cho em cảm nhận được tình yêu của chị.",
-"Cảm nhận sự yêu thương cưng chiều của chị.",
-"Cảm nhận được sự hạnh phúc mà người yêu mang đến cho em.",
-"Muốn nói với người yêu là: em yêu chị, mình bên nhau thật lâu nha."
+"Em yêu chị rất nhiều.",
+"Mình bên nhau thật lâu nha.",
+"Chụt chụt cục cưng."
 ];
 
 envelope.onclick=()=>{

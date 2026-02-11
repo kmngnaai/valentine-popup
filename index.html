@@ -82,16 +82,44 @@ body::before{
     text-align:center;
 }
 
+/* HEARTBEAT MƯỢT */
 .heart{
     font-size:46px;
     margin-bottom:10px;
-    animation:beat 2.2s infinite;
+    animation:heartbeat 1.8s cubic-bezier(.4,0,.2,1) infinite;
 }
 
+@keyframes heartbeat{
+    0%{transform:scale(1);}
+    15%{transform:scale(1.18);}
+    30%{transform:scale(1);}
+    45%{transform:scale(1.12);}
+    60%{transform:scale(1);}
+    100%{transform:scale(1);}
+}
+
+/* TEXT */
 .text{
     font-size:22px;
     font-weight:600;
     color:#7a1f47;
+    min-height:60px;
+}
+
+/* CURSOR TIM */
+.cursor{
+    display:inline-block;
+    margin-left:4px;
+    font-size:20px;
+    animation:blink 1.2s infinite, cursorBeat 1.8s infinite;
+}
+
+@keyframes blink{
+    50%{opacity:0;}
+}
+
+@keyframes cursorBeat{
+    30%{transform:scale(1.2);}
 }
 
 .btn{
@@ -106,7 +134,6 @@ body::before{
 }
 
 .hidden{display:none}
-@keyframes beat{30%{transform:scale(1.1)}}
 
 /* ================= LOVE TEXT ================= */
 .love-text{
@@ -204,13 +231,13 @@ body::before{
 
 <div id="popup1" class="pink-box">
     <div class="heart">💗</div>
-    <div class="text">Bé Keii ơii, bé Keii có biết hôngg??</div>
+    <div class="text" id="text1"></div>
     <button class="btn" onclick="nextPopup()">ok</button>
 </div>
 
 <div id="popup2" class="pink-box hidden">
     <div class="heart">💓</div>
-    <div class="text">Em yêu chị nhiều lắm luôn á!</div>
+    <div class="text" id="text2"></div>
     <button class="btn" onclick="closePopup()">ok</button>
 </div>
 
@@ -224,39 +251,58 @@ body::before{
 
 <script>
 
+/* ================= TYPE EFFECT ================= */
+
+function typeEffect(element,text){
+    element.innerHTML="";
+    let i=0;
+
+    const cursor=document.createElement("span");
+    cursor.className="cursor";
+    cursor.textContent="💓";
+    element.appendChild(cursor);
+
+    function typing(){
+        if(i<text.length){
+            cursor.insertAdjacentText("beforebegin",text.charAt(i));
+            i++;
+            setTimeout(typing,40);
+        }
+    }
+    typing();
+}
+
+window.onload=function(){
+    typeEffect(document.getElementById("text1"),
+        "Bé Keii ơii, bé Keii có biết hôngg??");
+};
+
+function nextPopup(){
+    popup1.classList.add("hidden");
+    popup2.classList.remove("hidden");
+    typeEffect(document.getElementById("text2"),
+        "Em yêu chị nhiều lắm luôn á!");
+}
+
+function closePopup(){
+    popup2.classList.add("hidden");
+    document.body.classList.add("dark");
+    envelope.classList.remove("hidden");
+}
+
 /* ================= RANDOM MESSAGE ================= */
 
 const loveMessages = [
-"Em yêu Kiều",
-"Em yêu chị quó ò",
-"Em nhớ Kiều",
-"Em nhớ chị quó ò",
-"em yêu bé Keii",
-"bé Keii của Rùa",
-"yêu Keii",
-"Kiều ơi, moa moaaa",
-"cục cưng ơi, muốn ôm ôm",
-"ôm ôm",
-"yêu Kiều",
-"yêu chị",
-"nhớ Kiều",
-"nhớ chị",
-"Umoaa umoazz",
-"chụt chụttt",
-"hun hun hun",
-"hun chục cáii",
-"hít hítt",
-"cục cưng ngoan ngoan",
-"em thươnggg Kiềuu",
-"em muốn ôm ôm",
-"cục cưng ơi, muốn hun hunn",
-"cục cưng ơi, muốn chị",
-"cục cưng cục cưng em yêu chị",
-"cục cưng ơi, muốn ăn gì dạ",
-"cục cưng có nhớ em hông dạ",
-"cục cưng có yêu em hông dạ",
-"em yêu chị nhiều lắm luôn á",
-"dợ ơii, em yêu chị"
+"Em yêu Kiều","Em yêu chị quó ò","Em nhớ Kiều","Em nhớ chị quó ò",
+"em yêu bé Keii","bé Keii của Rùa","yêu Keii","Kiều ơi, moa moaaa",
+"cục cưng ơi, muốn ôm ôm","ôm ôm","yêu Kiều","yêu chị",
+"nhớ Kiều","nhớ chị","Umoaa umoazz","chụt chụttt",
+"hun hun hun","hun chục cáii","hít hítt",
+"cục cưng ngoan ngoan","em thươnggg Kiềuu","em muốn ôm ôm",
+"cục cưng ơi, muốn hun hunn","cục cưng ơi, muốn chị",
+"cục cưng cục cưng em yêu chị","cục cưng ơi, muốn ăn gì dạ",
+"cục cưng có nhớ em hông dạ","cục cưng có yêu em hông dạ",
+"em yêu chị nhiều lắm luôn á","dợ ơii, em yêu chị"
 ];
 
 let lastIndex=-1;
@@ -270,16 +316,10 @@ function getRandomMessage(){
     return loveMessages[index];
 }
 
-/* ================= AUTO PASTEL COLOR ================= */
-
 function generateCuteColor(){
     const hue=Math.floor(Math.random()*360);
-    const saturation=85;   // tươi
-    const lightness=65;    // đủ sáng để rõ
-    return `hsl(${hue},${saturation}%,${lightness}%)`;
+    return `hsl(${hue},85%,65%)`;
 }
-
-/* ================= STICKER ENGINE ================= */
 
 function rand(min,max){return Math.random()*(max-min)+min;}
 function randInt(min,max){return Math.floor(rand(min,max));}
@@ -291,13 +331,7 @@ function showLove(x,y){
 
     const color=generateCuteColor();
     div.style.color=color;
-
-    // glow cùng tông màu
-    div.style.textShadow=`
-        0 3px 8px rgba(0,0,0,0.5),
-        0 0 18px ${color}
-    `;
-
+    div.style.textShadow=`0 3px 8px rgba(0,0,0,0.5),0 0 18px ${color}`;
     div.style.left=x+"px";
     div.style.top=y+"px";
 
@@ -350,22 +384,18 @@ function spawnWave(){
 setInterval(spawnWave,3500);
 spawnWave();
 
-/* ================= POPUP FLOW ================= */
-
-function nextPopup(){
-    popup1.classList.add("hidden");
-    popup2.classList.remove("hidden");
-}
-
-function closePopup(){
-    popup2.classList.add("hidden");
-    document.body.classList.add("dark");
-    envelope.classList.remove("hidden");
-}
-
 /* ================= LETTER ================= */
 
-const letterParagraphs=[/* giữ nguyên nội dung thư */];
+const letterParagraphs=["Hi tình yêu của em,",
+"Tình yêu của em xứng đáng có được điều tốt đẹp nhất thế gian này. Ahiihi đó là em.",
+"Hello cục cưnggg, em ở đây để yêu thương chị.",
+"Chụt chụt chụt thưởng cho cục cưng một nghìn nụ hôn bởi vì người yêu của em đã đến.",
+"Làm cho em cảm nhận được tình yêu của chị.",
+"Cảm nhận sự yêu thương cưng chiều của chị.",
+"Cảm nhận được ánh mắt chị nói lên là chị yêu em. Ahihiii ra là ánh mắt cũng nói được tình yêuuu ha.",
+"Cảm nhận được sự hạnh phúc mà người yêu mang đến cho em.",
+"Bởi vì lời nói có mang nhiệt độ... nhưng mà cục cưng ò, con tim cũng mang nhiệt độ nà.",
+"Muốn nói với người yêu là: em yêu chị, mình bên nhau thật lâu cục cưng nha.];
 
 envelope.onclick=()=>{
     envelope.remove();
@@ -384,4 +414,3 @@ envelope.onclick=()=>{
 
 </body>
 </html>
-

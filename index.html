@@ -41,7 +41,6 @@ body::before{
     transition:opacity .6s;
 }
 
-/* Khi thư mở → sticker mờ đi */
 .letter-open .sticker{
     opacity:.15 !important;
 }
@@ -228,14 +227,61 @@ body::before{
 
 <script>
 
+/* ================= DANH SÁCH CÂU RANDOM ================= */
+
+const loveMessages = [
+"Em yêu Kiều",
+"Em yêu chị quó ò",
+"Em nhớ Kiều",
+"Em nhớ chị quó ò",
+"em yêu bé Keii",
+"bé Keii của Rùa",
+"yêu Keii",
+"Kiều ơi, moa moaaa",
+"cục cưng ơi, muốn ôm ôm",
+"ôm ôm",
+"yêu Kiều",
+"yêu chị",
+"nhớ Kiều",
+"nhớ chị",
+"Umoaa umoazz",
+"chụt chụttt",
+"hun hun hun",
+"hun chục cáii",
+"hít hítt",
+"cục cưng ngoan ngoan",
+"em thươnggg Kiềuu",
+"em muốn ôm ôm",
+"cục cưng ơi, muốn hun hunn",
+"cục cưng ơi, muốn chị",
+"cục cưng cục cưng em yêu chị",
+"cục cưng ơi, muốn ăn gì dạ",
+"cục cưng có nhớ em hông dạ",
+"cục cưng có yêu em hông dạ",
+"em yêu chị nhiều lắm luôn á",
+"dợ ơii, em yêu chị"
+];
+
+let lastIndex = -1;
+
+function getRandomMessage(){
+    let index;
+    do{
+        index = Math.floor(Math.random()*loveMessages.length);
+    }while(index === lastIndex);
+    lastIndex = index;
+    return loveMessages[index];
+}
+
 /* ================= STICKER ENGINE ================= */
+
 function rand(min,max){return Math.random()*(max-min)+min;}
 function randInt(min,max){return Math.floor(rand(min,max));}
 
 function showLove(x,y){
     const div=document.createElement("div");
     div.className="love-text";
-    div.textContent="Em yêu Kiều 💗";
+    div.textContent=getRandomMessage()+" 💗";
     div.style.color="#ff4fa3";
     div.style.left=x+"px";
     div.style.top=y+"px";
@@ -288,7 +334,7 @@ function spawnWave(){
 setInterval(spawnWave,3500);
 spawnWave();
 
-/* ================= FLOW POPUP ================= */
+/* ================= POPUP FLOW ================= */
 
 function nextPopup(){
     popup1.classList.add("hidden");

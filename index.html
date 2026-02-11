@@ -339,15 +339,15 @@ function spawnSticker(src,isPanda){
 }
 
 function spawnWave(){
-    for(let i=0;i<12;i++){
+    for(let i=0;i<6;i++){
         spawnSticker(`stickers/${String(randInt(1,48)).padStart(2,"0")}.png`,false);
     }
-    for(let i=0;i<20;i++){
+    for(let i=0;i<24;i++){
         spawnSticker(`stickers panda/${String(randInt(1,25)).padStart(2,"0")}.png`,true);
     }
 }
 
-setInterval(spawnWave,3500);
+setInterval(spawnWave,4400);
 spawnWave();
 
 /* ================= POPUP FLOW ================= */

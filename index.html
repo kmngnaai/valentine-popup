@@ -33,7 +33,6 @@ body::before{
     animation:life 6s ease-in-out forwards;
 }
 
-/* 🐼 Panda */
 .panda{
     animation:
         life 6s ease-in-out forwards,
@@ -58,9 +57,7 @@ body::before{
 /* 💗 Tim bay */
 .heart-fly{
     position:fixed;
-    font-size:18px;
     pointer-events:none;
-    color:#ff4d8d;
     z-index:3;
     animation:heartFly 1.1s ease-out forwards;
 }
@@ -75,7 +72,6 @@ body::before{
     position:fixed;
     font-size:15px;
     font-weight:600;
-    color:#ff3f86;
     white-space:nowrap;
     pointer-events:none;
     z-index:3;
@@ -159,7 +155,6 @@ body::before{
 </div>
 
 <script>
-/* ================= TEXT ================= */
 const message1="Bé Keii ơii, bé Keii có biết hôngg??";
 const message2="Em yêu chị nhiều lắm luôn á!";
 
@@ -199,25 +194,37 @@ function typeText(id,text,speed=65){
 function rand(min,max){return Math.random()*(max-min)+min;}
 function randInt(min,max){return Math.floor(rand(min,max));}
 
+/* 💗 Tim bay random size */
 function spawnHeart(x,y){
     const h=document.createElement("div");
     h.className="heart-fly";
     h.textContent="💗";
     h.style.left=x+"px";
     h.style.top=y+"px";
+
+    const size=rand(16,26);
+    h.style.fontSize=size+"px";
+
     h.style.setProperty("--dx",rand(-40,40)+"px");
     h.style.setProperty("--dy",rand(-60,-30)+"px");
+
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),1100);
 }
 
+/* 💬 Text pastel random */
 function spawnLoveText(x,y){
     const t=document.createElement("div");
     t.className="love-text";
     t.textContent=loveTexts[randInt(0,loveTexts.length)];
     t.style.left=x+"px";
     t.style.top=y+"px";
+
+    const hue=randInt(320,360); // tông hồng
+    t.style.color=`hsl(${hue},80%,70%)`;
+
     t.style.setProperty("--dx",rand(-20,20)+"px");
+
     document.body.appendChild(t);
     setTimeout(()=>t.remove(),1400);
 }

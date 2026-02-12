@@ -177,21 +177,27 @@ body::before{
     position:fixed;
     inset:0;
     background:url("ThuNen.png") center/cover no-repeat;
-    z-index:20;
+    z-index:2000;
+
     padding:80px 30px;
     overflow-y:auto;
 
+    display:none;     /* QUAN TRỌNG */
     opacity:0;
     transform:translateY(80px) scale(0.96);
     transition:all 0.6s cubic-bezier(.22,.61,.36,1);
 }
 
 
+
 /* Khi mở */
 .letter.show{
+    display:block;     /* THÊM DÒNG NÀY */
     opacity:1;
     transform:translateY(0) scale(1);
 }
+
+
 
 
 /* Overlay làm dịu nền */

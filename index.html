@@ -273,6 +273,8 @@ const loveMessages = [
 ];
 
 let lastIndex=-1;
+let stickerInterval = null;
+
 
 function getRandomMessage(){
     let index;
@@ -359,16 +361,24 @@ function spawnWave(){
         spawnSticker(`stickers panda/${String(randInt(1,25)).padStart(2,"0")}.png`,true);
     }
 }
+function startSticker(){
+    if(stickerInterval) return; // tránh chạy nhiều lần
 
-setInterval(spawnWave,4400);
-spawnWave();
+    spawnWave();
+    stickerInterval = setInterval(spawnWave,4400);
+}
+
 
 /* ================= POPUP FLOW ================= */
 
 function nextPopup(){
     popup1.classList.add("hidden");
     popup2.classList.remove("hidden");
+
+    // Bắt đầu sticker khi popup2 xuất hiện
+    startSticker();
 }
+
 
 function closePopup(){
     popup2.classList.add("hidden");
@@ -428,4 +438,3 @@ document.addEventListener("click", function(e){
 
 </body>
 </html>
-

@@ -1,276 +1,354 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" style="touch-action: none;">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1,
+               maximum-scale=1,
+               minimum-scale=1,
+               user-scalable=no,
+               viewport-fit=cover">
 <title>Valentine's For Keiii</title>
 
+
 <style>
-/* ================= CẤU HÌNH CHỐNG ZOOM & SCROLL ================= */
-* {
-    box-sizing: border-box;
-    /* Chống bôi đen text khi chạm nhanh */
-    -webkit-user-select: none;
-    user-select: none;
-    /* Bỏ highlight màu xanh khi tap trên Android/iOS */
-    -webkit-tap-highlight-color: transparent; 
+html, body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    /* Khóa cuộn trang hoàn toàn */
-    overflow: hidden; 
-    position: fixed; 
-    inset: 0;
-    
-    /* Chặn hành vi zoom của trình duyệt */
-    touch-action: none; 
+body{
+    position:fixed;
+    inset:0;
+    background:url("valentines-mobile.png") center/cover no-repeat #f6d6df;
+
+    font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Noto Color Emoji",
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+
+    transition:.6s;
+
+    -webkit-text-size-adjust:100%;
+    touch-action: none;
+    -webkit-tap-highlight-color:transparent;
 }
 
-body {
-    /* Đảm bảo tên file ảnh nền chính xác */
-    background: url("valentines-mobile.png") center/cover no-repeat #f6d6df;
-    
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+
+
+html {
     -webkit-text-size-adjust: 100%;
 }
 
-/* Overlay làm tối nền */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.2);
-    z-index: 1; /* Thấp hơn sticker */
-    pointer-events: none;
-    transition: 0.6s;
+/* Overlay */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.22);
+    z-index:0;
+    transition:.6s;
+    pointer-events:none; /* THÊM DÒNG NÀY */
 }
 
-.dark::before {
-    background: rgba(0,0,0,0.6);
+
+.dark::before{
+    background:rgba(0,0,0,.55);
 }
 
 /* ================= STICKER ================= */
-.sticker {
-    position: fixed;
-    pointer-events: auto; /* Để click được vào sticker */
-    z-index: 5; /* Cao hơn nền, thấp hơn Popup */
-    opacity: 0;
-    animation: life 4.4s ease-in-out forwards;
-    transition: opacity 0.6s;
-    cursor: pointer;
+.sticker{
+    position:fixed;
+    pointer-events:auto;
+    z-index:20;
+    opacity:0;
+    animation:life 4.4s ease-in-out forwards;
+    transition:opacity .6s;
 }
 
-.letter-open .sticker {
-    opacity: 0.15 !important;
-    pointer-events: none;
+.letter-open .sticker{
+    opacity:.15 !important;
 }
 
-@keyframes life {
-    0%   {opacity: 0; transform: scale(0.85);}
-    20%  {opacity: 1; transform: scale(1);}
-    80%  {opacity: 1;}
-    100% {opacity: 0; transform: scale(0.9);}
+@keyframes life{
+    0%   {opacity:0; transform:scale(.85);}
+    27%  {opacity:.95; transform:scale(1);}     /* ~1.2s */
+    73%  {opacity:.95;}                         /* giữ 2s */
+    100% {opacity:0; transform:scale(.9);}      /* ~1.2s */
 }
 
-/* Panda Effect */
-.panda {
-    animation: life 3.5s ease-in-out forwards, pandaGlow 2.2s ease-in-out infinite alternate;
+/* Panda */
+.panda{
+    animation:
+        life 3.5s ease-in-out forwards,
+        pandaGlow 2.2s ease-in-out infinite alternate;
 }
 
-@keyframes pandaGlow {
-    from {filter: drop-shadow(0 0 5px rgba(255,255,255,0.6));}
-    to   {filter: drop-shadow(0 0 15px rgba(255,192,203,0.9));}
+@keyframes pandaGlow{
+    from{filter:drop-shadow(0 0 8px rgba(255,255,255,0.8));}
+    to{filter:drop-shadow(0 0 20px rgba(255,192,203,1));}
 }
 
-.sticker:active {
-    transform: scale(0.8);
+.panda:active{
+    transform:scale(0.7);
+    transition:transform .15s ease;
 }
 
-/* ================= POPUP (HỘP THOẠI) ================= */
-.pink-box {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    /* Z-INDEX CAO: Đảm bảo popup đè lên sticker để bấm được nút */
-    z-index: 100; 
-    width: min(90vw, 420px);
-    padding: 30px 20px;
-    background: linear-gradient(180deg, #fff9fc, #fff0f5);
-    border-radius: 26px;
-    border: 3px solid #f4c2d7;
-    box-shadow: 0 10px 40px rgba(168, 26, 80, 0.25);
-    text-align: center;
+/* ================= POPUP ================= */
+.pink-box{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    z-index:2;
+    width:min(92vw,460px);
+    padding:30px 26px 34px;
+    background:linear-gradient(180deg,#fff9fc,#fff2f7);
+    border-radius:26px;
+    border:2px solid #f0b7d3;
+    box-shadow:0 14px 36px rgba(0,0,0,.28);
+    text-align:center;
 }
 
-.heart {
-    font-size: 50px;
-    margin-bottom: 15px;
-    animation: beat 1.8s infinite;
+.heart{
+    font-size:46px;
+    margin-bottom:10px;
+    animation:beat 2.2s infinite;
 }
 
-.text {
-    font-size: 20px;
-    font-weight: 600;
-    color: #881d4b;
-    line-height: 1.5;
-    min-height: 60px; /* Giữ khung không bị nhảy khi text hiện */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.text{
+    font-size:22px;
+    font-weight:600;
+    color:#7a1f47;
 }
 
-.btn {
-    margin-top: 25px;
-    padding: 12px 50px;
-    font-size: 18px;
-    font-weight: 600;
-    background: linear-gradient(180deg, #ffcce6, #ffa6c9);
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    color: #7a1f47;
-    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
-    transition: transform 0.1s;
+.btn{
+    margin-top:22px;
+    padding:10px 48px;
+    font-size:17px;
+    background:linear-gradient(180deg,#f7c4de,#f2aecd);
+    border:none;
+    border-radius:999px;
+    cursor:pointer;
+    color:#4d0f2d;
 }
 
-.btn:active {
-    transform: scale(0.95);
+.hidden{display:none}
+@keyframes beat{30%{transform:scale(1.1)}}
+
+/* ================= LOVE TEXT ================= */
+.love-text{
+    position:fixed;
+    font-size:26px;
+    font-weight:900;
+    pointer-events:none;
+    z-index:4;
+    animation:loveFloat 1.4s ease-out forwards;
 }
 
-.hidden { display: none !important; }
-
-@keyframes beat {
-    0%, 100% {transform: scale(1);}
-    25% {transform: scale(1.15);}
-    50% {transform: scale(1);}
-    75% {transform: scale(1.15);}
+@keyframes loveFloat{
+    0%{opacity:0; transform:translateY(0) scale(.8);}
+    25%{opacity:1;}
+    100%{opacity:0; transform:translateY(-100px) scale(1.2);}
 }
 
-/* ================= HIỆU ỨNG TIM BAY KHI CLICK ================= */
-.love-text {
-    position: fixed;
-    font-size: 24px;
-    font-weight: bold;
-    pointer-events: none;
-    z-index: 200;
-    white-space: nowrap;
-    animation: floatUp 1.5s ease-out forwards;
-    text-shadow: 0 2px 5px rgba(255,255,255,0.8);
+.flying-heart{
+    position:fixed;
+    pointer-events:none;
+    z-index:3;
+    animation:heartFly 1.6s ease-out forwards;
 }
 
-@keyframes floatUp {
-    0% {opacity: 0; transform: translateY(0) scale(0.8);}
-    20% {opacity: 1; transform: translateY(-20px) scale(1.1);}
-    100% {opacity: 0; transform: translateY(-100px) scale(1);}
-}
-
-.flying-heart {
-    position: fixed;
-    pointer-events: none;
-    z-index: 199;
-    animation: flyScatter 1.2s ease-out forwards;
-}
-
-@keyframes flyScatter {
-    to { opacity: 0; transform: translate(var(--mx), var(--my)) scale(1.5); }
+@keyframes heartFly{
+    0%{opacity:1; transform:translate(0,0) scale(.8);}
+    100%{opacity:0; transform:translate(var(--x),var(--y)) scale(1.8);}
 }
 
 /* ================= PHONG THƯ ================= */
-.envelope {
-    position: fixed;
-    font-size: 80px;
-    z-index: 150;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+.envelope{
+    position:fixed;
+    font-size:70px;
+    z-index:10;
+    top:45%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    cursor:pointer;
+    transition:transform 0.3s ease;
 }
 
-.envelope.drop {
-    animation: dropIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+/* khi xuất hiện mới rơi */
+.envelope.drop{
+    animation:drop 1.2s ease forwards;
 }
 
-@keyframes dropIn {
-    from {top: -20%;}
-    to {top: 45%;}
+.envelope:active{
+    transform:translate(-50%,-50%) scale(0.95);
 }
 
-/* ================= NỘI DUNG THƯ ================= */
-.letter-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 5000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.5s;
-    backdrop-filter: blur(4px);
+
+@keyframes shake{
+    0%{transform:translateX(-50%) rotate(0deg);}
+    25%{transform:translateX(-50%) rotate(3deg);}
+    50%{transform:translateX(-50%) rotate(-3deg);}
+    75%{transform:translateX(-50%) rotate(2deg);}
+    100%{transform:translateX(-50%) rotate(0deg);}
 }
 
-.letter-overlay.show {
-    opacity: 1;
-    pointer-events: auto;
+@keyframes drop{
+    to{ top:45%; }
 }
 
-.letter-card {
-    width: 90vw;
-    max-width: 500px;
-    max-height: 80vh;
-    background: #fff;
-    border-radius: 20px;
-    padding: 60px 25px 30px;
-    position: relative;
-    overflow-y: auto;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-    transform: translateY(30px);
-    transition: transform 0.4s;
+/* ================= LÁ THƯ ================= */
+/* ================= LÁ THƯ OVERLAY ================= */
+.letter{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+
+    background:rgba(0,0,0,0.35);
+
+    pointer-events:none;
+    opacity:0;
+    transition:.4s ease;
 }
 
-.letter-overlay.show .letter-card {
-    transform: translateY(0);
+
+.letter.show{
+    pointer-events:auto;
+    opacity:1;
 }
 
-.letter-card h2 {
-    color: #d63384;
-    text-align: center;
-    margin-top: 0;
-    font-family: 'Pacifico', cursive, serif; /* Nếu có font cute */
+/* Card nổi */
+.letter-card{
+    width:94vw;
+    max-width:520px;
+    max-height:85vh;
+    overflow-y:auto;
+
+    background:white;
+    border-radius:18px;
+    padding:85px 24px 35px;
+
+    box-shadow:0 25px 60px rgba(0,0,0,.35);
+    position:relative;
+
+    opacity:0;
+    transform:translateY(20px);
+    transition:all .3s ease;
 }
 
-.letter-card p {
-    font-size: 18px;
-    line-height: 1.6;
-    color: #333;
-    margin-bottom: 15px;
+.letter-card h2{
+    text-align:center;
+    margin-bottom:25px;
+    color:#c2185b;
 }
 
-.close-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: #ffe0ef;
-    color: #d63384;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
+.letter-card p{
+    line-height:1.7;
+    margin-bottom:16px;
+    font-size:16px;
+    font-family: inherit;
 }
 
-/* Con trỏ nhấp nháy */
-.cursor-heart {
-    animation: blink 1s infinite;
+
+.letter.show .letter-card{
+    opacity:1;
+    transform:translateY(0);
 }
-@keyframes blink { 50% {opacity: 0;} }
+
+
+/* Nút đóng cố định */
+.close-btn{
+    position:absolute;
+    top:20px;
+    right:20px;
+    background:#ffe6f1;
+    border:none;
+    border-radius:30px;
+    padding:8px 18px;
+    font-weight:600;
+    cursor:pointer;
+    color:#c2185b;
+    box-shadow:0 18px 45px rgba(0,0,0,.35);
+    font-size:16px;
+    white-space:nowrap;
+}
+
+
+
+
+
+/* ===== Con trỏ tim nhấp nháy ===== */
+.cursor-heart{
+    display:inline-block;
+    margin-left:4px;
+    font-size:22px;
+    animation:blinkCursor 1.2s infinite, heartBeatCursor 2.2s infinite;
+}
+
+@keyframes blinkCursor{
+    0%,100%{opacity:1;}
+    50%{opacity:0;}
+}
+
+@keyframes heartBeatCursor{
+    30%{transform:scale(1.2);}
+}
+/* ================= BG HEART FLOAT ================= */
+.bg-heart{
+    position:fixed;
+    font-size:22px;
+    opacity:0.08;
+    pointer-events:none;
+    z-index:19;
+    animation:bgFloat linear forwards;
+}
+
+@keyframes bgFloat{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-120vh);}
+}
+@media (max-width:768px){
+
+    .letter-card{
+        width:96vw;
+        padding:80px 20px 30px;
+        border-radius:18px;
+    }
+
+    .letter-card h2{
+        font-size:20px;
+    }
+
+    .letter-card p{
+        font-size:16px;
+    }
+
+    .close-btn{
+        top:14px;
+        right:14px;
+        padding:6px 14px;
+        font-size:16px;
+    }
+}
+button, input, textarea {
+    font-size: 16px;
+}
 
 </style>
 </head>
@@ -280,231 +358,420 @@ body::before {
 <div id="popup1" class="pink-box">
     <div class="heart">💗</div>
     <div id="text1" class="text"></div>
-    <button class="btn" onclick="nextPopup()">Dạaa</button>
+    <button class="btn" onclick="nextPopup()">ok</button>
 </div>
 
 <div id="popup2" class="pink-box hidden">
     <div class="heart">💓</div>
     <div id="text2" class="text"></div>
-    <button class="btn" onclick="closePopup()">Iu lun</button>
+    <button class="btn" onclick="closePopup()">ok</button>
 </div>
 
 <div id="envelope" class="envelope hidden">💌</div>
 
-<div id="letter" class="letter-overlay">
+<div id="letter" class="letter">
+
     <div class="letter-card">
-        <button id="closeLetterBtn" class="close-btn">Đóng</button>
+
+        <button id="closeLetterBtn" class="close-btn">
+             💗  Đóng thư
+        </button>
+
         <h2>14.02.2026</h2>
+
         <div id="letterContent"></div>
+
     </div>
+
 </div>
 
+
+
 <script>
-/* ================= DỮ LIỆU & CẤU HÌNH ================= */
+
+// --- CHÈN ĐOẠN CODE NÀY VÀO ĐẦU SCRIPT ---
+document.addEventListener('gesturestart', function (e) {
+    e.preventDefault();
+});
+
+document.addEventListener('touchmove', function (e) {
+    if (e.scale !== 1) { e.preventDefault(); }
+}, { passive: false });
+
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function (event) {
+    const now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
+// -------------------------------------------
+
+/* ================= RANDOM MESSAGE ================= */
+/* ================= RANDOM MESSAGE ================= */
+
 const loveMessages = [
-    "Em yêu Kiều", "Em yêu chị quó ò", "Em nhớ Kiều", "Em nhớ chị quó ò",
-    "Em yêu bé Keii", "Bé Keii của Rùa", "Yêu Keii", "Kiều ơi, moa moaaa",
-    "Cục cưng ơi, muốn ôm ôm", "Ôm ôm", "Yêu Kiều", "Yêu chị", "Nhớ Kiều",
-    "Nhớ chị", "Umoaa umoazz", "Chụt chụttt", "Hun hun hun", "Hun chục cáii",
-    "Hít hítt", "Cục cưng ngoan ngoan", "Em thươnggg Kiềuu", "Em muốn ôm ôm",
-    "Cục cưng ơi, muốn hun hunn", "Cục cưng ơi, muốn chị", 
-    "Cục cưng cục cưng em yêu chị", "Cục cưng ơi, muốn ăn gì dạ",
-    "Cục cưng có nhớ em hông dạ", "Cục cưng có yêu em hông dạ",
-    "Em yêu chị nhiều lắm luôn á", "Vợ ơii, em yêu chị"
+"Em yêu Kiều",
+"Em yêu chị quó ò",
+"Em nhớ Kiều",
+"Em nhớ chị quó ò",
+"em yêu bé Keii",
+"bé Keii của Rùa",
+"yêu Keii",
+"Kiều ơi, moa moaaa",
+"cục cưng ơi, muốn ôm ôm",
+"ôm ôm",
+"yêu Kiều",
+"yêu chị",
+"nhớ Kiều",
+"nhớ chị",
+"Umoaa umoazz",
+"chụt chụttt",
+"hun hun hun",
+"hun chục cáii",
+"hít hítt",
+"cục cưng ngoan ngoan",
+"em thươnggg Kiềuu",
+"em muốn ôm ôm",
+"cục cưng ơi, muốn hun hunn",
+"cục cưng ơi, muốn chị",
+"cục cưng cục cưng em yêu chị",
+"cục cưng ơi, muốn ăn gì dạ",
+"cục cưng có nhớ em hông dạ",
+"cục cưng có yêu em hông dạ",
+"em yêu chị nhiều lắm luôn á",
+"dợ ơii, em yêu chị"
 ];
 
-// Biến điều khiển
-let stickerInterval;
+let lastIndex=-1;
+let stickerInterval = null;
+let bgInterval = null;
 const envelope = document.getElementById("envelope");
 const letter = document.getElementById("letter");
 const letterContent = document.getElementById("letterContent");
 const popup1 = document.getElementById("popup1");
 const popup2 = document.getElementById("popup2");
+const closeLetterBtn = document.getElementById("closeLetterBtn");
 
-/* ================= HÀM TIỆN ÍCH ================= */
-function rand(min, max) { return Math.random() * (max - min) + min; }
+/* ================= TYPE WRITER ================= */
 
-// Hàm lấy màu pastel ngẫu nhiên cho chữ
-function generateCuteColor() {
-    const hue = Math.floor(Math.random() * 360);
-    return `hsl(${hue}, 85%, 60%)`;
-}
+function typeWriter(element, text, speed = 45, showCursor = true){
 
-// Hiệu ứng gõ chữ
-function typeWriter(element, text, speed = 50) {
     element.innerHTML = "";
-    let i = 0;
-    
-    // Tạo con trỏ
-    const cursor = document.createElement("span");
-    cursor.className = "cursor-heart";
-    cursor.textContent = "💗";
-    element.appendChild(cursor);
 
-    function typing() {
-        if (i < text.length) {
-            cursor.before(text.charAt(i));
+    let i = 0;
+    let cursor = null;
+
+    if(showCursor){
+        cursor = document.createElement("span");
+        cursor.className = "cursor-heart";
+        cursor.textContent = "💗";
+        element.appendChild(cursor);
+    }
+
+    function typing(){
+
+        if(i < text.length){
+
+            if(cursor){
+                element.insertBefore(
+                    document.createTextNode(text.charAt(i)),
+                    cursor
+                );
+            } else {
+                element.append(text.charAt(i));
+            }
+
             i++;
             setTimeout(typing, speed);
         }
     }
+
     typing();
 }
 
-/* ================= HỆ THỐNG STICKER ================= */
-// Lấy vị trí ngẫu nhiên nhưng tránh vùng giữa màn hình (để không che Popup)
-function getSafePosition() {
-    let x, y, attempts = 0;
-    const padding = 60; // Cách mép màn hình
-    
-    // Vùng an toàn ở giữa (nơi có popup)
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    const safeZoneW = 300; // Chiều rộng vùng cấm
-    const safeZoneH = 400; // Chiều cao vùng cấm
 
-    do {
-        x = rand(padding, window.innerWidth - padding);
-        y = rand(padding, window.innerHeight - padding);
+
+function getRandomMessage(){
+    let index;
+    do{
+        index=Math.floor(Math.random()*loveMessages.length);
+    }while(index===lastIndex);
+    lastIndex=index;
+    return loveMessages[index];
+}
+
+/* ================= AUTO PASTEL COLOR ================= */
+
+function generateCuteColor(){
+    const hue=Math.floor(Math.random()*360);
+    const saturation=85;   // tươi
+    const lightness=65;    // đủ sáng để rõ
+    return `hsl(${hue},${saturation}%,${lightness}%)`;
+}
+
+/* ================= STICKER ENGINE ================= */
+
+function rand(min,max){return Math.random()*(max-min)+min;}
+function randInt(min,max){return Math.floor(rand(min,max));}
+function shuffleArray(array){
+    for(let i = array.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+function getGridPositions(){
+
+    const positions = [];
+    const totalNeeded = 26; // 6 thường + 20 panda
+    const minDistance = 80; // khoảng cách tối thiểu giữa sticker
+
+    const centerYMin = innerHeight * 0.35;
+    const centerYMax = innerHeight * 0.65;
+
+    let attempts = 0;
+
+    while(positions.length < totalNeeded && attempts < 500){
         attempts++;
-        
-        // Kiểm tra xem có nằm trong vùng giữa không
-        const inCenterX = x > (centerX - safeZoneW/2) && x < (centerX + safeZoneW/2);
-        const inCenterY = y > (centerY - safeZoneH/2) && y < (centerY + safeZoneH/2);
-        
-        if (!inCenterX || !inCenterY) return {x, y}; // Nếu nằm ngoài vùng cấm thì OK
 
-    } while (attempts < 100);
-    
-    return {x: rand(20, window.innerWidth-50), y: rand(20, window.innerHeight-50)}; // Fallback
-}
+        let x = rand(40, innerWidth - 80);
+        let y = rand(40, innerHeight - 80);
 
-function spawnSticker(src, isPanda) {
-    const img = new Image();
-    
-    // SỬA LỖI: Kiểm tra ảnh có load được không
-    img.onload = () => {
-        const pos = getSafePosition();
-        img.style.left = pos.x + "px";
-        img.style.top = pos.y + "px";
-        document.body.appendChild(img);
-        
-        // Xóa sau 4.4s
-        setTimeout(() => { if(img.parentNode) img.remove(); }, 4400);
-    };
-    
-    img.onerror = () => {
-        console.warn("Không tìm thấy ảnh:", src);
-    };
+        // tránh vùng popup giữa mobile
+        if(window.innerWidth < 768){
+            if(y > centerYMin && y < centerYMax){
+                continue;
+            }
+        }
 
-    img.src = src;
-    img.className = "sticker";
-    if (isPanda) img.classList.add("panda");
+        let tooClose = false;
 
-    // Click vào sticker hiện chữ
-    img.addEventListener("click", (e) => showLoveEffect(e.clientX, e.clientY));
-}
+        for(let p of positions){
+            let dx = p.x - x;
+            let dy = p.y - y;
+            let distance = Math.sqrt(dx*dx + dy*dy);
 
-function spawnWave() {
-    // Random 6 sticker thường
-    for(let i=0; i<6; i++) {
-        // Giả sử file tên là 01.png, 02.png... đến 48.png
-        const id = Math.floor(rand(1, 48)); 
-        const name = String(id).padStart(2, '0');
-        spawnSticker(`stickers/${name}.png`, false);
+            if(distance < minDistance){
+                tooClose = true;
+                break;
+            }
+        }
+
+        if(!tooClose){
+            positions.push({x,y});
+        }
     }
-    
-    // Random 20 panda
-    for(let i=0; i<15; i++) {
-        // SỬA LỖI: Đã đổi tên thư mục thành 'stickers-panda'
-        // Giả sử file tên 01.png ... 25.png
-        const id = Math.floor(rand(1, 25));
-        const name = String(id).padStart(2, '0');
-        spawnSticker(`stickers-panda/${name}.png`, true);
-    }
+
+    return shuffleArray(positions);
+}
+function spawnBgHeart(){
+    const h = document.createElement("div");
+    h.className="bg-heart";
+    h.textContent="💗";
+
+    h.style.left = rand(0,innerWidth)+"px";
+    h.style.fontSize = rand(16,28)+"px";
+    h.style.animationDuration = rand(6,12)+"s";
+
+    document.body.appendChild(h);
+
+    setTimeout(()=>h.remove(),12000);
 }
 
-/* ================= HIỆU ỨNG TIM & CHỮ BAY ================= */
-function showLoveEffect(x, y) {
-    // 1. Hiện chữ
-    const textDiv = document.createElement("div");
-    textDiv.className = "love-text";
-    textDiv.innerText = loveMessages[Math.floor(Math.random() * loveMessages.length)];
-    textDiv.style.color = generateCuteColor();
-    textDiv.style.left = x + "px";
-    textDiv.style.top = y + "px";
-    document.body.appendChild(textDiv);
-    setTimeout(() => textDiv.remove(), 1500);
 
-    // 2. Hiện tim bay tung tóe
-    for(let i=0; i<6; i++) {
-        const h = document.createElement("div");
-        h.className = "flying-heart";
-        h.innerText = ["💗", "💕", "💞", "💓"][Math.floor(Math.random()*4)];
-        h.style.left = x + "px";
-        h.style.top = y + "px";
-        h.style.fontSize = rand(15, 30) + "px";
-        h.style.setProperty("--mx", rand(-100, 100) + "px");
-        h.style.setProperty("--my", rand(-100, -200) + "px"); // Bay lên trên
+
+function showLove(x,y){
+    const div=document.createElement("div");
+    div.className="love-text";
+    div.textContent=getRandomMessage()+" 💗";
+
+    const color=generateCuteColor();
+    div.style.color=color;
+
+    // glow cùng tông màu
+    div.style.textShadow=`
+        0 3px 8px rgba(0,0,0,0.5),
+        0 0 18px ${color}
+    `;
+
+    div.style.left=x+"px";
+    div.style.top=y+"px";
+
+    document.body.appendChild(div);
+    setTimeout(()=>div.remove(),1400);
+
+    for(let i=0;i<4;i++){
+        const h=document.createElement("div");
+        h.className="flying-heart";
+        h.textContent="💗";
+        h.style.fontSize=rand(24,44)+"px";
+        h.style.left=x+"px";
+        h.style.top=y+"px";
+        h.style.setProperty("--x",rand(-140,140)+"px");
+        h.style.setProperty("--y",rand(-180,-80)+"px");
         document.body.appendChild(h);
-        setTimeout(() => h.remove(), 1200);
+        setTimeout(()=>h.remove(),1600);
     }
 }
 
-/* ================= LOGIC CHÍNH ================= */
-window.onload = function() {
-    typeWriter(document.getElementById("text1"), "Bé Keii ơii, bé Keii có biết hôngg??");
+function spawnSticker(src,isPanda,position){
+    const img=new Image();
+    img.src=src;
+    img.className="sticker";
+    if(isPanda) img.classList.add("panda");
+
+    img.onload=()=>{
+        img.style.width=isPanda?rand(75,95)+"px":rand(65,85)+"px";
+        img.style.left = position.x + "px";
+        img.style.top = position.y + "px";
+
+
+        img.addEventListener("click",(e)=>{
+            showLove(e.clientX,e.clientY);
+        });
+
+        document.body.appendChild(img);
+        setTimeout(()=>img.remove(),4400);
+    };
+}
+
+function spawnWave(){
+
+    const positions = getGridPositions();
+    let posIndex = 0;
+
+    // ===== Sticker thường =====
+    let normalList = [];
+    for(let i=1;i<=48;i++){
+        normalList.push(i);
+    }
+    shuffleArray(normalList);
+
+    for(let i=0;i<6;i++){
+        const pos = positions[posIndex++];
+        spawnSticker(
+            `stickers/${String(normalList[i]).padStart(2,"0")}.png`,
+            false,
+            pos
+        );
+    }
+
+    // ===== Panda =====
+    let pandaList = [];
+    for(let i=1;i<=25;i++){
+        pandaList.push(i);
+    }
+    shuffleArray(pandaList);
+
+    for(let i=0;i<20;i++){
+        const pos = positions[posIndex++];
+        spawnSticker(
+            `stickers-panda/${String(pandaList[i]).padStart(2,"0")}.png`,
+            true,
+            pos
+        );
+    }
+}
+
+
+function startSticker(){
+    if(stickerInterval) return; // tránh chạy nhiều lần
+
+    spawnWave();
+    stickerInterval = setInterval(spawnWave,4400);
+}
+window.onload = function(){
+    typeWriter(
+        document.getElementById("text1"),
+        "Bé Keii ơii, bé Keii có biết hôngg??"
+    );
 };
 
-function nextPopup() {
+
+/* ================= POPUP FLOW ================= */
+
+function nextPopup(){
     popup1.classList.add("hidden");
     popup2.classList.remove("hidden");
-    typeWriter(document.getElementById("text2"), "Em yêu chị nhiều lắm luôn á!");
-    
-    // Bắt đầu mưa Sticker
-    spawnWave();
-    stickerInterval = setInterval(spawnWave, 4000);
+
+    typeWriter(
+        document.getElementById("text2"),
+        "Em yêu chị nhiều lắm luôn á!"
+    );
+
+    startSticker();
 }
 
-function closePopup() {
+
+
+function closePopup(){
     popup2.classList.add("hidden");
-    document.body.classList.add("dark"); // Tối nền
+    document.body.classList.add("dark");
     envelope.classList.remove("hidden");
-    envelope.classList.add("drop"); // Rơi phong thư xuống
+    envelope.classList.add("drop");
+
 }
 
-/* ================= XỬ LÝ LÁ THƯ ================= */
+/* ================= LETTER ================= */
+
 const letterParagraphs = [
-    "Chúc bé Keii một Valentine thật ngọt ngào 💗",
-    "Em thương chị nhiều lắm luôn á 🥺",
-    "Cảm ơn chị đã xuất hiện trong cuộc đời em 💕",
-    "Yêu chị nhấtttt trên đời!"
+"Chúc bé Keii một Valentine thật ngọt ngào 💗",
+"Em thương chị nhiều lắm luôn á 🥺",
+"Cảm ơn chị đã xuất hiện trong cuộc đời em 💕"
 ];
 
+
 envelope.onclick = () => {
+
+    envelope.classList.remove("drop");
     envelope.style.display = "none";
+
+    document.body.classList.add("letter-open");
     letter.classList.add("show");
-    
-    // Hiện từng dòng
-    letterContent.innerHTML = "";
-    letterParagraphs.forEach((txt, idx) => {
-        setTimeout(() => {
-            const p = document.createElement("p");
-            p.innerText = txt;
-            p.style.animation = "floatUp 0.5s ease forwards";
+
+    bgInterval = setInterval(spawnBgHeart,800);
+
+    letterParagraphs.forEach((text,i)=>{
+        setTimeout(()=>{
+            const p=document.createElement("p");
+            p.style.opacity="0";
+            p.style.transform="translateY(10px)";
+            p.style.transition="all .4s ease";
+
+            p.textContent = text;
             letterContent.appendChild(p);
-        }, idx * 1000);
+
+            requestAnimationFrame(()=>{
+                p.style.opacity="1";
+                p.style.transform="translateY(0)";
+            });
+
+        },i*800);
     });
+
 };
 
-document.getElementById("closeLetterBtn").onclick = () => {
+closeLetterBtn.onclick = function(){
+
+    clearInterval(bgInterval);
+
     letter.classList.remove("show");
+
+    document.body.classList.remove("letter-open");
     document.body.classList.remove("dark");
-    // Dừng sticker nếu muốn, hoặc để nó bay tiếp
-    // clearInterval(stickerInterval); 
-    
-    // Hiện lại popup cuối hoặc reset tuỳ bạn, ở đây mình ẩn hết để ngắm sticker
+
+    letterContent.innerHTML = "";
+
+    envelope.style.display = "none";
+
+    popup1.classList.add("hidden");
+    popup2.classList.add("hidden");
 };
+
+
+
 
 </script>
 

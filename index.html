@@ -368,17 +368,24 @@ function getGridPositions(){
     for(let r=0; r<rows; r++){
         for(let c=0; c<cols; c++){
 
-            const x = c * cellWidth + cellWidth / 2;
-            const y = r * cellHeight + cellHeight / 2;
+            let baseX = c * cellWidth + cellWidth / 2;
+            let baseY = r * cellHeight + cellHeight / 2;
 
-            // tránh vùng popup giữa
-            if(isMobile && y > centerYMin && y < centerYMax){
+            // So le hàng
+            if(r % 2 === 0){
+                baseX += cellWidth * 0.25;
+            }else{
+                baseX -= cellWidth * 0.15;
+            }
+
+            // tránh popup giữa
+            if(isMobile && baseY > centerYMin && baseY < centerYMax){
                 continue;
             }
 
             positions.push({
-                x: x - 40 + rand(-15,15),
-                y: y - 40 + rand(-15,15)
+                x: baseX - 40 + rand(-30,30),
+                y: baseY - 40 + rand(-25,25)
             });
         }
     }

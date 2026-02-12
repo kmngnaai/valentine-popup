@@ -15,11 +15,8 @@
 <style>
 body{
     margin:0;
-    min-height:100vh;
+    height:100dvh;
     background:url("valentines-mobile.png") center/cover no-repeat #f6d6df;
-    display:flex;
-    justify-content:center;
-    align-items:center;
 
     font-family:
     -apple-system,
@@ -67,7 +64,7 @@ body::before{
 .sticker{
     position:fixed;
     pointer-events:auto;
-    z-index:1;
+    z-index:20;
     opacity:0;
     animation:life 4.4s ease-in-out forwards;
     transition:opacity .6s;
@@ -103,7 +100,10 @@ body::before{
 
 /* ================= POPUP ================= */
 .pink-box{
-    position:relative;
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
     z-index:2;
     width:min(92vw,460px);
     padding:30px 26px 34px;
@@ -236,15 +236,16 @@ body::before{
 
     background:white;
     border-radius:18px;
-    padding:85px 24px 35px; /* tăng top padding cho nút */
+    padding:85px 24px 35px;
 
     box-shadow:0 25px 60px rgba(0,0,0,.35);
+    position:relative;
 
-    position:relative; /* thêm dòng này */
-
-    transform:scale(.9);
-    transition:.3s ease;
+    opacity:0;
+    transform:translateY(20px);
+    transition:all .3s ease;
 }
+
 .letter-card h2{
     text-align:center;
     margin-bottom:25px;
@@ -260,8 +261,10 @@ body::before{
 
 
 .letter.show .letter-card{
-    transform:scale(1);
+    opacity:1;
+    transform:translateY(0);
 }
+
 
 /* Nút đóng cố định */
 .close-btn{

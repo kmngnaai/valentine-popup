@@ -147,6 +147,17 @@ body::before{
     cursor:pointer;
     animation:drop 1.2s ease forwards;
 }
+.envelope:active{
+    animation:shake 0.4s ease;
+}
+
+@keyframes shake{
+    0%{transform:translateX(-50%) rotate(0deg);}
+    25%{transform:translateX(-50%) rotate(3deg);}
+    50%{transform:translateX(-50%) rotate(-3deg);}
+    75%{transform:translateX(-50%) rotate(2deg);}
+    100%{transform:translateX(-50%) rotate(0deg);}
+}
 
 @keyframes drop{
     to{ top:45%; }
@@ -154,14 +165,6 @@ body::before{
 
 /* ================= LÁ THƯ ================= */
 .letter{
-    position:fixed;
-    inset:0;
-    background:url("ThuNen.png") center/cover no-repeat;
-    z-index:20;
-    padding:80px 30px;
-    overflow-y:auto;
-    display:none;
-}
 
 /* Overlay làm dịu nền */
 .letter::before{
@@ -170,6 +173,9 @@ body::before{
     inset:0;
     background:rgba(255,255,255,0.75); /* chỉnh độ mờ ở đây */
     z-index:0;
+}
+.letter.show{
+    transform:translateY(0);
 }
 
 /* Đảm bảo chữ nằm trên overlay */
@@ -219,6 +225,20 @@ body::before{
 
 @keyframes heartBeatCursor{
     30%{transform:scale(1.2);}
+}
+/* ================= BG HEART FLOAT ================= */
+.bg-heart{
+    position:fixed;
+    font-size:22px;
+    opacity:0.08;
+    pointer-events:none;
+    z-index:19;
+    animation:bgFloat linear forwards;
+}
+
+@keyframes bgFloat{
+    from{transform:translateY(100vh);}
+    to{transform:translateY(-120vh);}
 }
 
 </style>
@@ -290,6 +310,8 @@ const loveMessages = [
 
 let lastIndex=-1;
 let stickerInterval = null;
+let bgInterval = null;
+
 /* ================= TYPE WRITER ================= */
 
 function typeWriter(element, text, speed = 45){
@@ -394,6 +416,19 @@ function getGridPositions(){
     }
 
     return shuffleArray(positions);
+}
+function spawnBgHeart(){
+    const h = document.createElement("div");
+    h.className="bg-heart";
+    h.textContent="💗";
+
+    h.style.left = rand(0,innerWidth)+"px";
+    h.style.fontSize = rand(16,28)+"px";
+    h.style.animationDuration = rand(6,12)+"s";
+
+    document.body.appendChild(h);
+
+    setTimeout(()=>h.remove(),12000);
 }
 
 
@@ -536,12 +571,14 @@ envelope.onclick=()=>{
     envelope.classList.add("hidden"); // Ẩn chứ không remove
 
     document.body.classList.add("letter-open");
-    letter.style.display="block";
+    letter.classList.add("show");
+   bgInterval = setInterval(spawnBgHeart,800);
+
 
     letterParagraphs.forEach((text,i)=>{
         setTimeout(()=>{
             const p=document.createElement("p");
-            p.textContent=text;
+            typeWriter(p, text, 30);
             letterContent.appendChild(p);
         },i*1200);
     });
@@ -552,7 +589,10 @@ document.addEventListener("click", function(e){
     if(e.target && e.target.id === "closeLetterBtn"){
 
         // Ẩn thư
-        letter.style.display = "none";
+        clearInterval(bgInterval);
+
+        letter.classList.remove("show");
+
 
         // Trả lại sticker bình thường
         document.body.classList.remove("letter-open");

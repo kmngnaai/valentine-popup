@@ -13,9 +13,17 @@
 
 
 <style>
-body{
+html, body{
     margin:0;
-    height:100dvh;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+body{
+    position:fixed;
+    inset:0;
     background:url("valentines-mobile.png") center/cover no-repeat #f6d6df;
 
     font-family:
@@ -28,18 +36,16 @@ body{
     Roboto,
     sans-serif;
 
-    overflow:hidden;
     transition:.6s;
 
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust:100%;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
 }
 
 
-html, body {
-    touch-action: manipulation;
-    -ms-touch-action: manipulation;
-}
+
+
 html {
     -webkit-text-size-adjust: 100%;
 }
@@ -207,7 +213,6 @@ body::before{
 .letter{
     position:fixed;
     inset:0;
-    height:100dvh;
     z-index:5000;
 
     display:flex;
@@ -221,6 +226,7 @@ body::before{
     opacity:0;
     transition:.4s ease;
 }
+
 
 .letter.show{
     pointer-events:auto;
@@ -697,49 +703,53 @@ const letterParagraphs = [
 ];
 
 
-envelope.onclick=()=>{
-   envelope.classList.remove("drop"); // tránh reset animation
-   envelope.style.display = "none";
+envelope.onclick = () => {
 
+    envelope.classList.remove("drop");
+    envelope.style.display = "none";
 
     document.body.classList.add("letter-open");
     letter.classList.add("show");
-   bgInterval = setInterval(spawnBgHeart,800);
 
+    bgInterval = setInterval(spawnBgHeart,800);
 
     letterParagraphs.forEach((text,i)=>{
         setTimeout(()=>{
             const p=document.createElement("p");
+            p.style.opacity="0";
+            p.style.transform="translateY(10px)";
+            p.style.transition="all .4s ease";
+
             p.textContent = text;
             letterContent.appendChild(p);
 
-        },i*1200);
+            requestAnimationFrame(()=>{
+                p.style.opacity="1";
+                p.style.transform="translateY(0)";
+            });
+
+        },i*800);
     });
+
 };
 
 closeLetterBtn.onclick = function(){
 
     clearInterval(bgInterval);
 
-    // Ẩn thư
     letter.classList.remove("show");
 
-    // Trả nền sáng
     document.body.classList.remove("letter-open");
     document.body.classList.remove("dark");
 
-    // Xóa nội dung thư
     letterContent.innerHTML = "";
 
-    // KHÔNG hiện lại envelope
     envelope.style.display = "none";
 
-    // KHÔNG hiện popup nữa
     popup1.classList.add("hidden");
     popup2.classList.add("hidden");
-
-    // Sticker vẫn chạy vì startSticker() đã được gọi trước đó
 };
+
 
 
 

@@ -344,6 +344,13 @@ function generateCuteColor(){
 
 function rand(min,max){return Math.random()*(max-min)+min;}
 function randInt(min,max){return Math.floor(rand(min,max));}
+function shuffleArray(array){
+    for(let i = array.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
 
 function showLove(x,y){
     const div=document.createElement("div");
@@ -400,13 +407,36 @@ function spawnSticker(src,isPanda){
 }
 
 function spawnWave(){
-    for(let i=0;i<6;i++){
-        spawnSticker(`stickers/${String(randInt(1,48)).padStart(2,"0")}.png`,false);
+
+    // ===== Sticker thường =====
+    let normalList = [];
+    for(let i=1;i<=48;i++){
+        normalList.push(i);
     }
-    for(let i=0;i<24;i++){
-        spawnSticker(`stickers panda/${String(randInt(1,25)).padStart(2,"0")}.png`,true);
+    shuffleArray(normalList);
+
+    for(let i=0;i<6;i++){
+        spawnSticker(
+            `stickers/${String(normalList[i]).padStart(2,"0")}.png`,
+            false
+        );
+    }
+
+    // ===== Panda =====
+    let pandaList = [];
+    for(let i=1;i<=25;i++){
+        pandaList.push(i);
+    }
+    shuffleArray(pandaList);
+
+    for(let i=0;i<20;i++){
+        spawnSticker(
+            `stickers panda/${String(pandaList[i]).padStart(2,"0")}.png`,
+            true
+        );
     }
 }
+
 function startSticker(){
     if(stickerInterval) return; // tránh chạy nhiều lần
 

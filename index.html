@@ -611,7 +611,9 @@ function spawnSticker(src,isPanda,position){
     if(isPanda) img.classList.add("panda");
 
     img.onload=()=>{
-        img.style.width=isPanda?rand(75,95)+"px":rand(65,85)+"px";
+        img.style.width = isPanda
+    ? rand(45,60)+"px"   // panda nhỏ lại
+    : rand(40,55)+"px";  // sticker thường nhỏ hơn
         img.style.left = position.x + "px";
         img.style.top = position.y + "px";
 

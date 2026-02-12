@@ -204,6 +204,22 @@ body::before{
     position:relative;
     z-index:5;
 }
+/* ===== Con trỏ tim nhấp nháy ===== */
+.cursor-heart{
+    display:inline-block;
+    margin-left:4px;
+    font-size:22px;
+    animation:blinkCursor 1.2s infinite, heartBeatCursor 2.2s infinite;
+}
+
+@keyframes blinkCursor{
+    0%,100%{opacity:1;}
+    50%{opacity:0;}
+}
+
+@keyframes heartBeatCursor{
+    30%{transform:scale(1.2);}
+}
 
 </style>
 </head>
@@ -212,13 +228,13 @@ body::before{
 
 <div id="popup1" class="pink-box">
     <div class="heart">💗</div>
-    <div class="text">Bé Keii ơii, bé Keii có biết hôngg??</div>
+    <div id="text1" class="text"></div>
     <button class="btn" onclick="nextPopup()">ok</button>
 </div>
 
 <div id="popup2" class="pink-box hidden">
     <div class="heart">💓</div>
-    <div class="text">Em yêu chị nhiều lắm luôn á!</div>
+    <div id="text2" class="text"></div>
     <button class="btn" onclick="closePopup()">ok</button>
 </div>
 
@@ -274,6 +290,36 @@ const loveMessages = [
 
 let lastIndex=-1;
 let stickerInterval = null;
+/* ================= TYPE WRITER ================= */
+
+function typeWriter(element, text, speed = 45){
+    element.innerHTML = "";
+
+    let i = 0;
+
+    const cursor = document.createElement("span");
+    cursor.className = "cursor-heart";
+    cursor.textContent = "💗";
+
+    element.appendChild(cursor);
+
+    function typing(){
+
+        if(i < text.length){
+
+            element.insertBefore(
+                document.createTextNode(text.charAt(i)),
+                cursor
+            );
+
+            i++;
+            setTimeout(typing, speed);
+
+        }
+    }
+
+    typing();
+}
 
 
 function getRandomMessage(){
@@ -367,6 +413,12 @@ function startSticker(){
     spawnWave();
     stickerInterval = setInterval(spawnWave,4400);
 }
+window.onload = function(){
+    typeWriter(
+        document.getElementById("text1"),
+        "Bé Keii ơii, bé Keii có biết hôngg??"
+    );
+};
 
 
 /* ================= POPUP FLOW ================= */
@@ -375,9 +427,14 @@ function nextPopup(){
     popup1.classList.add("hidden");
     popup2.classList.remove("hidden");
 
-    // Bắt đầu sticker khi popup2 xuất hiện
+    typeWriter(
+        document.getElementById("text2"),
+        "Em yêu chị nhiều lắm luôn á!"
+    );
+
     startSticker();
 }
+
 
 
 function closePopup(){

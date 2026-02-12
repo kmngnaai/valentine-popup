@@ -12,7 +12,7 @@ html, body{
     margin:0;
     padding:0;
     width:100%;
-    min-height:100vh;
+    height:100%;
     overflow-x:hidden;
 }
 
@@ -100,11 +100,6 @@ body::before{
 
 /* ================= POPUP ================= */
 .pink-box{
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    z-index:2;
     width:min(92vw,460px);
     padding:30px 26px 34px;
     background:linear-gradient(180deg,#fff9fc,#fff2f7);
@@ -113,6 +108,7 @@ body::before{
     box-shadow:0 14px 36px rgba(0,0,0,.28);
     text-align:center;
 }
+
 
 .heart{
     font-size:46px;
@@ -173,9 +169,6 @@ body::before{
     position:fixed;
     font-size:70px;
     z-index:10;
-    top:45%;
-    left:50%;
-    transform:translate(-50%,-50%);
     cursor:pointer;
     transition:transform 0.3s ease;
 }
@@ -186,7 +179,7 @@ body::before{
 }
 
 .envelope:active{
-    transform:translate(-50%,-50%) scale(0.95);
+    transform:scale(0.95);
 }
 
 
@@ -343,25 +336,48 @@ body::before{
 button, input, textarea {
     font-size: 16px;
 }
+/* ===== FIX CENTER POPUP IOS ===== */
+.popup-wrapper{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:2;
+}
+.envelope-wrapper{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:10;
+}
 
 </style>
 </head>
 
 <body>
 
-<div id="popup1" class="pink-box">
+<div id="popup1Wrapper" class="popup-wrapper">
+    <div class="pink-box">
     <div class="heart">💗</div>
     <div id="text1" class="text"></div>
     <button class="btn" onclick="nextPopup()">ok</button>
 </div>
+</div>
 
-<div id="popup2" class="pink-box hidden">
+<div id="popup2Wrapper" class="popup-wrapper hidden">
+    <div class="pink-box">
     <div class="heart">💓</div>
     <div id="text2" class="text"></div>
     <button class="btn" onclick="closePopup()">ok</button>
 </div>
+</div> 
 
-<div id="envelope" class="envelope hidden">💌</div>
+<div id="envelopeWrapper" class="envelope-wrapper hidden">
+    <div id="envelope" class="envelope">💌</div>
+</div>
 
 <div id="letter" class="letter">
 
@@ -424,8 +440,6 @@ let bgInterval = null;
 const envelope = document.getElementById("envelope");
 const letter = document.getElementById("letter");
 const letterContent = document.getElementById("letterContent");
-const popup1 = document.getElementById("popup1");
-const popup2 = document.getElementById("popup2");
 const closeLetterBtn = document.getElementById("closeLetterBtn");
 
 /* ================= TYPE WRITER ================= */
@@ -667,8 +681,8 @@ window.onload = function(){
 /* ================= POPUP FLOW ================= */
 
 function nextPopup(){
-    popup1.classList.add("hidden");
-    popup2.classList.remove("hidden");
+   document.getElementById("popup1Wrapper").classList.add("hidden");
+   document.getElementById("popup2Wrapper").classList.remove("hidden");
 
     typeWriter(
         document.getElementById("text2"),
@@ -681,9 +695,9 @@ function nextPopup(){
 
 
 function closePopup(){
-    popup2.classList.add("hidden");
+    document.getElementById("popup2Wrapper").classList.add("hidden");
     document.body.classList.add("dark");
-    envelope.classList.remove("hidden");
+    document.getElementById("envelopeWrapper").classList.remove("hidden");
     envelope.classList.add("drop");
 
 }
@@ -700,7 +714,7 @@ const letterParagraphs = [
 envelope.onclick = () => {
 
     envelope.classList.remove("drop");
-    envelope.style.display = "none";
+    document.getElementById("envelopeWrapper").classList.add("hidden");
 
     document.body.classList.add("letter-open");
     letter.classList.add("show");
@@ -738,10 +752,9 @@ closeLetterBtn.onclick = function(){
 
     letterContent.innerHTML = "";
 
-    envelope.style.display = "none";
 
-    popup1.classList.add("hidden");
-    popup2.classList.add("hidden");
+    
+    document.getElementById("popup2Wrapper").classList.add("hidden");
 };
 
 

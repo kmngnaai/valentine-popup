@@ -355,8 +355,8 @@ function getGridPositions(){
 
     const isMobile = window.innerWidth < 768;
 
-    let cols = isMobile ? 4 : 7;
-    let rows = isMobile ? 7 : 4;
+    let cols = isMobile ? 6 : 7;
+    let rows = isMobile ? 9 : 5; // 👈 tăng hàng
 
     const positions = [];
     const cellWidth = innerWidth / cols;
@@ -371,12 +371,8 @@ function getGridPositions(){
             let baseX = c * cellWidth + cellWidth / 2;
             let baseY = r * cellHeight + cellHeight / 2;
 
-            // So le hàng
-            if(r % 2 === 0){
-                baseX += cellWidth * 0.25;
-            }else{
-                baseX -= cellWidth * 0.15;
-            }
+            // So le nhẹ
+            baseX += (r % 2 === 0 ? cellWidth * 0.2 : -cellWidth * 0.15);
 
             // tránh popup giữa
             if(isMobile && baseY > centerYMin && baseY < centerYMax){
@@ -384,14 +380,15 @@ function getGridPositions(){
             }
 
             positions.push({
-                x: baseX - 40 + rand(-30,30),
-                y: baseY - 40 + rand(-25,25)
+                x: baseX - 40 + rand(-25,25),
+                y: baseY - 40 + rand(-20,20)
             });
         }
     }
 
     return shuffleArray(positions);
 }
+
 
 function showLove(x,y){
     const div=document.createElement("div");

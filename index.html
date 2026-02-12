@@ -141,15 +141,22 @@ body::before{
     position:fixed;
     font-size:70px;
     z-index:10;
-    top:-120px;
+    top:45%;
     left:50%;
-    transform:translateX(-50%);
+    transform:translate(-50%,-50%);
     cursor:pointer;
+    transition:transform 0.3s ease;
+}
+
+/* khi xuất hiện mới rơi */
+.envelope.drop{
     animation:drop 1.2s ease forwards;
 }
+
 .envelope:active{
-    animation:shake 0.4s ease;
+    transform:translate(-50%,-50%) scale(0.95);
 }
+
 
 @keyframes shake{
     0%{transform:translateX(-50%) rotate(0deg);}
@@ -554,6 +561,8 @@ function closePopup(){
     popup2.classList.add("hidden");
     document.body.classList.add("dark");
     envelope.classList.remove("hidden");
+    envelope.classList.add("drop");
+
 }
 
 /* ================= LETTER ================= */
@@ -566,7 +575,9 @@ const letterParagraphs = [
 
 
 envelope.onclick=()=>{
-    envelope.classList.add("hidden"); // Ẩn chứ không remove
+   envelope.classList.remove("drop"); // tránh reset animation
+   envelope.style.display = "none";
+
 
     document.body.classList.add("letter-open");
     letter.classList.add("show");
@@ -604,7 +615,11 @@ document.addEventListener("click", function(e){
         popup2.classList.add("hidden");
 
         // Không hiện lại envelope
-        envelope.classList.add("hidden");
+        envelope.style.display = "block";
+setTimeout(()=>{
+    envelope.classList.add("drop");
+},50);
+
     }
 
 });

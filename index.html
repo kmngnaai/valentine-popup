@@ -105,34 +105,37 @@ body::before{
     left:50%;
     transform:translate(-50%,-50%);
     z-index:2;
-    width:min(75vw,420px);
-    padding:30px 26px 34px;
+
+    width:min(60vw,320px);   /* 👈 nhỏ hơn */
+    padding:22px 18px 24px;
+
     background:linear-gradient(180deg,#fff9fc,#fff2f7);
-    border-radius:26px;
+    border-radius:22px;
     border:2px solid #f0b7d3;
-    box-shadow:0 14px 36px rgba(0,0,0,.28);
+
+    box-shadow:0 10px 28px rgba(0,0,0,.25);
     text-align:center;
 }
 
+
 .heart{
-    font-size:46px;
-    margin-bottom:10px;
+    font-size:34px;   /* trước 46px */
+    margin-bottom:8px;
     animation:beat 2.2s infinite;
 }
 
 .text{
-    font-size:22px;
+    font-size:16px;   /* trước 22px */
     font-weight:600;
     color:#7a1f47;
 }
-
 .btn{
-    margin-top:22px;
-    padding:10px 48px;
-    font-size:17px;
+    margin-top:14px;
+    padding:7px 28px;
+    font-size:14px;
+    border-radius:999px;
     background:linear-gradient(180deg,#f7c4de,#f2aecd);
     border:none;
-    border-radius:999px;
     cursor:pointer;
     color:#4d0f2d;
 }

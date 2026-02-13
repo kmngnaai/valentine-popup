@@ -366,12 +366,15 @@ body::before{
     100%{opacity:0; transform:translate(var(--sx),var(--sy)) scale(1.4);}
 }
 
-/* ===== Sticker spin ===== */
-@keyframes stickerSpin {
-    0%   {transform: rotate(0deg) scale(1);}
-    100% {transform: rotate(360deg) scale(1.2);}
+/* ===== Sticker happy shake ===== */
+@keyframes stickerHappy {
+    0%   {transform: scale(1) rotate(0deg);}
+    20%  {transform: scale(1.2) rotate(-8deg);}
+    40%  {transform: scale(1.15) rotate(8deg);}
+    60%  {transform: scale(1.2) rotate(-6deg);}
+    80%  {transform: scale(1.15) rotate(6deg);}
+    100% {transform: scale(1) rotate(0deg);}
 }
-
 
 
 </style>
@@ -666,14 +669,18 @@ function showLove(x,y, sticker){
         },250);
     }
 
-  // 3-4 lần: quay vòng
+  // // 3-4 lần: nhún + lắc + glow nhẹ
 else if(count <= 4){
 
     sticker.style.transition = "none";
-    sticker.style.animation = "stickerSpin 0.6s ease";
+    sticker.style.animation = "stickerHappy 0.6s ease";
+
+    // glow nhẹ thêm cho dễ thương
+    sticker.style.filter = "drop-shadow(0 0 15px pink)";
 
     setTimeout(()=>{
         sticker.style.animation = "";
+        sticker.style.filter = "";
         sticker.style.transition = "transform 0.25s ease";
     },600);
 }

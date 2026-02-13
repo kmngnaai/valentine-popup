@@ -211,21 +211,46 @@ body::before{
 /* Card nổi */
 .letter-card{
     width:min(96vw,720px);
-
-    height:50vh;          /* 🔥 CỐ ĐỊNH CHIỀU CAO */
+    height:50vh;
     max-height:85vh;
 
-    overflow-y:auto;      /* Scroll khi dài */
+    overflow-y:auto;
     scroll-behavior:smooth;
 
-    background:white;
-    border-radius:18px;
-    padding:80px 22px 36px;
+    /* 🌸 nền giấy hồng pastel */
+    background:
+        radial-gradient(circle at top,
+        #fff0f6 0%,
+        #ffe6f1 60%,
+        #ffd9ea 100%);
 
-    box-shadow:0 25px 60px rgba(0,0,0,.35);
+    border-radius:26px;
+    padding:80px 26px 40px;
+
+    /* 💗 viền mềm */
+    border:2px solid #ffc2da;
+
+    /* ✨ phát sáng + nổi */
+    box-shadow:
+        0 0 40px rgba(255,105,180,0.35),
+        0 30px 70px rgba(194, 24, 91, 0.25);
+
     position:relative;
 
-   
+    animation: letterGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes letterGlow{
+    from{
+        box-shadow:
+            0 0 30px rgba(255,105,180,0.25),
+            0 25px 60px rgba(194, 24, 91, 0.20);
+    }
+    to{
+        box-shadow:
+            0 0 65px rgba(255,105,180,0.45),
+            0 35px 80px rgba(194, 24, 91, 0.30);
+    }
 }
 
 
@@ -805,7 +830,6 @@ envelope.onclick = () => {
 
 
 
-
 closeLetterBtn.onclick = function(){
 
     clearInterval(bgInterval);
@@ -824,3 +848,4 @@ closeLetterBtn.onclick = function(){
 
 </body>
 </html>
+

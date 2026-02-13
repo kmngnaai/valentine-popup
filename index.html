@@ -39,35 +39,28 @@ body::before{
     pointer-events:auto;
     z-index:1;
     opacity:0;
+    animation:life 4.6s ease-in-out forwards;
     transition:opacity .6s;
-    transform-origin:center;
-    transform:scale(1);
 }
-.life{
-    animation: life 4.6s ease-in-out forwards;
-}
-
-
 
 .letter-open .sticker{
     opacity:.15 !important;
 }
 
 @keyframes life{
-    0%   {opacity:0;}
-    26%  {opacity:.95;}
+    0%   {opacity:0; transform:scale(.85);}
+    26%  {opacity:.95; transform:scale(1);}
     74%  {opacity:.95;}
-    100% {opacity:0;}
+    100% {opacity:0; transform:scale(.9);}
 }
-
 
 
 /* Panda */
 .panda{
-    animation: pandaGlow 2.2s ease-in-out infinite alternate;
+    animation:
+        life 4.6s ease-in-out forwards,
+        pandaGlow 2.2s ease-in-out infinite alternate;
 }
-
-
 
 
 @keyframes pandaGlow{
@@ -79,36 +72,6 @@ body::before{
     transform:scale(0.7);
     transition:transform .15s ease;
 }
-/* ===== THƯỜNG: rung + nhảy + bay ===== */
-@keyframes normalHit {
-    0%   {transform: scale(1) rotate(0deg);}
-    20%  {transform: scale(1.15) rotate(-6deg);}
-    40%  {transform: scale(1.1) rotate(6deg);}
-    60%  {transform: scale(1.2) translateY(-40px);}
-    80%  {transform: scale(.9) translateY(-60px);}
-    100% {transform: scale(.5) translateY(-120px);}
-
-}
-
-.normal-hit{
-    animation: normalHit .9s ease forwards;
-}
-
-/* ===== PANDA: glow mạnh + lò xo ===== */
-@keyframes pandaSpring {
-    0%   {transform: scale(1);}
-    25%  {transform: scale(1.4) translateY(-60px);}
-    50%  {transform: scale(.9) translateY(20px);}
-    75%  {transform: scale(1.1) translateY(-15px);}
-    100% {transform: scale(1);}
-}
-
-.panda-spring{
-    animation-name: pandaSpring;
-    animation-duration: .8s;
-    animation-timing-function: ease;
-}
-
 
 /* ================= POPUP ================= */
 .pink-box{
@@ -644,7 +607,7 @@ function showLove(x,y){
 function spawnSticker(src,isPanda,position){
     const img=new Image();
     img.src=src;
-    img.className="sticker life";
+    img.className="sticker";
     if(isPanda) img.classList.add("panda");
 
     img.onload=()=>{
@@ -656,31 +619,9 @@ function spawnSticker(src,isPanda,position){
         img.style.top = position.y + "px";
 
 
-img.addEventListener("click",(e)=>{
-
-    showLove(e.clientX,e.clientY);
-
-    // ❗ dừng toàn bộ animation đang chạy
-    img.classList.remove("life");
-    img.style.animation = "none";
-
-    if(isPanda){
-
-        img.classList.remove("panda-spring");
-        void img.offsetWidth;
-        img.classList.add("panda-spring");
-
-    }else{
-
-        img.classList.remove("normal-hit");
-        void img.offsetWidth;
-        img.classList.add("normal-hit");
-
-    }
-
-});
-
-
+        img.addEventListener("click",(e)=>{
+            showLove(e.clientX,e.clientY);
+        });
 
         document.body.appendChild(img);
         setTimeout(()=>img.remove(),4600);
@@ -862,4 +803,3 @@ closeLetterBtn.onclick = function(){
 
 </body>
 </html>
-

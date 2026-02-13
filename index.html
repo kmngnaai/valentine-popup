@@ -64,13 +64,9 @@ body::before{
 
 /* Panda */
 .panda{
-    animation-name: life, pandaGlow;
-    animation-duration: 4.6s, 2.2s;
-    animation-timing-function: ease-in-out, ease-in-out;
-    animation-fill-mode: forwards, none;
-    animation-iteration-count: 1, infinite;
-    animation-direction: normal, alternate;
+    animation: pandaGlow 2.2s ease-in-out infinite alternate;
 }
+
 
 
 
@@ -90,7 +86,8 @@ body::before{
     40%  {transform: scale(1.1) rotate(6deg);}
     60%  {transform: scale(1.2) translateY(-40px);}
     80%  {transform: scale(.9) translateY(-60px);}
-    100% {transform: scale(.5) translateY(-120px); opacity:0;}
+    100% {transform: scale(.5) translateY(-120px);}
+
 }
 
 .normal-hit{

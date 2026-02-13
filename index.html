@@ -686,6 +686,7 @@ window.onload = function(){
     typeWriter(
         document.getElementById("text1"),
         "Bé Kei ơiii, bé Kei ò, bé Keii có biết hônggg??"
+        70
     );
 };
 
@@ -704,6 +705,7 @@ function nextPopup(){
     `Chắc là chị hông biết đâu haaaa
     
 Chạm chạm vào mấy bé gấu là biết liền á người yêuuu!`
+70
 );
 
 
@@ -785,19 +787,19 @@ envelope.onclick = () => {
 
         for(const text of letterParagraphs){
 
-            const p = document.createElement("div");
-            letterContent.appendChild(p);
-            letterContent.parentElement.scrollTop =
-            letterContent.parentElement.scrollHeight;
+    const p = document.createElement("div");
+    letterContent.appendChild(p);
 
+    await typeWriter(p, text, 38);
 
-            await typeWriter(p, text, 38);
+    await new Promise(r => setTimeout(r, 250));
 
-            await new Promise(r => setTimeout(r, 250));
-        }
-
-    })();
-};
+    // 👉 Scroll sau khi gõ xong mỗi đoạn
+    requestAnimationFrame(() => {
+        letterContent.parentElement.scrollTop =
+        letterContent.parentElement.scrollHeight;
+    });
+}
 closeLetterBtn.onclick = function(){
 
     clearInterval(bgInterval);

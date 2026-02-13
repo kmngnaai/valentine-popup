@@ -394,11 +394,17 @@ body::before{
 }
 
 .charge-effect{
-    animation: stickerCharge 0.6s ease forwards;
+    animation-name: stickerCharge;
+    animation-duration: 0.6s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
 }
 
 .pulse-effect{
-    animation: stickerPulse 0.5s ease forwards;
+    animation-name: stickerPulse;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
 }
 
 
@@ -696,9 +702,10 @@ function showLove(x,y, sticker){
 
   else if(count === 3){
 
-    sticker.classList.remove("charge-effect","pulse-effect");
+    sticker.style.animation = "none";
+    sticker.style.opacity = "1";
 
-    void sticker.offsetWidth; // reset animation
+    void sticker.offsetWidth;
 
     sticker.classList.add("charge-effect");
     sticker.style.filter = "drop-shadow(0 0 25px hotpink)";
@@ -706,12 +713,14 @@ function showLove(x,y, sticker){
     setTimeout(()=>{
         sticker.classList.remove("charge-effect");
         sticker.style.filter = "";
+        sticker.style.animation = "";
     },600);
 }
 
 else if(count === 4){
 
-    sticker.classList.remove("charge-effect","pulse-effect");
+    sticker.style.animation = "none";
+    sticker.style.opacity = "1";
 
     void sticker.offsetWidth;
 
@@ -729,6 +738,7 @@ else if(count === 4){
     setTimeout(()=>{
         sticker.classList.remove("pulse-effect");
         sticker.style.filter = "";
+        sticker.style.animation = "";
     },500);
 }
 

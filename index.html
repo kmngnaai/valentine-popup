@@ -329,18 +329,6 @@ body::before{
 }
 
 /* ===== Sticker bounce tự do ===== */
-.sticker.bounce{
-    animation: stickerBounce 0.6s ease;
-    animation-fill-mode: none;
-}
-
-@keyframes stickerBounce{
-    0%   {transform:translate(0,0) scale(1);}
-    40%  {transform:translate(var(--dx), var(--dy)) scale(1.25);}
-    70%  {transform:translate(calc(var(--dx) * 0.6), calc(var(--dy) * 0.6)) scale(0.95);}
-    100% {transform:translate(0,0) scale(1);}
-}
-
 /* ===== Ripple ===== */
 .ripple{
     position:fixed;
@@ -656,14 +644,18 @@ function spawnBgHeart(){
 function showLove(x,y, sticker){
 
     // ===== Sticker bounce lệch ngẫu nhiên =====
-    const dx = rand(-40,40) + "px";
-    const dy = rand(-50,-20) + "px";
+    // bounce bằng JS không reset animation
+// ===== Sticker bounce lệch ngẫu nhiên =====
+const dx = rand(-40,40) + "px";
+const dy = rand(-50,-20) + "px";
 
-    sticker.style.setProperty("--dx", dx);
-    sticker.style.setProperty("--dy", dy);
+sticker.style.transition = "transform 0.25s ease";
 
-    sticker.classList.add("bounce");
-    setTimeout(()=>sticker.classList.remove("bounce"),600);
+sticker.style.transform = `translate(${dx}, ${dy}) scale(1.25)`;
+
+setTimeout(()=>{
+    sticker.style.transform = "translate(0,0) scale(1)";
+},250);
 
     // ===== Ripple =====
     const ripple = document.createElement("div");

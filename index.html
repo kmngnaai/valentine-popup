@@ -375,7 +375,23 @@ body::before{
     80%  {transform: scale(1.25) rotate(10deg);}
     100% {transform: scale(1) rotate(0deg);}
 }
+/* ===== Charge Love (3 lần) ===== */
+@keyframes stickerCharge {
+    0%   {transform: scale(1) rotate(0deg);}
+    40%  {transform: scale(1.35) rotate(8deg);}
+    70%  {transform: scale(1.28) rotate(-6deg);}
+    100% {transform: scale(1) rotate(0deg);}
+}
 
+/* ===== Energy Pulse (4 lần) ===== */
+@keyframes stickerPulse {
+    0%   {transform: scale(1);}
+    20%  {transform: scale(1.2);}
+    40%  {transform: scale(0.95);}
+    60%  {transform: scale(1.15);}
+    80%  {transform: scale(0.98);}
+    100% {transform: scale(1);}
+}
 
 </style>
 </head>
@@ -669,33 +685,54 @@ function showLove(x,y, sticker){
         },250);
     }
 
-  // // // 3-4 lần: nhún + lắc + glow rõ ràng
-else if(count <= 4){
+  else if(count === 3){
 
-    // TẮT animation life tạm thời
     sticker.style.animation = "none";
-
-    // Force reflow để browser reset animation
     void sticker.offsetWidth;
 
-    // Chạy happy effect
-    sticker.style.animation = "stickerHappy 0.6s ease forwards";
-    sticker.style.filter = "drop-shadow(0 0 20px hotpink)";
+    sticker.style.animation = "stickerCharge 0.6s ease forwards";
+    sticker.style.filter = "drop-shadow(0 0 25px hotpink)";
 
     setTimeout(()=>{
+        if(sticker.classList.contains("panda")){
+            sticker.style.animation =
+                "life 4.8s ease-in-out forwards, pandaGlow 4.8s ease-in-out forwards";
+        } else {
+            sticker.style.animation =
+                "life 4.8s ease-in-out forwards";
+        }
+        sticker.style.filter = "";
+    },600);
+}
 
-    if(sticker.classList.contains("panda")){
-        sticker.style.animation =
-            "life 4.8s ease-in-out forwards, pandaGlow 4.8s ease-in-out forwards";
-    } else {
-        sticker.style.animation =
-            "life 4.8s ease-in-out forwards";
-    }
+else if(count === 4){
 
-    sticker.style.filter = "";
-    sticker.style.transition = "transform 0.25s ease";
+    sticker.style.animation = "none";
+    void sticker.offsetWidth;
 
-},600);}
+    sticker.style.animation = "stickerPulse 0.5s ease forwards";
+    sticker.style.filter = "drop-shadow(0 0 35px deeppink)";
+
+    // tạo ring lan ra
+    const ring = document.createElement("div");
+    ring.className = "ripple";
+    ring.style.left = x + "px";
+    ring.style.top = y + "px";
+    ring.style.background = "rgba(255,105,180,0.25)";
+    document.body.appendChild(ring);
+    setTimeout(()=>ring.remove(),800);
+
+    setTimeout(()=>{
+        if(sticker.classList.contains("panda")){
+            sticker.style.animation =
+                "life 4.8s ease-in-out forwards, pandaGlow 4.8s ease-in-out forwards";
+        } else {
+            sticker.style.animation =
+                "life 4.8s ease-in-out forwards";
+        }
+        sticker.style.filter = "";
+    },500);
+}
 
     // 5 lần: BÙNG NỔ TÌNH YÊU 💥
     else if(count === 5){

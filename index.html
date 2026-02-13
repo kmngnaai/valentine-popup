@@ -39,7 +39,7 @@ body::before{
     pointer-events:auto;
     z-index:1;
     opacity:0;
-    animation:life 6s ease-in-out forwards;
+    animation:life 5.2s ease-in-out forwards;
     transition:opacity .6s;
 }
 
@@ -49,8 +49,8 @@ body::before{
 
 @keyframes life{
     0%   {opacity:0; transform:scale(.85);}
-    20%  {opacity:1; transform:scale(1);}
-    80%  {opacity:1;}
+    25%  {opacity:1; transform:scale(1);}
+    75%  {opacity:1;}
     100% {opacity:0; transform:scale(.9);}
 }
 
@@ -58,15 +58,24 @@ body::before{
 /* Panda */
 .panda{
     animation:
-        life 6s ease-in-out forwards,
-        pandaGlow 6s ease-in-out forwards;
+        life 5.2s ease-in-out forwards,
+        pandaGlow 5.2s ease-in-out forwards;
 }
 
 @keyframes pandaGlow{
+
+    /* Fade in cùng life (1.3s) */
     0%   {filter:drop-shadow(0 0 0px rgba(255,192,203,0));}
-    20%  {filter:drop-shadow(0 0 10px rgba(255,192,203,0.8));}
-    50%  {filter:drop-shadow(0 0 16px rgba(255,192,203,1));}
-    80%  {filter:drop-shadow(0 0 10px rgba(255,192,203,0.8));}
+    25%  {filter:drop-shadow(0 0 12px rgba(255,192,203,0.9));}
+
+    /* Nhịp tim giữa (2.6s giữ) */
+    45%  {filter:drop-shadow(0 0 18px rgba(255,192,203,1));}
+    60%  {filter:drop-shadow(0 0 14px rgba(255,192,203,0.9));}
+
+    /* Chuẩn bị fade out */
+    75%  {filter:drop-shadow(0 0 10px rgba(255,192,203,0.8));}
+
+    /* Fade out cùng life */
     100% {filter:drop-shadow(0 0 0px rgba(255,192,203,0));}
 }
 
@@ -626,7 +635,7 @@ function spawnSticker(src,isPanda,position){
         });
 
         document.body.appendChild(img);
-        setTimeout(()=>img.remove(),6000);
+        setTimeout(()=>img.remove(),5200);
     };
 }
 
@@ -678,7 +687,7 @@ function startSticker(){
     if(stickerInterval) return; // tránh chạy nhiều lần
 
     spawnWave();
-    stickerInterval = setInterval(spawnWave,6000);
+    stickerInterval = setInterval(spawnWave,5200);
 }
 window.onload = function(){
 

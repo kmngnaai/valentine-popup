@@ -452,20 +452,58 @@ function initPools(){
 }
 
 // 👇 PHẢI ĐẶT RA NGOÀI
-function preloadImages(){
+function preloadSmart(){
 
-    // preload sticker thường (webp)
-    for(let i=1;i<=47;i++){
+    // clone pool
+    const normalQueue = [...normalPool];
+    const pandaQueue  = [...pandaPool];
+
+    // wave đầu
+    const firstBatch = [
+        ...normalQueue.slice(0,15).map(id => ({id, type:"normal"})),
+        ...pandaQueue.slice(0,5).map(id => ({id, type:"panda"}))
+    ];
+
+    // phần còn lại
+    const remainingBatch = [
+        ...normalQueue.slice(15).map(id => ({id, type:"normal"})),
+        ...pandaQueue.slice(5).map(id => ({id, type:"panda"}))
+    ];
+
+    // ===== preload wave đầu ngay =====
+    firstBatch.forEach(item=>{
         const img = new Image();
-        img.src = `webp-stickers/${i}.webp`;
+
+        if(item.type === "normal"){
+            img.src = `webp-stickers/${item.id}.webp`;
+        }else{
+            img.src = `webp-stickers-panda/${item.id}.webp`;
+        }
+    });
+
+    // ===== preload phần còn lại từ từ =====
+    let index = 0;
+
+    function loadNext(){
+        if(index >= remainingBatch.length) return;
+
+        const item = remainingBatch[index];
+        const img = new Image();
+
+        if(item.type === "normal"){
+            img.src = `webp-stickers/${item.id}.webp`;
+        }else{
+            img.src = `webp-stickers-panda/${item.id}.webp`;
+        }
+
+        index++;
+        setTimeout(loadNext, 80);
     }
 
-    // preload panda (webp)
-    for(let i=1;i<=23;i++){
-        const img = new Image();
-        img.src = `webp-stickers-panda/${i}.webp`;
-    }
+    setTimeout(loadNext, 1000);
 }
+
+
 
 
 function getGridPositions(){
@@ -636,13 +674,14 @@ function startSticker(){
 window.onload = function(){
 
     initPools();
-    preloadImages();   // 👈 thêm dòng này
+    preloadSmart();   // 👈 thay dòng này
 
     typeWriter(
         document.getElementById("text1"),
         "Bé Keii ơii, bé Keii có biết hôngg??"
     );
 };
+
 
 
 

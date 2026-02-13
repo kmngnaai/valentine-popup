@@ -41,6 +41,8 @@ body::before{
     opacity:0;
     animation:life 4.8s ease-in-out forwards;
     transition:opacity .6s;
+
+    transform: scale(1); /* 👈 thêm dòng này */
 }
 
 .letter-open .sticker{
@@ -48,12 +50,11 @@ body::before{
 }
 
 @keyframes life{
-    0%   {opacity:0; transform:scale(.85);}
-    25%  {opacity:1; transform:scale(1);}
+    0%   {opacity:0;}
+    25%  {opacity:1;}
     75%  {opacity:1;}
-    100% {opacity:0; transform:scale(.9);}
+    100% {opacity:0;}
 }
-
 
 /* Panda */
 .panda{
@@ -327,6 +328,60 @@ body::before{
     to{transform:translateY(-120vh);}
 }
 
+/* ===== Sticker bounce tự do ===== */
+.sticker.bounce{
+    animation: stickerBounce 0.6s ease;
+    animation-fill-mode: none;
+}
+
+@keyframes stickerBounce{
+    0%   {transform:translate(0,0) scale(1);}
+    40%  {transform:translate(var(--dx), var(--dy)) scale(1.25);}
+    70%  {transform:translate(calc(var(--dx) * 0.6), calc(var(--dy) * 0.6)) scale(0.95);}
+    100% {transform:translate(0,0) scale(1);}
+}
+
+/* ===== Ripple ===== */
+.ripple{
+    position:fixed;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:2;
+    animation:rippleEffect 0.8s ease-out forwards;
+}
+
+@keyframes rippleEffect{
+    0%{
+        width:20px;
+        height:20px;
+        opacity:0.6;
+        transform:translate(-50%,-50%) scale(0.5);
+    }
+    100%{
+        width:200px;
+        height:200px;
+        opacity:0;
+        transform:translate(-50%,-50%) scale(1.2);
+    }
+}
+
+/* ===== Sparkle ===== */
+.sparkle{
+    position:fixed;
+    pointer-events:none;
+    font-size:14px;
+    animation:sparkleFly 0.8s ease-out forwards;
+}
+
+@keyframes sparkleFly{
+    0%{opacity:1; transform:translate(0,0) scale(0.5);}
+    100%{opacity:0; transform:translate(var(--sx),var(--sy)) scale(1.4);}
+}
+
+
+
+
+
 </style>
 </head>
 
@@ -598,39 +653,70 @@ function spawnBgHeart(){
     setTimeout(()=>h.remove(),12000);
 }
 
+function showLove(x,y, sticker){
 
+    // ===== Sticker bounce lệch ngẫu nhiên =====
+    const dx = rand(-40,40) + "px";
+    const dy = rand(-50,-20) + "px";
 
-function showLove(x,y){
+    sticker.style.setProperty("--dx", dx);
+    sticker.style.setProperty("--dy", dy);
+
+    sticker.classList.add("bounce");
+    setTimeout(()=>sticker.classList.remove("bounce"),600);
+
+    // ===== Ripple =====
+    const ripple = document.createElement("div");
+    ripple.className="ripple";
+    ripple.style.left = x+"px";
+    ripple.style.top  = y+"px";
+    ripple.style.background =
+        "radial-gradient(circle, rgba(255,105,180,0.4) 0%, rgba(255,105,180,0.2) 40%, transparent 70%)";
+    document.body.appendChild(ripple);
+    setTimeout(()=>ripple.remove(),800);
+
+    // ===== Love text =====
     const div=document.createElement("div");
     div.className="love-text";
     div.textContent=getRandomMessage()+" 💗";
 
     const color=generateCuteColor();
     div.style.color=color;
-
-    // glow cùng tông màu
     div.style.textShadow=`
         0 3px 8px rgba(0,0,0,0.5),
-        0 0 18px ${color}
+        0 0 20px ${color}
     `;
-
     div.style.left=x+"px";
     div.style.top=y+"px";
 
     document.body.appendChild(div);
     setTimeout(()=>div.remove(),1400);
 
-    for(let i=0;i<4;i++){
+    // ===== 3 tim bay =====
+    for(let i=0;i<3;i++){
         const h=document.createElement("div");
         h.className="flying-heart";
         h.textContent="💗";
-        h.style.fontSize=rand(24,44)+"px";
+        h.style.fontSize=rand(24,42)+"px";
         h.style.left=x+"px";
         h.style.top=y+"px";
-        h.style.setProperty("--x",rand(-140,140)+"px");
+        h.style.setProperty("--x",rand(-120,120)+"px");
         h.style.setProperty("--y",rand(-180,-80)+"px");
         document.body.appendChild(h);
         setTimeout(()=>h.remove(),1600);
+    }
+
+    // ===== Sparkle =====
+    for(let i=0;i<6;i++){
+        const s=document.createElement("div");
+        s.className="sparkle";
+        s.textContent="✨";
+        s.style.left=x+"px";
+        s.style.top=y+"px";
+        s.style.setProperty("--sx",rand(-60,60)+"px");
+        s.style.setProperty("--sy",rand(-60,60)+"px");
+        document.body.appendChild(s);
+        setTimeout(()=>s.remove(),800);
     }
 }
 
@@ -650,7 +736,7 @@ function spawnSticker(src,isPanda,position){
 
 
         img.addEventListener("click",(e)=>{
-            showLove(e.clientX,e.clientY);
+        showLove(e.clientX,e.clientY, img);
         });
 
         document.body.appendChild(img);
@@ -706,7 +792,7 @@ function startSticker(){
     if(stickerInterval) return; // tránh chạy nhiều lần
 
     spawnWave();
-    stickerInterval = setInterval(spawnWave,4800);
+    stickerInterval = setInterval(spawnWave,5000);
 }
 window.onload = function(){
 
@@ -853,4 +939,5 @@ closeLetterBtn.onclick = function(){
 
 </body>
 </html>
+
 

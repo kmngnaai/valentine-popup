@@ -222,12 +222,13 @@ body::before{
     color:#c2185b;
 }
 
-.letter-card p{
-    font-size:25px;     /* vẫn to rõ */
-    line-height:1.08;   /* ngắn lại giống xuống hàng */
-    margin-bottom:0px;  /* khoảng cách câu nhẹ */
-    font-weight:400;    /* bỏ đậm */
+.letter-card div{
+    font-size:25px;
+    line-height:1.15;
+    margin-bottom:2px;
+    font-weight:400;
 }
+
 
 
 
@@ -769,7 +770,7 @@ envelope.onclick=()=>{
 
     letterParagraphs.forEach((text,i)=>{
         setTimeout(()=>{
-            const p=document.createElement("p");
+            const p=document.createElement("div");
             typeWriter(p, text, 30, false);
             letterContent.appendChild(p);
         },i*1200);

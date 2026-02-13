@@ -442,6 +442,16 @@ function initPools(){
     for(let i=1;i<=23;i++){
         pandaPool.push(i);
     }
+    shuffleArray(pandaPool);
+
+    normalPool = [];
+    for(let i=1;i<=47;i++){
+        normalPool.push(i);
+    }
+    shuffleArray(normalPool);
+}
+
+// 👇 PHẢI ĐẶT RA NGOÀI
 function preloadImages(){
 
     // preload sticker thường
@@ -457,14 +467,6 @@ function preloadImages(){
     }
 }
 
-    shuffleArray(pandaPool);
-
-    normalPool = [];
-    for(let i=1;i<=47;i++){
-        normalPool.push(i);
-    }
-    shuffleArray(normalPool);
-}
 
 function getGridPositions(){
 

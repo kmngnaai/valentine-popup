@@ -357,6 +357,8 @@ const loveMessages = [
 let lastIndex=-1;
 let stickerInterval = null;
 let bgInterval = null;
+let pandaPool = [];
+let normalPool = [];
 const envelope = document.getElementById("envelope");
 const letter = document.getElementById("letter");
 const letterContent = document.getElementById("letterContent");
@@ -432,10 +434,25 @@ function shuffleArray(array){
     }
     return array;
 }
+function initPools(){
+
+    pandaPool = [];
+    for(let i=1;i<=23;i++){
+        pandaPool.push(i);
+    }
+    shuffleArray(pandaPool);
+
+    normalPool = [];
+    for(let i=1;i<=47;i++){
+        normalPool.push(i);
+    }
+    shuffleArray(normalPool);
+}
+
 function getGridPositions(){
 
     const positions = [];
-    const totalNeeded = 26; // 6 thường + 20 panda
+    const totalNeeded = 20; // 10 thường + 10 panda
     const minDistance = 80; // khoảng cách tối thiểu giữa sticker
 
     const centerYMin = innerHeight * 0.35;
@@ -549,41 +566,38 @@ function spawnSticker(src,isPanda,position){
 
 function spawnWave(){
 
+    if(pandaPool.length < 10 || normalPool.length < 10){
+        initPools(); // hết vòng thì reset
+    }
+
     const positions = getGridPositions();
     let posIndex = 0;
 
-    // ===== Sticker thường =====
-    let normalList = [];
-    for(let i=1;i<=48;i++){
-        normalList.push(i);
-    }
-    shuffleArray(normalList);
-
-    for(let i=0;i<6;i++){
+    // ===== 10 sticker thường =====
+    for(let i=0;i<10;i++){
         const pos = positions[posIndex++];
+        const id = normalPool.pop();
+
         spawnSticker(
-            `stickers/${String(normalList[i]).padStart(2,"0")}.png`,
+            `stickers/${id}.png`,
             false,
             pos
         );
     }
 
-    // ===== Panda =====
-    let pandaList = [];
-    for(let i=1;i<=25;i++){
-        pandaList.push(i);
-    }
-    shuffleArray(pandaList);
-
-    for(let i=0;i<20;i++){
+    // ===== 10 panda =====
+    for(let i=0;i<10;i++){
         const pos = positions[posIndex++];
+        const id = pandaPool.pop();
+
         spawnSticker(
-            `stickers-panda/${String(pandaList[i]).padStart(2,"0")}.png`,
+            `stickers-panda/${id}.png`,
             true,
             pos
         );
     }
 }
+
 
 
 function startSticker(){
@@ -593,11 +607,15 @@ function startSticker(){
     stickerInterval = setInterval(spawnWave,4400);
 }
 window.onload = function(){
+
+    initPools(); // QUAN TRỌNG
+
     typeWriter(
         document.getElementById("text1"),
         "Bé Keii ơii, bé Keii có biết hôngg??"
     );
 };
+
 
 
 /* ================= POPUP FLOW ================= */

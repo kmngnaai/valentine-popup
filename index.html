@@ -607,7 +607,10 @@ function spawnSticker(src,isPanda,position){
     if(isPanda) img.classList.add("panda");
 
     img.onload=()=>{
-        img.style.width=isPanda?rand(75,95)+"px":rand(65,85)+"px";
+        img.style.width = isPanda
+            ? rand(80,100) + "px"      // 🐼 Panda nhỏ hơn
+            : rand(95,115) + "px";     // 🎀 Thường lớn hơn
+
         img.style.left = position.x + "px";
         img.style.top = position.y + "px";
 

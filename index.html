@@ -685,7 +685,7 @@ window.onload = function(){
 
     typeWriter(
         document.getElementById("text1"),
-        "Bé Kei ơiii, bé Kei ò, bé Keii có biết hônggg??"
+        "Bé Kei ơiii, bé Kei ò, bé Keii có biết hônggg??",
         70
     );
 };
@@ -704,7 +704,7 @@ function nextPopup(){
     document.getElementById("text2"),
     `Chắc là chị hông biết đâu haaaa
     
-Chạm chạm vào mấy bé gấu là biết liền á người yêuuu!`
+Chạm chạm vào mấy bé gấu là biết liền á người yêuuu!`,
 70
 );
 
@@ -800,6 +800,7 @@ envelope.onclick = () => {
         letterContent.parentElement.scrollHeight;
     });
 }
+})();
 closeLetterBtn.onclick = function(){
 
     clearInterval(bgInterval);

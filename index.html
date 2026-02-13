@@ -39,7 +39,7 @@ body::before{
     pointer-events:auto;
     z-index:1;
     opacity:0;
-    animation:life 5.2s ease-in-out forwards;
+    animation:life 4.2s ease-in-out forwards;
     transition:opacity .6s;
 }
 
@@ -58,8 +58,8 @@ body::before{
 /* Panda */
 .panda{
     animation:
-        life 5.2s ease-in-out forwards,
-        pandaGlow 5.2s ease-in-out forwards;
+        life 4.8s ease-in-out forwards,
+        pandaGlow 4.8s ease-in-out forwards;
 }
 
 @keyframes pandaGlow{
@@ -635,7 +635,7 @@ function spawnSticker(src,isPanda,position){
         });
 
         document.body.appendChild(img);
-        setTimeout(()=>img.remove(),5200);
+        setTimeout(()=>img.remove(),4800);
     };
 }
 
@@ -687,7 +687,7 @@ function startSticker(){
     if(stickerInterval) return; // tránh chạy nhiều lần
 
     spawnWave();
-    stickerInterval = setInterval(spawnWave,5200);
+    stickerInterval = setInterval(spawnWave,4800);
 }
 window.onload = function(){
 
@@ -713,6 +713,7 @@ function nextPopup(){
     typeWriter(
     document.getElementById("text2"),
     `Chắc là chị hông biết đâu haaaa
+    
 Chạm chạm vào mấy bé gấu là biết liền á người yêuuu!`
 );
 

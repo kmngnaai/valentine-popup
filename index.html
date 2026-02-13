@@ -39,28 +39,39 @@ body::before{
     pointer-events:auto;
     z-index:1;
     opacity:0;
-    animation:life 4.6s ease-in-out forwards;
     transition:opacity .6s;
+    transform-origin:center;
+    transform:scale(1);
 }
+.life{
+    animation: life 4.6s ease-in-out forwards;
+}
+
+
 
 .letter-open .sticker{
     opacity:.15 !important;
 }
 
 @keyframes life{
-    0%   {opacity:0; transform:scale(.85);}
-    26%  {opacity:.95; transform:scale(1);}
+    0%   {opacity:0;}
+    26%  {opacity:.95;}
     74%  {opacity:.95;}
-    100% {opacity:0; transform:scale(.9);}
+    100% {opacity:0;}
 }
+
 
 
 /* Panda */
 .panda{
-    animation:
-        life 4.6s ease-in-out forwards,
-        pandaGlow 2.2s ease-in-out infinite alternate;
+    animation-name: life, pandaGlow;
+    animation-duration: 4.6s, 2.2s;
+    animation-timing-function: ease-in-out, ease-in-out;
+    animation-fill-mode: forwards, none;
+    animation-iteration-count: 1, infinite;
+    animation-direction: normal, alternate;
 }
+
 
 
 @keyframes pandaGlow{
@@ -96,10 +107,11 @@ body::before{
 }
 
 .panda-spring{
-    animation: pandaSpring .8s ease;
-    filter: drop-shadow(0 0 25px hotpink)
-            drop-shadow(0 0 40px white);
+    animation-name: pandaSpring;
+    animation-duration: .8s;
+    animation-timing-function: ease;
 }
+
 
 /* ================= POPUP ================= */
 .pink-box{
@@ -635,7 +647,7 @@ function showLove(x,y){
 function spawnSticker(src,isPanda,position){
     const img=new Image();
     img.src=src;
-    img.className="sticker";
+    img.className="sticker life";
     if(isPanda) img.classList.add("panda");
 
     img.onload=()=>{
@@ -647,30 +659,28 @@ function spawnSticker(src,isPanda,position){
         img.style.top = position.y + "px";
 
 
-        img.addEventListener("click",(e)=>{
+img.addEventListener("click",(e)=>{
 
+    // 💗 vẫn spam showLove bình thường
     showLove(e.clientX,e.clientY);
 
     if(isPanda){
 
-        // Panda bật sáng + nhảy lò xo
+        // reset animation để spam vẫn chạy lại
+        img.classList.remove("panda-spring");
+        void img.offsetWidth; // force reflow
         img.classList.add("panda-spring");
-
-        setTimeout(()=>{
-            img.classList.remove("panda-spring");
-        },800);
 
     }else{
 
-        // Thường rung + bay đi
+        img.classList.remove("normal-hit");
+        void img.offsetWidth; // force reflow
         img.classList.add("normal-hit");
 
-        setTimeout(()=>{
-            img.remove();
-        },900);
     }
 
 });
+
 
 
         document.body.appendChild(img);

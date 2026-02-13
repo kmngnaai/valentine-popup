@@ -379,6 +379,7 @@ function typeWriter(element, text, speed = 45, showCursor = true){
 
     element.innerHTML = "";
 
+    const chars = [...text]; // FIX emoji
     let i = 0;
     let cursor = null;
 
@@ -390,16 +391,15 @@ function typeWriter(element, text, speed = 45, showCursor = true){
     }
 
     function typing(){
-
-        if(i < text.length){
+        if(i < chars.length){
 
             if(cursor){
                 element.insertBefore(
-                    document.createTextNode(text.charAt(i)),
+                    document.createTextNode(chars[i]),
                     cursor
                 );
             } else {
-                element.append(text.charAt(i));
+                element.append(chars[i]);
             }
 
             i++;

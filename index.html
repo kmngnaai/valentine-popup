@@ -72,6 +72,34 @@ body::before{
     transform:scale(0.7);
     transition:transform .15s ease;
 }
+/* ===== THƯỜNG: rung + nhảy + bay ===== */
+@keyframes normalHit {
+    0%   {transform: scale(1) rotate(0deg);}
+    20%  {transform: scale(1.15) rotate(-6deg);}
+    40%  {transform: scale(1.1) rotate(6deg);}
+    60%  {transform: scale(1.2) translateY(-40px);}
+    80%  {transform: scale(.9) translateY(-60px);}
+    100% {transform: scale(.5) translateY(-120px); opacity:0;}
+}
+
+.normal-hit{
+    animation: normalHit .9s ease forwards;
+}
+
+/* ===== PANDA: glow mạnh + lò xo ===== */
+@keyframes pandaSpring {
+    0%   {transform: scale(1);}
+    25%  {transform: scale(1.4) translateY(-60px);}
+    50%  {transform: scale(.9) translateY(20px);}
+    75%  {transform: scale(1.1) translateY(-15px);}
+    100% {transform: scale(1);}
+}
+
+.panda-spring{
+    animation: pandaSpring .8s ease;
+    filter: drop-shadow(0 0 25px hotpink)
+            drop-shadow(0 0 40px white);
+}
 
 /* ================= POPUP ================= */
 .pink-box{
@@ -620,8 +648,30 @@ function spawnSticker(src,isPanda,position){
 
 
         img.addEventListener("click",(e)=>{
-            showLove(e.clientX,e.clientY);
-        });
+
+    showLove(e.clientX,e.clientY);
+
+    if(isPanda){
+
+        // Panda bật sáng + nhảy lò xo
+        img.classList.add("panda-spring");
+
+        setTimeout(()=>{
+            img.classList.remove("panda-spring");
+        },800);
+
+    }else{
+
+        // Thường rung + bay đi
+        img.classList.add("normal-hit");
+
+        setTimeout(()=>{
+            img.remove();
+        },900);
+    }
+
+});
+
 
         document.body.appendChild(img);
         setTimeout(()=>img.remove(),4600);

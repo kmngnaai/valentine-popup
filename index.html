@@ -442,6 +442,21 @@ function initPools(){
     for(let i=1;i<=23;i++){
         pandaPool.push(i);
     }
+function preloadImages(){
+
+    // preload sticker thường
+    for(let i=1;i<=47;i++){
+        const img = new Image();
+        img.src = `stickers/${i}.png`;
+    }
+
+    // preload panda
+    for(let i=1;i<=23;i++){
+        const img = new Image();
+        img.src = `stickers-panda/${i}.png`;
+    }
+}
+
     shuffleArray(pandaPool);
 
     normalPool = [];
@@ -610,13 +625,15 @@ function startSticker(){
 }
 window.onload = function(){
 
-    initPools(); // QUAN TRỌNG
+    initPools();
+    preloadImages();   // 👈 thêm dòng này
 
     typeWriter(
         document.getElementById("text1"),
         "Bé Keii ơii, bé Keii có biết hôngg??"
     );
 };
+
 
 
 

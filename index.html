@@ -12,7 +12,16 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Noto Color Emoji",
+    sans-serif;
+
     overflow:hidden;
     transition:.6s;
 }
@@ -578,7 +587,7 @@ function spawnWave(){
     for(let i=0;i<20;i++){
         const pos = positions[posIndex++];
         spawnSticker(
-            `stickers-panda/${String(pandaList[i]).padStart(2,"0")}.png`,
+            `stickers panda/${String(pandaList[i]).padStart(2,"0")}.png`,
             true,
             pos
         );

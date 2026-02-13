@@ -369,10 +369,10 @@ body::before{
 /* ===== Sticker happy shake ===== */
 @keyframes stickerHappy {
     0%   {transform: scale(1) rotate(0deg);}
-    20%  {transform: scale(1.2) rotate(-8deg);}
-    40%  {transform: scale(1.15) rotate(8deg);}
-    60%  {transform: scale(1.2) rotate(-6deg);}
-    80%  {transform: scale(1.15) rotate(6deg);}
+    20%  {transform: scale(1.3) rotate(-12deg);}
+    40%  {transform: scale(1.25) rotate(12deg);}
+    60%  {transform: scale(1.3) rotate(-10deg);}
+    80%  {transform: scale(1.25) rotate(10deg);}
     100% {transform: scale(1) rotate(0deg);}
 }
 
@@ -669,21 +669,33 @@ function showLove(x,y, sticker){
         },250);
     }
 
-  // // 3-4 lần: nhún + lắc + glow nhẹ
+  // // // 3-4 lần: nhún + lắc + glow rõ ràng
 else if(count <= 4){
 
-    sticker.style.transition = "none";
-    sticker.style.animation = "stickerHappy 0.6s ease";
+    // TẮT animation life tạm thời
+    sticker.style.animation = "none";
 
-    // glow nhẹ thêm cho dễ thương
-    sticker.style.filter = "drop-shadow(0 0 15px pink)";
+    // Force reflow để browser reset animation
+    void sticker.offsetWidth;
+
+    // Chạy happy effect
+    sticker.style.animation = "stickerHappy 0.6s ease forwards";
+    sticker.style.filter = "drop-shadow(0 0 20px hotpink)";
 
     setTimeout(()=>{
-        sticker.style.animation = "";
-        sticker.style.filter = "";
-        sticker.style.transition = "transform 0.25s ease";
-    },600);
-}
+
+    if(sticker.classList.contains("panda")){
+        sticker.style.animation =
+            "life 4.8s ease-in-out forwards, pandaGlow 4.8s ease-in-out forwards";
+    } else {
+        sticker.style.animation =
+            "life 4.8s ease-in-out forwards";
+    }
+
+    sticker.style.filter = "";
+    sticker.style.transition = "transform 0.25s ease";
+
+},600);}
 
     // 5 lần: BÙNG NỔ TÌNH YÊU 💥
     else if(count === 5){

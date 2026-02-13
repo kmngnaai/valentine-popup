@@ -658,20 +658,22 @@ function spawnSticker(src,isPanda,position){
 
 img.addEventListener("click",(e)=>{
 
-    // 💗 vẫn spam showLove bình thường
     showLove(e.clientX,e.clientY);
+
+    // ❗ dừng toàn bộ animation đang chạy
+    img.classList.remove("life");
+    img.style.animation = "none";
 
     if(isPanda){
 
-        // reset animation để spam vẫn chạy lại
         img.classList.remove("panda-spring");
-        void img.offsetWidth; // force reflow
+        void img.offsetWidth;
         img.classList.add("panda-spring");
 
     }else{
 
         img.classList.remove("normal-hit");
-        void img.offsetWidth; // force reflow
+        void img.offsetWidth;
         img.classList.add("normal-hit");
 
     }

@@ -39,7 +39,7 @@ body::before{
     pointer-events:auto;
     z-index:1;
     opacity:0;
-    animation:life 4.6s ease-in-out forwards;
+    animation:life 6s ease-in-out forwards;
     transition:opacity .6s;
 }
 
@@ -49,8 +49,8 @@ body::before{
 
 @keyframes life{
     0%   {opacity:0; transform:scale(.85);}
-    26%  {opacity:.95; transform:scale(1);}
-    74%  {opacity:.95;}
+    20%  {opacity:1; transform:scale(1);}
+    80%  {opacity:1;}
     100% {opacity:0; transform:scale(.9);}
 }
 
@@ -58,14 +58,16 @@ body::before{
 /* Panda */
 .panda{
     animation:
-        life 4.6s ease-in-out forwards,
-        pandaGlow 2.2s ease-in-out infinite alternate;
+        life 6s ease-in-out forwards,
+        pandaGlow 6s ease-in-out forwards;
 }
 
-
 @keyframes pandaGlow{
-    from{filter:drop-shadow(0 0 8px rgba(255,255,255,0.8));}
-    to{filter:drop-shadow(0 0 20px rgba(255,192,203,1));}
+    0%   {filter:drop-shadow(0 0 0px rgba(255,192,203,0));}
+    20%  {filter:drop-shadow(0 0 10px rgba(255,192,203,0.8));}
+    50%  {filter:drop-shadow(0 0 16px rgba(255,192,203,1));}
+    80%  {filter:drop-shadow(0 0 10px rgba(255,192,203,0.8));}
+    100% {filter:drop-shadow(0 0 0px rgba(255,192,203,0));}
 }
 
 .panda:active{
@@ -203,7 +205,7 @@ body::before{
 .letter-card{
     width:min(96vw,720px);
 
-    height:60vh;          /* 🔥 CỐ ĐỊNH CHIỀU CAO */
+    height:50vh;          /* 🔥 CỐ ĐỊNH CHIỀU CAO */
     max-height:85vh;
 
     overflow-y:auto;      /* Scroll khi dài */
@@ -464,13 +466,13 @@ function preloadSmart(){
 
     // wave đầu
     const firstBatch = [
-        ...normalQueue.slice(0,15).map(id => ({id, type:"normal"})),
+        ...normalQueue.slice(0,10).map(id => ({id, type:"normal"})),
         ...pandaQueue.slice(0,5).map(id => ({id, type:"panda"}))
     ];
 
     // phần còn lại
     const remainingBatch = [
-        ...normalQueue.slice(15).map(id => ({id, type:"normal"})),
+        ...normalQueue.slice(10).map(id => ({id, type:"normal"})),
         ...pandaQueue.slice(5).map(id => ({id, type:"panda"}))
     ];
 
@@ -513,7 +515,7 @@ function preloadSmart(){
 function getGridPositions(){
 
     const positions = [];
-    const totalNeeded = 20; // 10 thường + 10 panda
+    const totalNeeded = 15; // 10 thường + 5 panda
     const minDistance = window.innerWidth < 768 ? 55 : 80; // khoảng cách tối thiểu giữa sticker
 
     const centerYMin = innerHeight * 0.35;
@@ -624,21 +626,21 @@ function spawnSticker(src,isPanda,position){
         });
 
         document.body.appendChild(img);
-        setTimeout(()=>img.remove(),4600);
+        setTimeout(()=>img.remove(),6000);
     };
 }
 
 function spawnWave(){
 
-    if(pandaPool.length < 5 || normalPool.length < 15){
+    if(pandaPool.length < 5 || normalPool.length < 10){
         initPools();
     }
 
     const positions = getGridPositions();
     let posIndex = 0;
 
-    // ===== 15 sticker thường =====
-    for(let i=0;i<15;i++){
+    // ===== 10 sticker thường =====
+    for(let i=0;i<10;i++){
     const pos = positions[posIndex++];
     if(!pos) break;   // 👈 THÊM DÒNG NÀY
 
@@ -676,7 +678,7 @@ function startSticker(){
     if(stickerInterval) return; // tránh chạy nhiều lần
 
     spawnWave();
-    stickerInterval = setInterval(spawnWave,4600);
+    stickerInterval = setInterval(spawnWave,6000);
 }
 window.onload = function(){
 
@@ -701,7 +703,7 @@ function nextPopup(){
 
     typeWriter(
     document.getElementById("text2"),
-    `Chắc hông biết đâu haaaa
+    `Chắc là chị hông biết đâu haaaa
 Chạm chạm vào mấy bé gấu là biết liền á người yêuuu!`
 );
 
@@ -796,11 +798,7 @@ closeLetterBtn.onclick = function(){
 
 
 
-
-
-
 </script>
 
 </body>
 </html>
-

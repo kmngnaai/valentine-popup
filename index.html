@@ -39,7 +39,7 @@ body::before{
     pointer-events:auto;
     z-index:1;
     opacity:0;
-    animation:life 4.2s ease-in-out forwards;
+    animation:life 4.8s ease-in-out forwards;
     transition:opacity .6s;
 }
 
@@ -64,18 +64,16 @@ body::before{
 
 @keyframes pandaGlow{
 
-    /* Fade in cùng life (1.3s) */
+    /* Fade in 1.2s */
     0%   {filter:drop-shadow(0 0 0px rgba(255,192,203,0));}
     25%  {filter:drop-shadow(0 0 12px rgba(255,192,203,0.9));}
 
-    /* Nhịp tim giữa (2.6s giữ) */
-    45%  {filter:drop-shadow(0 0 18px rgba(255,192,203,1));}
+    /* Giữ 2.4s – nhịp tim nhẹ */
+    40%  {filter:drop-shadow(0 0 18px rgba(255,192,203,1));}
     60%  {filter:drop-shadow(0 0 14px rgba(255,192,203,0.9));}
+    75%  {filter:drop-shadow(0 0 16px rgba(255,192,203,1));}
 
-    /* Chuẩn bị fade out */
-    75%  {filter:drop-shadow(0 0 10px rgba(255,192,203,0.8));}
-
-    /* Fade out cùng life */
+    /* Fade out 1.2s */
     100% {filter:drop-shadow(0 0 0px rgba(255,192,203,0));}
 }
 
@@ -734,12 +732,9 @@ function closePopup(){
 /* ================= LETTER ================= */
 
 const letterParagraphs = [
-
-"14.02.2026 💌",
-
 "Hi tình yêu của em 💗",
 
-"\"Sao mà em ở đâu tự nhiên xuất hiện, yêu chị quá vậy nè, em có thật không?\" 💭",
+"Sao mà em ở đâu tự nhiên xuất hiện, yêu chị quá vậy nè, em có thật không?💭",
 
 "Mượn Valentine's này để em nói cho người yêu nghe nhaa. Tuy là có nói cũng hơm có hết là tại sao em yêu chị đâuu cục cưngggg 💞",
 

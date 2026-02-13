@@ -393,6 +393,15 @@ body::before{
     100% {transform: scale(1);}
 }
 
+.charge-effect{
+    animation: stickerCharge 0.6s ease forwards;
+}
+
+.pulse-effect{
+    animation: stickerPulse 0.5s ease forwards;
+}
+
+
 </style>
 </head>
 
@@ -687,33 +696,28 @@ function showLove(x,y, sticker){
 
   else if(count === 3){
 
-    sticker.style.animation = "none";
-    void sticker.offsetWidth;
+    sticker.classList.remove("charge-effect","pulse-effect");
 
-    sticker.style.animation = "stickerCharge 0.6s ease forwards";
+    void sticker.offsetWidth; // reset animation
+
+    sticker.classList.add("charge-effect");
     sticker.style.filter = "drop-shadow(0 0 25px hotpink)";
 
     setTimeout(()=>{
-        if(sticker.classList.contains("panda")){
-            sticker.style.animation =
-                "life 4.8s ease-in-out forwards, pandaGlow 4.8s ease-in-out forwards";
-        } else {
-            sticker.style.animation =
-                "life 4.8s ease-in-out forwards";
-        }
+        sticker.classList.remove("charge-effect");
         sticker.style.filter = "";
     },600);
 }
 
 else if(count === 4){
 
-    sticker.style.animation = "none";
+    sticker.classList.remove("charge-effect","pulse-effect");
+
     void sticker.offsetWidth;
 
-    sticker.style.animation = "stickerPulse 0.5s ease forwards";
+    sticker.classList.add("pulse-effect");
     sticker.style.filter = "drop-shadow(0 0 35px deeppink)";
 
-    // tạo ring lan ra
     const ring = document.createElement("div");
     ring.className = "ripple";
     ring.style.left = x + "px";
@@ -723,13 +727,7 @@ else if(count === 4){
     setTimeout(()=>ring.remove(),800);
 
     setTimeout(()=>{
-        if(sticker.classList.contains("panda")){
-            sticker.style.animation =
-                "life 4.8s ease-in-out forwards, pandaGlow 4.8s ease-in-out forwards";
-        } else {
-            sticker.style.animation =
-                "life 4.8s ease-in-out forwards";
-        }
+        sticker.classList.remove("pulse-effect");
         sticker.style.filter = "";
     },500);
 }

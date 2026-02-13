@@ -366,7 +366,11 @@ body::before{
     100%{opacity:0; transform:translate(var(--sx),var(--sy)) scale(1.4);}
 }
 
-
+/* ===== Sticker spin ===== */
+@keyframes stickerSpin {
+    0%   {transform: rotate(0deg) scale(1);}
+    100% {transform: rotate(360deg) scale(1.2);}
+}
 
 
 
@@ -643,34 +647,65 @@ function spawnBgHeart(){
 
 function showLove(x,y, sticker){
 
-    // ===== Sticker bounce lệch ngẫu nhiên =====
-    // bounce bằng JS không reset animation
-// ===== Sticker bounce lệch ngẫu nhiên =====
-const dx = rand(-40,40) + "px";
-const dy = rand(-50,-20) + "px";
+    sticker.dataset.clicks++;
+    const count = parseInt(sticker.dataset.clicks);
 
-sticker.style.transition = "transform 0.25s ease";
+    /* ================= EFFECT PHÂN CẤP ================= */
 
-sticker.style.transform = `translate(${dx}, ${dy}) scale(1.25)`;
+    // 1-2 lần: bounce nhẹ như hiện tại
+    if(count <= 2){
 
-setTimeout(()=>{
-    sticker.style.transform = "translate(0,0) scale(1)";
-},250);
+        const dx = rand(-40,40) + "px";
+        const dy = rand(-50,-20) + "px";
 
-    // ===== Ripple =====
-    const ripple = document.createElement("div");
-    ripple.className="ripple";
-    ripple.style.left = x+"px";
-    ripple.style.top  = y+"px";
-    ripple.style.background =
-        "radial-gradient(circle, rgba(255,105,180,0.4) 0%, rgba(255,105,180,0.2) 40%, transparent 70%)";
-    document.body.appendChild(ripple);
-    setTimeout(()=>ripple.remove(),800);
+        sticker.style.transition = "transform 0.25s ease";
+        sticker.style.transform = `translate(${dx}, ${dy}) scale(1.25)`;
 
-    // ===== Love text =====
+        setTimeout(()=>{
+            sticker.style.transform = "translate(0,0) scale(1)";
+        },250);
+    }
+
+  // 3-4 lần: quay vòng
+else if(count <= 4){
+
+    sticker.style.transition = "none";
+    sticker.style.animation = "stickerSpin 0.6s ease";
+
+    setTimeout(()=>{
+        sticker.style.animation = "";
+        sticker.style.transition = "transform 0.25s ease";
+    },600);
+}
+
+    // 5 lần: BÙNG NỔ TÌNH YÊU 💥
+    else if(count === 5){
+
+        for(let i=0;i<25;i++){
+            const boom = document.createElement("div");
+            boom.className="sparkle";
+            boom.textContent="💖";
+            boom.style.left = x+"px";
+            boom.style.top = y+"px";
+            boom.style.setProperty("--sx",rand(-220,220)+"px");
+            boom.style.setProperty("--sy",rand(-220,220)+"px");
+            document.body.appendChild(boom);
+            setTimeout(()=>boom.remove(),1000);
+        }
+
+        // reset về 0 để có thể chơi lại
+        sticker.dataset.clicks = 0;
+    }
+
+    /* ================= TIM KHÁC NHAU ================= */
+
+    const heartTypes = ["💗","💖","💘","💝","💞","💓","💟"];
+    const chosenHeart = heartTypes[randInt(0,heartTypes.length)];
+
+    // Love text
     const div=document.createElement("div");
     div.className="love-text";
-    div.textContent=getRandomMessage()+" 💗";
+    div.textContent=getRandomMessage()+" "+chosenHeart;
 
     const color=generateCuteColor();
     div.style.color=color;
@@ -684,11 +719,11 @@ setTimeout(()=>{
     document.body.appendChild(div);
     setTimeout(()=>div.remove(),1400);
 
-    // ===== 3 tim bay =====
+    // 3 tim bay — mỗi cái random
     for(let i=0;i<3;i++){
         const h=document.createElement("div");
         h.className="flying-heart";
-        h.textContent="💗";
+        h.textContent=heartTypes[randInt(0,heartTypes.length)];
         h.style.fontSize=rand(24,42)+"px";
         h.style.left=x+"px";
         h.style.top=y+"px";
@@ -697,25 +732,13 @@ setTimeout(()=>{
         document.body.appendChild(h);
         setTimeout(()=>h.remove(),1600);
     }
-
-    // ===== Sparkle =====
-    for(let i=0;i<6;i++){
-        const s=document.createElement("div");
-        s.className="sparkle";
-        s.textContent="✨";
-        s.style.left=x+"px";
-        s.style.top=y+"px";
-        s.style.setProperty("--sx",rand(-60,60)+"px");
-        s.style.setProperty("--sy",rand(-60,60)+"px");
-        document.body.appendChild(s);
-        setTimeout(()=>s.remove(),800);
-    }
 }
 
 function spawnSticker(src,isPanda,position){
     const img=new Image();
     img.src=src;
     img.className="sticker";
+    img.dataset.clicks = 0;
     if(isPanda) img.classList.add("panda");
 
     img.onload=()=>{

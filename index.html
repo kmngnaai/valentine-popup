@@ -199,13 +199,17 @@ body::before{
 
 /* Card nổi */
 .letter-card{
-    width:min(96vw,720px);   /* rộng hơn nữa */
-    max-height:90vh;
-    overflow-y:auto;
+    width:min(96vw,720px);
+
+    height:85vh;          /* 🔥 CỐ ĐỊNH CHIỀU CAO */
+    max-height:85vh;
+
+    overflow-y:auto;      /* Scroll khi dài */
+    scroll-behavior:smooth;
 
     background:white;
     border-radius:18px;
-    padding:80px 22px 36px;  /* giảm padding ngang cho rộng hơn */
+    padding:80px 22px 36px;
 
     box-shadow:0 25px 60px rgba(0,0,0,.35);
     position:relative;
@@ -213,6 +217,7 @@ body::before{
     transform:scale(.9);
     transition:.3s ease;
 }
+
 
 .letter-card h2{
     text-align:center;
@@ -762,6 +767,9 @@ envelope.onclick = () => {
 
             const p = document.createElement("div");
             letterContent.appendChild(p);
+            letterContent.parentElement.scrollTop =
+            letterContent.parentElement.scrollHeight;
+
 
             await typeWriter(p, text, 28);
 

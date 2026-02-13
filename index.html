@@ -454,16 +454,16 @@ function initPools(){
 // 👇 PHẢI ĐẶT RA NGOÀI
 function preloadImages(){
 
-    // preload sticker thường
+    // preload sticker thường (webp)
     for(let i=1;i<=47;i++){
         const img = new Image();
-        img.src = `stickers/${i}.png`;
+        img.src = `webp-stickers/${i}.webp`;
     }
 
-    // preload panda
+    // preload panda (webp)
     for(let i=1;i<=23;i++){
         const img = new Image();
-        img.src = `stickers-panda/${i}.png`;
+        img.src = `webp-stickers-panda/${i}.webp`;
     }
 }
 
@@ -585,37 +585,39 @@ function spawnSticker(src,isPanda,position){
 
 function spawnWave(){
 
-    if(pandaPool.length < 10 || normalPool.length < 10){
-        initPools(); // hết vòng thì reset
+   if(pandaPool.length < 5 || normalPool.length < 15)
+        initPools();
     }
 
     const positions = getGridPositions();
     let posIndex = 0;
 
-    // ===== 10 sticker thường =====
-    for(let i=0;i<10;i++){
+    // ===== 15 sticker thường =====
+    for(let i=0;i<15;i++){
         const pos = positions[posIndex++];
         const id = normalPool.pop();
 
         spawnSticker(
-            `stickers/${id}.png`,
+            `webp-stickers/${id}.webp`,
             false,
             pos
         );
     }
 
-    // ===== 10 panda =====
-    for(let i=0;i<10;i++){
+    // ===== 5 panda =====
+    for(let i=0;i<5;i++){
         const pos = positions[posIndex++];
         const id = pandaPool.pop();
 
         spawnSticker(
-            `stickers-panda/${id}.png`,
+            `webp-stickers-panda/${id}.webp`,
             true,
             pos
         );
     }
 }
+
+
 
 
 

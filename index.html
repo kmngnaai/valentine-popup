@@ -2,46 +2,19 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Valentine's For Keiii</title>
 
-
 <style>
-html, body{
-    margin:0;
-    padding:0;
-    width:100%;
-    min-height:100dvh;
-    overflow-x:hidden;
-}
-
-
 body{
+    margin:0;
+    min-height:100vh;
     background:url("valentines-mobile.png") center/cover no-repeat #f6d6df;
-
-    font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Apple Color Emoji",
-    "Segoe UI Emoji",
-    "Noto Color Emoji",
-    "Segoe UI",
-    Roboto,
-    sans-serif;
-
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    overflow:hidden;
     transition:.6s;
-
-    touch-action: pan-y;
-    -webkit-tap-highlight-color:transparent;
-}
-
-
-
-
-
-html {
-    -webkit-text-size-adjust: 100%;
 }
 
 /* Overlay */
@@ -64,7 +37,7 @@ body::before{
 .sticker{
     position:fixed;
     pointer-events:auto;
-    z-index:20;
+    z-index:1;
     opacity:0;
     animation:life 4.4s ease-in-out forwards;
     transition:opacity .6s;
@@ -100,59 +73,42 @@ body::before{
 
 /* ================= POPUP ================= */
 .pink-box{
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
+    position:relative;
     z-index:2;
-
-    width:auto;              /* 👈 không dùng vw nữa */
-    max-width:85vw;          /* 👈 tránh tràn màn */
-    padding:14px 18px;
-
+    width:min(92vw,460px);
+    padding:30px 26px 34px;
     background:linear-gradient(180deg,#fff9fc,#fff2f7);
-    border-radius:16px;
+    border-radius:26px;
     border:2px solid #f0b7d3;
-
-    box-shadow:0 6px 18px rgba(0,0,0,.2);
+    box-shadow:0 14px 36px rgba(0,0,0,.28);
     text-align:center;
 }
 
-
 .heart{
-    font-size:24px;
-    margin-bottom:6px;
-    animation:beat 1.6s ease-in-out infinite;
+    font-size:46px;
+    margin-bottom:10px;
+    animation:beat 2.2s infinite;
 }
 
-
-
 .text{
-    font-size:15px;
+    font-size:22px;
     font-weight:600;
     color:#7a1f47;
 }
+
 .btn{
-    margin-top:10px;
-    padding:5px 18px;
-    font-size:12px;
-    border-radius:999px;
+    margin-top:22px;
+    padding:10px 48px;
+    font-size:17px;
     background:linear-gradient(180deg,#f7c4de,#f2aecd);
     border:none;
+    border-radius:999px;
     cursor:pointer;
     color:#4d0f2d;
 }
 
 .hidden{display:none}
-@keyframes beat{
-    0%   { transform: scale(1); }
-    15%  { transform: scale(1.18); }
-    30%  { transform: scale(1); }
-    45%  { transform: scale(1.12); }
-    60%  { transform: scale(1); }
-    100% { transform: scale(1); }
-}
-
+@keyframes beat{30%{transform:scale(1.1)}}
 
 /* ================= LOVE TEXT ================= */
 .love-text{
@@ -226,7 +182,6 @@ body::before{
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:20px;
 
     background:rgba(0,0,0,0.35);
 
@@ -235,7 +190,6 @@ body::before{
     transition:.4s ease;
 }
 
-
 .letter.show{
     pointer-events:auto;
     opacity:1;
@@ -243,23 +197,21 @@ body::before{
 
 /* Card nổi */
 .letter-card{
-    width:94vw;
-    max-width:520px;
-    max-height:85dvh;
+    width:min(92vw,520px);
+    max-height:85vh;
     overflow-y:auto;
 
     background:white;
     border-radius:18px;
-    padding:85px 24px 35px;
+    padding:90px 28px 40px; /* tăng top padding cho nút */
 
     box-shadow:0 25px 60px rgba(0,0,0,.35);
-    position:relative;
 
-    opacity:0;
-    transform:translateY(20px);
-    transition:all .3s ease;
+    position:relative; /* thêm dòng này */
+
+    transform:scale(.9);
+    transition:.3s ease;
 }
-
 .letter-card h2{
     text-align:center;
     margin-bottom:25px;
@@ -267,36 +219,32 @@ body::before{
 }
 
 .letter-card p{
-    line-height:1.7;
-    margin-bottom:16px;
-    font-size:16px;
-    font-family: inherit;
+    line-height:1.6;
+    margin-bottom:15px;
 }
 
 
 .letter.show .letter-card{
-    opacity:1;
-    transform:translateY(0);
+    transform:scale(1);
 }
-
 
 /* Nút đóng cố định */
 .close-btn{
-    position:absolute;
+    position:absolute;   /* đổi từ sticky -> absolute */
     top:20px;
     right:20px;
+
     background:#ffe6f1;
     border:none;
     border-radius:30px;
     padding:8px 18px;
+
     font-weight:600;
     cursor:pointer;
     color:#c2185b;
-    box-shadow:0 18px 45px rgba(0,0,0,.35);
-    font-size:16px;
-    white-space:nowrap;
-}
 
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
 
 
 
@@ -330,32 +278,6 @@ body::before{
 @keyframes bgFloat{
     from{transform:translateY(100vh);}
     to{transform:translateY(-120vh);}
-}
-@media (max-width:768px){
-
-    .letter-card{
-        width:96vw;
-        padding:80px 20px 30px;
-        border-radius:18px;
-    }
-
-    .letter-card h2{
-        font-size:20px;
-    }
-
-    .letter-card p{
-        font-size:16px;
-    }
-
-    .close-btn{
-        top:14px;
-        right:14px;
-        padding:6px 14px;
-        font-size:16px;
-    }
-}
-button, input, textarea {
-    font-size: 16px;
 }
 
 </style>
@@ -611,9 +533,7 @@ function spawnSticker(src,isPanda,position){
     if(isPanda) img.classList.add("panda");
 
     img.onload=()=>{
-        img.style.width = isPanda
-    ? rand(45,60)+"px"   // panda nhỏ lại
-    : rand(40,55)+"px";  // sticker thường nhỏ hơn
+        img.style.width=isPanda?rand(75,95)+"px":rand(65,85)+"px";
         img.style.left = position.x + "px";
         img.style.top = position.y + "px";
 
@@ -713,53 +633,48 @@ const letterParagraphs = [
 ];
 
 
-envelope.onclick = () => {
+envelope.onclick=()=>{
+   envelope.classList.remove("drop"); // tránh reset animation
+   envelope.style.display = "none";
 
-    envelope.classList.remove("drop");
-    envelope.style.display = "none";
 
     document.body.classList.add("letter-open");
     letter.classList.add("show");
+   bgInterval = setInterval(spawnBgHeart,800);
 
-    bgInterval = setInterval(spawnBgHeart,800);
 
     letterParagraphs.forEach((text,i)=>{
         setTimeout(()=>{
             const p=document.createElement("p");
-            p.style.opacity="0";
-            p.style.transform="translateY(10px)";
-            p.style.transition="all .4s ease";
-
-            p.textContent = text;
+            typeWriter(p, text, 30, false);
             letterContent.appendChild(p);
-
-            requestAnimationFrame(()=>{
-                p.style.opacity="1";
-                p.style.transform="translateY(0)";
-            });
-
-        },i*800);
+        },i*1200);
     });
-
 };
 
 closeLetterBtn.onclick = function(){
 
     clearInterval(bgInterval);
 
+    // Ẩn thư
     letter.classList.remove("show");
 
+    // Trả nền sáng
     document.body.classList.remove("letter-open");
     document.body.classList.remove("dark");
 
+    // Xóa nội dung thư
     letterContent.innerHTML = "";
 
+    // KHÔNG hiện lại envelope
     envelope.style.display = "none";
 
+    // KHÔNG hiện popup nữa
     popup1.classList.add("hidden");
     popup2.classList.add("hidden");
-};
 
+    // Sticker vẫn chạy vì startSticker() đã được gọi trước đó
+};
 
 
 

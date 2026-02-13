@@ -378,40 +378,29 @@ const closeLetterBtn = document.getElementById("closeLetterBtn");
 
 /* ================= TYPE WRITER ================= */
 
-function typeWriter(element, text, speed = 45, showCursor = true){
+function typeWriter(element, text, speed = 30){
 
-    element.innerHTML = "";
+    return new Promise(resolve => {
 
-    const chars = [...text]; // FIX emoji
-    let i = 0;
-    let cursor = null;
+        element.innerHTML = "";
 
-    if(showCursor){
-        cursor = document.createElement("span");
-        cursor.className = "cursor-heart";
-        cursor.textContent = "💗";
-        element.appendChild(cursor);
-    }
+        const chars = [...text];
+        let i = 0;
 
-    function typing(){
-        if(i < chars.length){
-
-            if(cursor){
-                element.insertBefore(
-                    document.createTextNode(chars[i]),
-                    cursor
-                );
-            } else {
+        function typing(){
+            if(i < chars.length){
                 element.append(chars[i]);
+                i++;
+                setTimeout(typing, speed);
+            } else {
+                resolve();
             }
-
-            i++;
-            setTimeout(typing, speed);
         }
-    }
 
-    typing();
+        typing();
+    });
 }
+
 
 
 
@@ -758,48 +747,43 @@ const letterParagraphs = [
 
 
 
-envelope.onclick=()=>{
-   envelope.classList.remove("drop"); // tránh reset animation
-   envelope.style.display = "none";
+envelope.onclick = () => {
 
+    envelope.style.display = "none";
 
     document.body.classList.add("letter-open");
     letter.classList.add("show");
-   bgInterval = setInterval(spawnBgHeart,800);
 
+    bgInterval = setInterval(spawnBgHeart,800);
 
-    letterParagraphs.forEach((text,i)=>{
-        setTimeout(()=>{
-            const p=document.createElement("div");
-            typeWriter(p, text, 30, false);
+    (async function(){
+
+        for(const text of letterParagraphs){
+
+            const p = document.createElement("div");
             letterContent.appendChild(p);
-        },i*1200);
-    });
-};
 
+            await typeWriter(p, text, 28);
+
+            await new Promise(r => setTimeout(r, 250));
+        }
+
+    })();
+};
 closeLetterBtn.onclick = function(){
 
     clearInterval(bgInterval);
 
-    // Ẩn thư
     letter.classList.remove("show");
 
-    // Trả nền sáng
     document.body.classList.remove("letter-open");
     document.body.classList.remove("dark");
 
-    // Xóa nội dung thư
     letterContent.innerHTML = "";
-
-    // KHÔNG hiện lại envelope
-    envelope.style.display = "none";
-
-    // KHÔNG hiện popup nữa
-    popup1.classList.add("hidden");
-    popup2.classList.add("hidden");
-
-    // Sticker vẫn chạy vì startSticker() đã được gọi trước đó
 };
+
+
+
 
 
 

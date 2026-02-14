@@ -512,6 +512,8 @@ body::before{
 
 
 
+
+
 @keyframes popSoft{
     0%{
         transform:translate(-50%,-50%) scale(0.8);
@@ -951,37 +953,40 @@ updateLoveBar();
 /* 🐼 mỗi 20 tick mưa panda */
 if(loveScore % 20 === 0){
 
-    for(let i=0;i<40;i++){
+    for(let i=0;i<35;i++){
 
-        const panda=document.createElement("div");
-        panda.textContent="🐼";
+        const panda = document.createElement("img");
 
-        panda.style.position="fixed";
+        // lấy random panda từ pool 1–23
+        const randomId = Math.floor(Math.random()*23) + 1;
+        panda.src = `webp-stickers-panda/${randomId}.webp`;
 
-        // random vị trí ngang
+        panda.style.position = "fixed";
+
+        // random ngang
         panda.style.left = Math.random()*100 + "vw";
 
-        // random độ cao bắt đầu (không cùng hàng)
-        panda.style.top = (-150 - Math.random()*200) + "px";
+        // random cao bắt đầu
+        panda.style.top = (-150 - Math.random()*300) + "px";
 
         // random size
-        const scale = 0.6 + Math.random()*0.8;
-        panda.style.fontSize = (22 * scale) + "px";
+        const size = 70 + Math.random()*60;
+        panda.style.width = size + "px";
+
+        panda.style.pointerEvents = "none";
+        panda.style.zIndex = "5000";
 
         panda.style.filter =
-        "drop-shadow(0 15px 30px rgba(0,0,0,0.4)) drop-shadow(0 0 25px rgba(255,182,193,0.8))";
-
-        panda.style.opacity="0";
-        panda.style.zIndex="5000";
+        "drop-shadow(0 18px 35px rgba(0,0,0,0.45)) drop-shadow(0 0 25px rgba(255,182,193,0.7))";
 
         // random thời gian rơi
-        const duration = 4 + Math.random()*3;
+        const duration = 3 + Math.random()*2;
 
         // random delay
-        const delay = Math.random()*1.2;
+        const delay = Math.random()*1.5;
 
         panda.style.animation =
-        `pandaRain ${duration}s cubic-bezier(.2,.6,.3,1) ${delay}s forwards`;
+        `pandaRain ${duration}s cubic-bezier(.25,.6,.3,1) ${delay}s forwards`;
 
         document.body.appendChild(panda);
 
@@ -990,6 +995,8 @@ if(loveScore % 20 === 0){
         }, (duration+delay)*1000);
     }
 }
+
+
 
 
 

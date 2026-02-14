@@ -488,16 +488,32 @@ body::before{
 }
 
 @keyframes pandaRain{
+
     0%{
-        transform:translateY(-80px) scale(0.8) rotate(0deg);
+        transform:translateY(-120px) scale(0.6);
         opacity:0;
     }
-    10%{opacity:1;}
+
+    15%{
+        opacity:1;
+        transform:translateY(-60px) scale(0.9);
+    }
+
+    40%{
+        transform:translateY(30vh) scale(1);
+    }
+
+    70%{
+        transform:translateY(70vh) scale(1.05);
+    }
+
     100%{
-        transform:translateY(110vh) scale(1.1) rotate(360deg);
+        transform:translateY(115vh) scale(1.1);
         opacity:0;
     }
 }
+
+
 
 @keyframes popSoft{
     0%{
@@ -687,18 +703,40 @@ function fullLove(){
         document.body.style.filter="";
     },2000);
 
-    /* 🐼 Panda giữa màn hình */
     const msg=document.createElement("div");
-    msg.textContent=
-    "🐼 Rùa được bé Keii yêu 100% rồi đó 💗";
-    msg.style.position="fixed";
-    msg.style.top="45%";
-    msg.style.left="50%";
-    msg.style.transform="translate(-50%,-50%)";
-    msg.style.fontSize="28px";
-    msg.style.fontWeight="bold";
-    msg.style.zIndex="9999";
-    document.body.appendChild(msg);
+
+msg.textContent =
+"🐼 Bé Rùa được bé Keii yêu full 100% luôn rồi đóoo 💗";
+
+msg.style.position="fixed";
+msg.style.top="45%";
+msg.style.left="50%";
+msg.style.transform="translate(-50%,-50%)";
+
+msg.style.padding="20px 32px";
+msg.style.borderRadius="30px";
+
+msg.style.background=
+"linear-gradient(135deg,#fff8fc,#ffe6f3,#ffd6ec)";
+
+msg.style.fontSize="26px";
+msg.style.fontWeight="600";
+msg.style.letterSpacing="0.5px";
+
+msg.style.color="#d63384";
+
+msg.style.textShadow=
+"0 0 15px rgba(255,182,193,0.6)";
+
+msg.style.boxShadow=
+"0 20px 60px rgba(255,105,180,0.25)";
+
+msg.style.zIndex="9999";
+msg.style.animation="popSoft 0.6s ease";
+
+document.body.appendChild(msg);
+
+
 
     setTimeout(()=>{
         msg.remove();
@@ -916,30 +954,32 @@ updateLoveBar();
 /* 🐼 mỗi 20 tick mưa panda */
 if(loveScore % 20 === 0){
 
-    for(let i=0;i<20;i++){
+    for(let i=0;i<28;i++){
 
         const panda=document.createElement("div");
         panda.textContent="🐼";
 
         panda.style.position="fixed";
         panda.style.left=Math.random()*100+"vw";
-        panda.style.top="-60px";
+        panda.style.top="-120px";
 
-        panda.style.fontSize=(24 + Math.random()*12)+"px";
+        panda.style.filter =
+        "drop-shadow(0 12px 25px rgba(0,0,0,0.35)) drop-shadow(0 0 22px rgba(255,182,193,0.7))";
 
-        panda.style.filter=
-        "drop-shadow(0 8px 15px rgba(0,0,0,0.35)) drop-shadow(0 0 12px rgba(255,182,193,0.6))";
-
-        panda.style.animation=
-        "pandaRain 2.2s ease-out forwards";
-
+        panda.style.opacity="0.95";
         panda.style.zIndex="5000";
+
+        panda.style.animation =
+        "pandaRain 3.6s cubic-bezier(.2,.6,.3,1) forwards";
 
         document.body.appendChild(panda);
 
-        setTimeout(()=>panda.remove(),2200);
+        setTimeout(()=>panda.remove(),4200);
     }
 }
+
+
+
 
 
 
@@ -1194,7 +1234,7 @@ function startSticker(){
     document.getElementById("loveBarWrapper").style.pointerEvents = "auto";
 
     spawnWave();
-    stickerInterval = setInterval(spawnWave,5000);
+    stickerInterval = setInterval(spawnWave,4800);
 }
 
 

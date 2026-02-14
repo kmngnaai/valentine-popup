@@ -490,28 +490,25 @@ body::before{
 @keyframes pandaRain{
 
     0%{
-        transform:translateY(-120px) scale(0.6);
+        transform:translateY(0) rotate(0deg);
         opacity:0;
     }
 
-    15%{
+    10%{
         opacity:1;
-        transform:translateY(-60px) scale(0.9);
     }
 
-    40%{
-        transform:translateY(30vh) scale(1);
-    }
-
-    70%{
-        transform:translateY(70vh) scale(1.05);
+    50%{
+        transform:translateY(50vh) rotate(180deg);
     }
 
     100%{
-        transform:translateY(115vh) scale(1.1);
+        transform:translateY(110vh) rotate(360deg);
         opacity:0;
     }
 }
+
+
 
 
 
@@ -954,29 +951,47 @@ updateLoveBar();
 /* 🐼 mỗi 20 tick mưa panda */
 if(loveScore % 20 === 0){
 
-    for(let i=0;i<28;i++){
+    for(let i=0;i<40;i++){
 
         const panda=document.createElement("div");
         panda.textContent="🐼";
 
         panda.style.position="fixed";
-        panda.style.left=Math.random()*100+"vw";
-        panda.style.top="-120px";
+
+        // random vị trí ngang
+        panda.style.left = Math.random()*100 + "vw";
+
+        // random độ cao bắt đầu (không cùng hàng)
+        panda.style.top = (-150 - Math.random()*200) + "px";
+
+        // random size
+        const scale = 0.6 + Math.random()*0.8;
+        panda.style.fontSize = (22 * scale) + "px";
 
         panda.style.filter =
-        "drop-shadow(0 12px 25px rgba(0,0,0,0.35)) drop-shadow(0 0 22px rgba(255,182,193,0.7))";
+        "drop-shadow(0 15px 30px rgba(0,0,0,0.4)) drop-shadow(0 0 25px rgba(255,182,193,0.8))";
 
-        panda.style.opacity="0.95";
+        panda.style.opacity="0";
         panda.style.zIndex="5000";
 
+        // random thời gian rơi
+        const duration = 4 + Math.random()*3;
+
+        // random delay
+        const delay = Math.random()*1.2;
+
         panda.style.animation =
-        "pandaRain 3.6s cubic-bezier(.2,.6,.3,1) forwards";
+        `pandaRain ${duration}s cubic-bezier(.2,.6,.3,1) ${delay}s forwards`;
 
         document.body.appendChild(panda);
 
-        setTimeout(()=>panda.remove(),4200);
+        setTimeout(()=>{
+            panda.remove();
+        }, (duration+delay)*1000);
     }
 }
+
+
 
 
 

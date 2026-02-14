@@ -521,16 +521,20 @@ function typeWriter(element, text, speed = 45){
 
     return new Promise(resolve => {
 
-        element.innerHTML = "";
-
-        const chars = [...text];
+        element.textContent = "";
         let i = 0;
 
         function typing(){
-            if(i < chars.length){
-                element.append(chars[i]);
+
+            if(i < text.length){
+
+                element.textContent += text.charAt(i);
                 i++;
-                setTimeout(typing, speed);
+
+                requestAnimationFrame(() => {
+                    setTimeout(typing, speed);
+                });
+
             } else {
                 resolve();
             }
@@ -539,6 +543,8 @@ function typeWriter(element, text, speed = 45){
         typing();
     });
 }
+
+
 
 
 
@@ -940,7 +946,7 @@ function nextPopup(){
 
     typeWriter(
     document.getElementById("text2"),
-    `Chắc là chị hông biết đâu haaaa
+    `Chắc là bé Keii hông biết đâu haaaa
     
 Chạm chạm vào mấy bé gấu là biết liền á người yêuuu!`,
 70

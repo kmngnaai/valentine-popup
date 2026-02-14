@@ -487,6 +487,29 @@ body::before{
     color:#c2185b;
 }
 
+@keyframes pandaRain{
+    0%{
+        transform:translateY(-80px) scale(0.8) rotate(0deg);
+        opacity:0;
+    }
+    10%{opacity:1;}
+    100%{
+        transform:translateY(110vh) scale(1.1) rotate(360deg);
+        opacity:0;
+    }
+}
+
+@keyframes popSoft{
+    0%{
+        transform:translate(-50%,-50%) scale(0.8);
+        opacity:0;
+    }
+    100%{
+        transform:translate(-50%,-50%) scale(1);
+        opacity:1;
+    }
+}
+
 
 
 </style>
@@ -893,36 +916,73 @@ updateLoveBar();
 /* 🐼 mỗi 20 tick mưa panda */
 if(loveScore % 20 === 0){
 
-    for(let i=0;i<15;i++){
+    for(let i=0;i<20;i++){
+
         const panda=document.createElement("div");
         panda.textContent="🐼";
+
         panda.style.position="fixed";
         panda.style.left=Math.random()*100+"vw";
-        panda.style.top="-40px";
-        panda.style.fontSize="28px";
-        panda.style.filter="drop-shadow(0 5px 10px rgba(0,0,0,0.4))";
-        panda.style.animation="bgFloat 2s linear forwards";
+        panda.style.top="-60px";
+
+        panda.style.fontSize=(24 + Math.random()*12)+"px";
+
+        panda.style.filter=
+        "drop-shadow(0 8px 15px rgba(0,0,0,0.35)) drop-shadow(0 0 12px rgba(255,182,193,0.6))";
+
+        panda.style.animation=
+        "pandaRain 2.2s ease-out forwards";
+
+        panda.style.zIndex="5000";
+
         document.body.appendChild(panda);
-        setTimeout(()=>panda.remove(),2000);
+
+        setTimeout(()=>panda.remove(),2200);
     }
 }
 
+
+
 /* 💌 50 tick */
-if(loveScore === 50){
+if(loveScore % 50 === 0 && loveScore !== 0){
+
+
+
     const special=document.createElement("div");
-    special.textContent=
+    special.textContent =
     "Em yêu chị nhiều hơn số lần chị tick đó 💗";
+
     special.style.position="fixed";
-    special.style.top="30%";
+    special.style.top="35%";
     special.style.left="50%";
-    special.style.transform="translateX(-50%)";
-    special.style.fontSize="26px";
-    special.style.fontWeight="bold";
+    special.style.transform="translate(-50%,-50%)";
+
+    special.style.padding="18px 28px";
+    special.style.borderRadius="25px";
+
+    special.style.background=
+"linear-gradient(135deg,#fff9fc,#ffe4f2,#ffd6ec)";
+
+special.style.textShadow=
+"0 0 12px rgba(255,182,193,0.6)";
+
+
+    special.style.color="#d63384";
+
+    special.style.fontSize="24px";
+    special.style.fontWeight="600";
+
+    special.style.boxShadow="0 15px 40px rgba(255,105,180,0.25)";
     special.style.zIndex="9999";
+
+    special.style.animation="popSoft 0.5s ease";
+
     document.body.appendChild(special);
 
     setTimeout(()=>special.remove(),3000);
 }
+
+
 
 
     /* ================= EFFECT PHÂN CẤP ================= */

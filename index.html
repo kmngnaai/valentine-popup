@@ -413,6 +413,81 @@ body::before{
     animation-fill-mode: forwards;
 }
 
+/* ================= LOVE ENERGY SYSTEM ================= */
+
+#loveBarWrapper{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    width:80%;
+    max-width:500px;
+    z-index:2000;
+    text-align:center;
+
+    opacity:0;              /* 👈 THÊM */
+    pointer-events:none;    /* 👈 THÊM */
+    transition:0.4s;
+}
+
+
+
+#loveBar{
+    position:relative;
+    height:22px;
+    background:rgba(255,255,255,0.4);
+    border-radius:30px;
+    overflow:hidden;
+    box-shadow:0 0 15px rgba(255,105,180,0.3);
+    animation:heartBeatBar 2s infinite;
+}
+
+@keyframes heartBeatBar{
+    0%,100%{transform:scale(1);}
+    30%{transform:scale(1.03);}
+}
+
+#loveFill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#ff6ec7,#ff9ad5);
+    border-radius:30px;
+    transition:width 0.4s ease;
+}
+
+#loveSparkle{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        120deg,
+        transparent 20%,
+        rgba(255,255,255,0.6) 50%,
+        transparent 80%
+    );
+    background-size:200% 100%;
+    animation:sparkleMove 3s linear infinite;
+}
+
+@keyframes sparkleMove{
+    from{background-position:-200% 0;}
+    to{background-position:200% 0;}
+}
+
+#lovePanda{
+    position:absolute;
+    top:-28px;
+    left:0%;
+    font-size:22px;
+    transition:left 0.4s ease;
+}
+
+#loveText{
+    margin-top:6px;
+    font-weight:700;
+    color:#c2185b;
+}
+
+
 
 </style>
 </head>
@@ -432,6 +507,17 @@ body::before{
 </div>
 
 <div id="envelope" class="envelope hidden">💌</div>
+<!-- LOVE ENERGY BAR -->
+<div id="loveBarWrapper">
+    <div id="loveBar">
+        <div id="loveFill"></div>
+        <div id="loveSparkle"></div>
+        <div id="lovePanda">🐼</div>
+    </div>
+    <div id="loveText">0%</div>
+</div>
+
+
 
 <div id="letter" class="letter">
 
@@ -508,6 +594,99 @@ let stickerInterval = null;
 let bgInterval = null;
 let pandaPool = [];
 let normalPool = [];
+/* ================= LOVE ENERGY ================= */
+
+let loveScore = 0;
+let loveLevel = 1;
+
+const loveFill = document.getElementById("loveFill");
+const loveText = document.getElementById("loveText");
+const lovePanda = document.getElementById("lovePanda");
+
+updateLoveBar(); // 👈 CHUYỂN XUỐNG ĐÂY
+
+
+
+function updateLoveBar(){
+
+    let percent = loveScore;
+
+    if(percent > 100) percent = 100;
+
+    loveFill.style.width = percent + "%";
+    loveText.textContent = percent + "%";
+
+    lovePanda.style.left = `calc(${percent}% - 10px)`;
+
+
+
+    /* 💗 đổi màu theo mức yêu */
+    if(percent < 40){
+        loveFill.style.background =
+        "linear-gradient(90deg,#ff6ec7,#ff9ad5)";
+    }
+    else if(percent < 80){
+        loveFill.style.background =
+        "linear-gradient(90deg,#ff4db8,#ff7ac9)";
+    }
+    else{
+        loveFill.style.background =
+        "linear-gradient(90deg,#ff0080,#ff4da6)";
+    }
+
+    /* 🔥 100% FULL */
+    if(loveScore >= 100){
+        fullLove();
+    }
+}
+
+function fullLove(){
+
+    loveScore = 0;
+    loveLevel++;
+
+    /* 💥 Confetti tim */
+    for(let i=0;i<40;i++){
+        const heart=document.createElement("div");
+        heart.textContent="💖";
+        heart.style.position="fixed";
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.top="-20px";
+        heart.style.fontSize="22px";
+        heart.style.animation="bgFloat 2s linear forwards";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),2000);
+    }
+
+    /* 🌸 nền sáng 2s */
+    document.body.style.filter="brightness(1.15)";
+    setTimeout(()=>{
+        document.body.style.filter="";
+    },2000);
+
+    /* 🐼 Panda giữa màn hình */
+    const msg=document.createElement("div");
+    msg.textContent=
+    "🐼 Rùa được bé Keii yêu 100% rồi đó 💗";
+    msg.style.position="fixed";
+    msg.style.top="45%";
+    msg.style.left="50%";
+    msg.style.transform="translate(-50%,-50%)";
+    msg.style.fontSize="28px";
+    msg.style.fontWeight="bold";
+    msg.style.zIndex="9999";
+    document.body.appendChild(msg);
+
+    setTimeout(()=>{
+        msg.remove();
+    },3000);
+
+    /* 🔥 lên level Ultra Love */
+    loveFill.style.background =
+    "linear-gradient(90deg,#a100ff,#d580ff)";
+}
+
+
 const envelope = document.getElementById("envelope");
 const letter = document.getElementById("letter");
 const letterContent = document.getElementById("letterContent");
@@ -708,6 +887,43 @@ function showLove(x,y, sticker){
 
     sticker.dataset.clicks++;
     const count = parseInt(sticker.dataset.clicks);
+    loveScore += 1;
+updateLoveBar();
+
+/* 🐼 mỗi 20 tick mưa panda */
+if(loveScore % 20 === 0){
+
+    for(let i=0;i<15;i++){
+        const panda=document.createElement("div");
+        panda.textContent="🐼";
+        panda.style.position="fixed";
+        panda.style.left=Math.random()*100+"vw";
+        panda.style.top="-40px";
+        panda.style.fontSize="28px";
+        panda.style.filter="drop-shadow(0 5px 10px rgba(0,0,0,0.4))";
+        panda.style.animation="bgFloat 2s linear forwards";
+        document.body.appendChild(panda);
+        setTimeout(()=>panda.remove(),2000);
+    }
+}
+
+/* 💌 50 tick */
+if(loveScore === 50){
+    const special=document.createElement("div");
+    special.textContent=
+    "Em yêu chị nhiều hơn số lần chị tick đó 💗";
+    special.style.position="fixed";
+    special.style.top="30%";
+    special.style.left="50%";
+    special.style.transform="translateX(-50%)";
+    special.style.fontSize="26px";
+    special.style.fontWeight="bold";
+    special.style.zIndex="9999";
+    document.body.appendChild(special);
+
+    setTimeout(()=>special.remove(),3000);
+}
+
 
     /* ================= EFFECT PHÂN CẤP ================= */
 
@@ -911,13 +1127,17 @@ for(let i=0;i<5;i++){
 
 
 
-
 function startSticker(){
-    if(stickerInterval) return; // tránh chạy nhiều lần
+    if(stickerInterval) return;
+
+    document.getElementById("loveBarWrapper").style.opacity = "1";
+    document.getElementById("loveBarWrapper").style.pointerEvents = "auto";
 
     spawnWave();
     stickerInterval = setInterval(spawnWave,5000);
 }
+
+
 window.onload = function(){
 
     initPools();
@@ -1019,6 +1239,9 @@ envelope.onclick = () => {
 
     document.body.classList.add("letter-open");
     letter.classList.add("show");
+    document.getElementById("loveBarWrapper").style.opacity = "0";
+    document.getElementById("loveBarWrapper").style.pointerEvents = "none";
+
 
     bgInterval = setInterval(spawnBgHeart,800);
 
@@ -1052,6 +1275,9 @@ closeLetterBtn.onclick = function(){
 
     document.body.classList.remove("letter-open");
     document.body.classList.remove("dark");
+    document.getElementById("loveBarWrapper").style.opacity = "1";
+    document.getElementById("loveBarWrapper").style.pointerEvents = "auto";
+
 
     letterContent.innerHTML = "";
 };

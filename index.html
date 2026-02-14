@@ -2,35 +2,12 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width,
-               initial-scale=1,
-               maximum-scale=1,
-               user-scalable=no">
-
-
-
 <title>Valentine's For Keiii</title>
 
 <style>
-html{
-    -webkit-text-size-adjust:100%;
-    text-size-adjust:100%;
-}
-</style>
-
-
-
-<style>
-html{
-    touch-action: manipulation;
-}
-
-
 body{
     margin:0;
-    min-height:100dvh;
+    min-height:100vh;
     background:url("valentines-mobile.png") center/cover no-repeat #f6d6df;
     display:flex;
     justify-content:center;
@@ -38,15 +15,7 @@ body{
     font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;
     overflow:hidden;
     transition:.6s;
-    -webkit-text-size-adjust:100%;
-    text-size-adjust:100%;
 }
-
-
-
-
-
-
 
 /* Overlay */
 body::before{
@@ -118,8 +87,8 @@ body::before{
 .pink-box{
     position:relative;
     z-index:2;
-    width:min(82vw,340px);
-    padding:22px 18px 26px;
+    width:min(92vw,460px);
+    padding:30px 26px 34px;
     background:linear-gradient(180deg,#fff9fc,#fff2f7);
     border-radius:26px;
     border:2px solid #f0b7d3;
@@ -134,7 +103,7 @@ body::before{
 }
 
 .text{
-    font-size:17px;
+    font-size:22px;
     font-weight:600;
     color:#7a1f47;
     white-space: pre-line;   /* 👈 thêm dòng này */
@@ -158,7 +127,7 @@ body::before{
 /* ================= LOVE TEXT ================= */
 .love-text{
     position:fixed;
-    font-size:18px;
+    font-size:26px;
     font-weight:900;
     pointer-events:none;
     z-index:4;
@@ -173,7 +142,7 @@ body::before{
     25%{opacity:1;}
     100%{
         opacity:0;
-        transform:translate(var(--flyX), var(--flyY)) scale(1.05);
+        transform:translate(var(--flyX), var(--flyY)) scale(1.3);
     }
 }
 
@@ -295,13 +264,13 @@ body::before{
 .letter-card h2{
     text-align:center;
     margin-bottom:18px;
-    font-size:20px;
+    font-size:28px;
     font-weight:600;   /* giảm đậm */
     color:#c2185b;
 }
 
 .letter-card div{
-    font-size:18px !important;
+    font-size:27px !important;
     line-height:1.5;
     margin-bottom:3px;
     font-weight:400;
@@ -338,7 +307,7 @@ body::before{
 .cursor-heart{
     display:inline-block;
     margin-left:4px;
-    font-size:17px;
+    font-size:22px;
     animation:blinkCursor 1.2s infinite, heartBeatCursor 2.2s infinite;
 }
 
@@ -353,7 +322,7 @@ body::before{
 /* ================= BG HEART FLOAT ================= */
 .bg-heart{
     position:fixed;
-    font-size:17px;
+    font-size:22px;
     opacity:0.08;
     pointer-events:none;
     z-index:19;
@@ -662,7 +631,8 @@ function getGridPositions(){
 
     const positions = [];
     const totalNeeded = 15; // 10 thường + 5 panda
-    const minDistance = window.innerWidth < 768 ? 70 : 90;
+    const minDistance = window.innerWidth < 768 ? 90 : 120;
+
  // khoảng cách tối thiểu giữa sticker
 
     const centerYMin = innerHeight * 0.35;
@@ -673,10 +643,8 @@ function getGridPositions(){
     while(positions.length < totalNeeded && attempts < 1200){
         attempts++;
 
-       let x = rand(50, innerWidth - 100);
-       let y = rand(50, innerHeight - 100);
-
-
+        let x = rand(40, innerWidth - 80);
+        let y = rand(40, innerHeight - 80);
 
         // tránh vùng popup giữa mobile
         if(window.innerWidth < 768){
@@ -866,9 +834,8 @@ function spawnSticker(src,isPanda,position){
 
     img.onload=()=>{
         img.style.width = isPanda
-    ? rand(55,70) + "px"
-    : rand(65,80) + "px";
-
+    ? rand(100,120) + "px"      // 🐼 Panda lớn hơn chút
+    : rand(115,140) + "px";     // 🎀 Sticker thường lớn hơn
 
 
         img.style.left = position.x + "px";
@@ -1073,22 +1040,12 @@ closeLetterBtn.onclick = function(){
     letterContent.innerHTML = "";
 };
 
-// 🚫 Chặn double tap zoom Android
-let lastTouchEnd = 0;
-
-document.addEventListener("touchend", function (event) {
-    const now = Date.now();
-    if (now - lastTouchEnd <= 300) {
-        event.preventDefault();
-    }
-    lastTouchEnd = now;
-}, false);
-
 
 
 </script>
 
 </body>
 </html>
+
 
 

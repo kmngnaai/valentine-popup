@@ -490,7 +490,7 @@ body::before{
 @keyframes pandaRain{
 
     0%{
-        transform:translateY(0) rotate(0deg);
+        transform:translateY(-200px) scale(0.6) rotate(0deg);
         opacity:0;
     }
 
@@ -499,16 +499,19 @@ body::before{
     }
 
     50%{
-        transform:translateY(50vh) rotate(180deg);
+        transform:translateY(60vh) scale(1) rotate(180deg);
     }
 
     100%{
-        transform:translateY(110vh) rotate(360deg);
+        transform:translateY(120vh) scale(1.05) rotate(360deg);
         opacity:0;
     }
 }
 
 
+img[style*="pandaRain"]{
+    will-change: transform;
+}
 
 
 
@@ -979,14 +982,17 @@ if(loveScore % 20 === 0){
         panda.style.filter =
         "drop-shadow(0 18px 35px rgba(0,0,0,0.45)) drop-shadow(0 0 25px rgba(255,182,193,0.7))";
 
-        // random thời gian rơi
-        const duration = 3 + Math.random()*2;
+       // random thời gian rơi
+const duration = 3 + Math.random()*2;
 
-        // random delay
-        const delay = Math.random()*1.5;
+// random delay
+const delay = Math.random()*2;
 
-        panda.style.animation =
-        `pandaRain ${duration}s cubic-bezier(.25,.6,.3,1) ${delay}s forwards`;
+// animation
+panda.style.animation =
+`pandaRain ${duration}s ease-in ${delay}s forwards`;
+
+
 
         document.body.appendChild(panda);
 
